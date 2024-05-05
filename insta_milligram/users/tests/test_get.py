@@ -32,7 +32,6 @@ class TestView(dt.TestCase):
         response = self.client.get(du.reverse("users_id", args=[self.USER_ID]))
         self.assertEqual(response.status_code, rs.HTTP_200_OK)
         user: dict[str, str] = response.data  # type: ignore
-        self.assertEqual(user["username"], self.TEST_REQUEST["username"])
-        self.assertEqual(user["email"], self.TEST_REQUEST["email"])
-        self.assertEqual(user["first_name"], self.TEST_REQUEST["first_name"])
-        self.assertEqual(user["last_name"], self.TEST_REQUEST["last_name"])
+        for field in self.TEST_REQUEST:
+            if field != "password":
+                self.assertEqual(user[field], self.TEST_REQUEST[field])
