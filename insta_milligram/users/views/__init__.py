@@ -2,6 +2,7 @@ import rest_framework.views as rv  # type: ignore
 
 from .post_view import post
 from .get_view import get
+from .put_view import put
 
 
 class UserView(rv.APIView):
@@ -9,3 +10,4 @@ class UserView(rv.APIView):
         super().__init__()
         self.post = post
         self.get = get
+        self.put = put
