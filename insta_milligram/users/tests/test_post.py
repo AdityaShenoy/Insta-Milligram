@@ -22,6 +22,10 @@ class TestPostView(dt.TestCase):
         response = self.client.post(du.reverse("users"))
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
         self.assertEqual(
+            "Invalid Data",
+            response.data["message"],  # type: ignore
+        )
+        self.assertEqual(
             set(self.TEST_REQUEST.keys()),
             set(response.data["errors"].keys()),  # type: ignore
         )
@@ -29,6 +33,10 @@ class TestPostView(dt.TestCase):
     def test_empty(self):
         response = self.client.post(du.reverse("users"), self.EMPTY_REQUEST)
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            "Invalid Data",
+            response.data["message"],  # type: ignore
+        )
         self.assertEqual(
             {"username", "password", "email", "first_name", "last_name"},
             set(response.data["errors"].keys()),  # type: ignore
@@ -38,6 +46,10 @@ class TestPostView(dt.TestCase):
         response = self.client.post(du.reverse("users"), self.BIG_REQUEST)
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
         self.assertEqual(
+            "Invalid Data",
+            response.data["message"],  # type: ignore
+        )
+        self.assertEqual(
             {"username", "password", "email", "first_name", "last_name"},
             set(response.data["errors"].keys()),  # type: ignore
         )
@@ -45,6 +57,10 @@ class TestPostView(dt.TestCase):
     def test_small_password(self):
         response = self.client.post(du.reverse("users"), self.SMALL_PWD_REQUEST)
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            "Invalid Data",
+            response.data["message"],  # type: ignore
+        )
         self.assertIn(
             "password",
             response.data["errors"].keys(),  # type: ignore
@@ -59,3 +75,12 @@ class TestPostView(dt.TestCase):
         self.assertEqual(user.first_name, self.TEST_REQUEST["first_name"])
         self.assertEqual(user.last_name, self.TEST_REQUEST["last_name"])
         self.assertEqual(user.email, self.TEST_REQUEST["email"])
+
+    def test_twice(self):
+        self.client.post(du.reverse("users"), self.TEST_REQUEST)
+        response = self.client.post(du.reverse("users"), self.TEST_REQUEST)
+        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            "User Already Exists",
+            response.data["message"],  # type: ignore
+        )

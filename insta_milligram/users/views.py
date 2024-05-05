@@ -20,7 +20,7 @@ class UserView(rv.APIView):
         try:
             dam.User.objects.get(username=form_data["username"])
             return rr.Response(
-                {"message": "User already exists"},
+                {"message": "User Already Exists"},
                 rs.HTTP_400_BAD_REQUEST,
             )
         except dam.User.DoesNotExist:
