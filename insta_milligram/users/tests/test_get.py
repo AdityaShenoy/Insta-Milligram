@@ -13,13 +13,14 @@ class TestView(dt.TestCase):
             "first_name": "test",
             "last_name": "test",
         }
+        self.USER_ID = 1
 
     def test_without_id(self):
         with self.assertRaises(TypeError):
             self.client.get(du.reverse("users"))
 
     def test_wrong_id(self):
-        response = self.client.get(du.reverse("users_id", args=[1]))
+        response = self.client.get(du.reverse("users_id", args=[self.USER_ID]))
         self.assertEqual(response.status_code, rs.HTTP_404_NOT_FOUND)
         self.assertEqual(
             "User Not Found",
@@ -28,7 +29,7 @@ class TestView(dt.TestCase):
 
     def test_correct(self):
         self.client.post(du.reverse("users"), self.TEST_REQUEST)
-        response = self.client.get(du.reverse("users_id", args=[1]))
+        response = self.client.get(du.reverse("users_id", args=[self.USER_ID]))
         self.assertEqual(response.status_code, rs.HTTP_200_OK)
         user: dict[str, str] = response.data  # type: ignore
         self.assertEqual(user["username"], self.TEST_REQUEST["username"])
