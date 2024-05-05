@@ -6,6 +6,7 @@ import rest_framework.response as rr  # type: ignore
 import rest_framework.status as rs  # type: ignore
 
 from . import forms as f
+from . import serializers as s
 
 
 class UserView(rv.APIView):
@@ -32,3 +33,14 @@ class UserView(rv.APIView):
                 last_name=form_data["last_name"],
             )
         return rr.Response({"message": "Success"}, rs.HTTP_200_OK)
+
+    def get(self, request: dr.HttpRequest, id: int):
+        try:
+            user = dam.User.objects.get(pk=id)
+            serialized_user = s.UserSerializer(user)
+            return rr.Response(serialized_user.data, rs.HTTP_200_OK)
+        except dam.User.DoesNotExist:
+            return rr.Response(
+                {"message": "User Not Found"},
+                rs.HTTP_404_NOT_FOUND,
+            )

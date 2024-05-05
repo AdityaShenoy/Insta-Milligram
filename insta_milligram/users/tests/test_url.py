@@ -10,3 +10,10 @@ class TestUrl(dt.SimpleTestCase):
             du.resolve(du.reverse("users")).func.cls,  # type: ignore
             v.UserView,
         )
+        DUMMY_ID = 1
+        self.assertEqual(
+            du.resolve(
+                du.reverse("users_id", args=(DUMMY_ID,))
+            ).func.cls,  # type: ignore
+            v.UserView,
+        )
