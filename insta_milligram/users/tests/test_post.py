@@ -69,6 +69,7 @@ class TestView(dt.TestCase):
     def test_valid(self):
         response = self.client.post(du.reverse("users"), self.TEST_REQUEST)
         self.assertEqual(response.status_code, rs.HTTP_200_OK)
+        self.assertEqual("Success", response.data["message"])  # type: ignore
         user = dam.User.objects.get(username=self.TEST_REQUEST["username"])
         self.assertEqual(user.username, self.TEST_REQUEST["username"])
         self.assertTrue(user.check_password(self.TEST_REQUEST["password"]))
