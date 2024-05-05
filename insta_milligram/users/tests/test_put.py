@@ -47,11 +47,12 @@ class TestView(dt.TestCase):
         self.assertEqual(response.status_code, rs.HTTP_200_OK)
         self.assertEqual("Success", response.data["message"])  # type: ignore
         user = dam.User.objects.get(pk=1)
-        self.assertEqual(user.username, self.UPDATE_REQUEST["username"])
+        for field in self.UPDATE_REQUEST:
+            if field != "password":
+                self.assertEqual(
+                    user.__getattribute__(field), self.UPDATE_REQUEST[field]
+                )
         self.assertTrue(user.check_password(self.UPDATE_REQUEST["password"]))
-        self.assertEqual(user.first_name, self.UPDATE_REQUEST["first_name"])
-        self.assertEqual(user.last_name, self.UPDATE_REQUEST["last_name"])
-        self.assertEqual(user.email, self.UPDATE_REQUEST["email"])
 
     def test_without_user(self):
         response = self.client.put(
