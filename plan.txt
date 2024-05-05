@@ -4,11 +4,11 @@ Done
 post /users
 get /users/<int:id>
 put /users/<int:id>
+delete /users/<int:id>
 ================================================================================
 In Progress
 ================================================================================
 
-delete /users/<int:id>
 
 post /auths
 put /auths
