@@ -38,7 +38,7 @@ class TestView(dt.TestCase):
             response.data["message"],  # type: ignore
         )
         self.assertEqual(
-            {"username", "password", "email", "first_name", "last_name"},
+            set(self.TEST_REQUEST.keys()),
             set(response.data["errors"].keys()),  # type: ignore
         )
 
@@ -50,7 +50,7 @@ class TestView(dt.TestCase):
             response.data["message"],  # type: ignore
         )
         self.assertEqual(
-            {"username", "password", "email", "first_name", "last_name"},
+            set(self.TEST_REQUEST.keys()),
             set(response.data["errors"].keys()),  # type: ignore
         )
 
