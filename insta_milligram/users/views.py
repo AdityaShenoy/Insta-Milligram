@@ -25,13 +25,7 @@ class UserView(rv.APIView):
                 rs.HTTP_400_BAD_REQUEST,
             )
         except dam.User.DoesNotExist:
-            dam.User.objects.create_user(
-                username=form_data["username"],
-                password=form_data["password"],
-                email=form_data["email"],
-                first_name=form_data["first_name"],
-                last_name=form_data["last_name"],
-            )
+            dam.User.objects.create_user(**form_data)
         return rr.Response({"message": "Success"}, rs.HTTP_200_OK)
 
     def get(self, request: dr.HttpRequest, id: int):
