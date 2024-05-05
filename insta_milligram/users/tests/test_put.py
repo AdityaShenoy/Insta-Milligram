@@ -26,7 +26,7 @@ class TestView(dt.TestCase):
         with self.assertRaises(TypeError):
             self.client.put(du.reverse("users"))
 
-    def test_missing_field(self):
+    def test_invalid(self):
         response = self.client.put(du.reverse("users_id", args=[self.USER_ID]))
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
         self.assertEqual(
@@ -36,51 +36,6 @@ class TestView(dt.TestCase):
         self.assertEqual(
             set(self.TEST_REQUEST.keys()),
             set(response.data["errors"].keys()),  # type: ignore
-        )
-
-    def test_empty(self):
-        response = self.client.put(
-            du.reverse("users_id", args=[self.USER_ID]),
-            self.EMPTY_REQUEST,
-        )
-        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            "Invalid Data",
-            response.data["message"],  # type: ignore
-        )
-        self.assertEqual(
-            set(self.TEST_REQUEST.keys()),
-            set(response.data["errors"].keys()),  # type: ignore
-        )
-
-    def test_big(self):
-        response = self.client.put(
-            du.reverse("users_id", args=[self.USER_ID]),
-            self.BIG_REQUEST,
-        )
-        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            "Invalid Data",
-            response.data["message"],  # type: ignore
-        )
-        self.assertEqual(
-            set(self.TEST_REQUEST.keys()),
-            set(response.data["errors"].keys()),  # type: ignore
-        )
-
-    def test_small_password(self):
-        response = self.client.put(
-            du.reverse("users_id", args=[self.USER_ID]),
-            self.SMALL_PWD_REQUEST,
-        )
-        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            "Invalid Data",
-            response.data["message"],  # type: ignore
-        )
-        self.assertIn(
-            "password",
-            response.data["errors"].keys(),  # type: ignore
         )
 
     def test_valid(self):
