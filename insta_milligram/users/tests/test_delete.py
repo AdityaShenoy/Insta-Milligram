@@ -36,4 +36,8 @@ class TestView(dt.TestCase):
             du.reverse("users_id", args=[self.USER_ID]),
         )
         self.assertEqual(response.status_code, rs.HTTP_200_OK)
+        self.assertEqual(
+            "Success",
+            response.data["message"],  # type: ignore
+        )
         self.assertEqual(0, len(dam.User.objects.filter(pk=self.USER_ID)))
