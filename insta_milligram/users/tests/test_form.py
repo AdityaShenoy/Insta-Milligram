@@ -3,7 +3,7 @@ import django.test as dt
 from .. import forms as f
 
 
-class TestView(dt.SimpleTestCase):
+class TestForm(dt.SimpleTestCase):
     def setUp(self):
         self.TEST_REQUEST = {
             "username": "test",
