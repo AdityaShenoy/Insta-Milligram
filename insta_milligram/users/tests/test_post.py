@@ -5,7 +5,7 @@ import django.contrib.auth.models as dam
 import rest_framework.status as rs  # type: ignore
 
 
-class TestPostView(dt.TestCase):
+class TestView(dt.TestCase):
     def setUp(self):
         self.TEST_REQUEST = {
             "username": "test",
