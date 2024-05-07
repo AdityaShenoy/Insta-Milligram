@@ -4,7 +4,7 @@ import django.contrib.auth.models as dam
 import rest_framework.response as rr  # type: ignore
 import rest_framework.status as rs  # type: ignore
 
-import rest_framework_simplejwt.tokens as jt
+import rest_framework_simplejwt.views as jv
 
 from ... import forms as f
 
@@ -23,15 +23,11 @@ def generate_tokens(request: dr.HttpRequest):
             return rr.Response(
                 {"message": "Incorrect Password"}, rs.HTTP_401_UNAUTHORIZED
             )
-        refresh_token = jt.RefreshToken.for_user(user)
-        access_token = refresh_token.access_token  # type: ignore
+        tokens = jv.token_obtain_pair(request._request)  # type: ignore
         return rr.Response(
             {
                 "message": "Success",
-                "tokens": {
-                    "refresh": str(refresh_token),
-                    "access": str(access_token),  # type: ignore
-                },
+                "tokens": tokens.data,  # type: ignore
             },
             rs.HTTP_200_OK,
         )
