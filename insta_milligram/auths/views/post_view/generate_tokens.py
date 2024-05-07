@@ -6,22 +6,7 @@ import rest_framework.status as rs  # type: ignore
 
 import rest_framework_simplejwt.tokens as jt
 
-from .. import forms as f
-
-
-def post(request: dr.HttpRequest):
-    action = request.GET.get("action")
-    if action not in ["generate", "refresh"]:
-        return rr.Response(
-            {
-                "message": "Incorrect Parameter - "
-                + "Expected ?action=generate or ?action=refresh"
-            },
-            rs.HTTP_400_BAD_REQUEST,
-        )
-    if action == "generate":
-        return generate_tokens(request)
-    return refresh_tokens(request)
+from ... import forms as f
 
 
 def generate_tokens(request: dr.HttpRequest):
@@ -55,6 +40,3 @@ def generate_tokens(request: dr.HttpRequest):
             {"message": "User Not Found"},
             rs.HTTP_401_UNAUTHORIZED,
         )
-
-
-def refresh_tokens(request: dr.HttpRequest): ...
