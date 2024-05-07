@@ -5,13 +5,11 @@ post /users
 get /users/<int:id>
 put /users/<int:id>
 delete /users/<int:id>
+
+post /auths
 ================================================================================
 In Progress
 ================================================================================
-
-
-post /auths
-put /auths
 delete /auths
 
 post /users/<int:id>/followers
