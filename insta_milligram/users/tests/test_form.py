@@ -36,6 +36,11 @@ class TestForm(dt.SimpleTestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("password", form.errors.keys())
 
+    def test_username_with_special_chars(self):
+        form = f.UserForm({**self.TEST_REQUEST, "username": "@"})
+        self.assertFalse(form.is_valid())
+        self.assertIn("username", form.errors.keys())
+
     def test_valid(self):
         form = f.UserForm(self.TEST_REQUEST)
         self.assertTrue(form.is_valid())
