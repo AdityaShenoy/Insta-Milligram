@@ -27,8 +27,8 @@ class TestView(dt.TestCase):
         response = self.client.get(du.reverse("users_id", args=[self.USER_ID]))
         self.assertEqual(response.status_code, rs.HTTP_404_NOT_FOUND)
         self.assertEqual(
-            "User Not Found",
             response.data["message"],  # type: ignore
+            "User Not Found",
         )
 
     def test_correct(self):

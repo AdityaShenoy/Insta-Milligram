@@ -34,12 +34,12 @@ class TestView(dt.TestCase):
         response = self.client.put(du.reverse("users_id", args=[self.USER_ID]))
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
         self.assertEqual(
-            "Invalid Data",
             response.data["message"],  # type: ignore
+            "Invalid Data",
         )
         self.assertEqual(
-            set(self.TEST_REQUEST.keys()),
             set(response.data["errors"].keys()),  # type: ignore
+            set(self.TEST_REQUEST.keys()),
         )
 
     def test_valid(self):
@@ -49,7 +49,10 @@ class TestView(dt.TestCase):
             self.UPDATE_REQUEST,
         )
         self.assertEqual(response.status_code, rs.HTTP_200_OK)
-        self.assertEqual("Success", response.data["message"])  # type: ignore
+        self.assertEqual(
+            response.data["message"],  # type: ignore
+            "Success",
+        )
         user = dam.User.objects.get(pk=1)
         for field in self.UPDATE_REQUEST:
             if field != "password":
@@ -65,6 +68,6 @@ class TestView(dt.TestCase):
         )
         self.assertEqual(response.status_code, rs.HTTP_404_NOT_FOUND)
         self.assertEqual(
-            "User Does Not Exist",
             response.data["message"],  # type: ignore
+            "User Does Not Exist",
         )

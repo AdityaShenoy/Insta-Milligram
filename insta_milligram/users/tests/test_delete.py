@@ -30,8 +30,8 @@ class TestView(dt.TestCase):
         )
         self.assertEqual(response.status_code, rs.HTTP_404_NOT_FOUND)
         self.assertEqual(
-            "User Not Found",
             response.data["message"],  # type: ignore
+            "User Not Found",
         )
 
     def test_correct(self):
@@ -41,7 +41,7 @@ class TestView(dt.TestCase):
         )
         self.assertEqual(response.status_code, rs.HTTP_200_OK)
         self.assertEqual(
-            "Success",
             response.data["message"],  # type: ignore
+            "Success",
         )
         self.assertEqual(0, len(dam.User.objects.filter(pk=self.USER_ID)))

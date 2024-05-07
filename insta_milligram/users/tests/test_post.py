@@ -22,18 +22,21 @@ class TestView(dt.TestCase):
         response = self.client.post(du.reverse("users"))
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
         self.assertEqual(
-            "Invalid Data",
             response.data["message"],  # type: ignore
+            "Invalid Data",
         )
         self.assertEqual(
-            set(self.TEST_REQUEST.keys()),
             set(response.data["errors"].keys()),  # type: ignore
+            set(self.TEST_REQUEST.keys()),
         )
 
     def test_valid(self):
         response = self.client.post(du.reverse("users"), self.TEST_REQUEST)
         self.assertEqual(response.status_code, rs.HTTP_200_OK)
-        self.assertEqual("Success", response.data["message"])  # type: ignore
+        self.assertEqual(
+            response.data["message"],  # type: ignore
+            "Success",
+        )
         user = dam.User.objects.get(username=self.TEST_REQUEST["username"])
         self.assertEqual(user.username, self.TEST_REQUEST["username"])
         self.assertTrue(user.check_password(self.TEST_REQUEST["password"]))
@@ -48,8 +51,8 @@ class TestView(dt.TestCase):
         response = self.client.post(du.reverse("users"), self.TEST_REQUEST)
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
         self.assertEqual(
-            "User Already Exists",
             response.data["message"],  # type: ignore
+            "User Already Exists",
         )
 
     def test_twice_email(self):
@@ -59,6 +62,6 @@ class TestView(dt.TestCase):
         response = self.client.post(du.reverse("users"), self.TEST_REQUEST)
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
         self.assertEqual(
-            "User Already Exists",
             response.data["message"],  # type: ignore
+            "User Already Exists",
         )
