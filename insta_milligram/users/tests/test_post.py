@@ -41,8 +41,21 @@ class TestView(dt.TestCase):
         self.assertEqual(user.last_name, self.TEST_REQUEST["last_name"])
         self.assertEqual(user.email, self.TEST_REQUEST["email"])
 
-    def test_twice(self):
-        self.client.post(du.reverse("users"), self.TEST_REQUEST)
+    def test_twice_username(self):
+        self.client.post(
+            du.reverse("users"), {**self.TEST_REQUEST, "email": "test1@test.com"}
+        )
+        response = self.client.post(du.reverse("users"), self.TEST_REQUEST)
+        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            "User Already Exists",
+            response.data["message"],  # type: ignore
+        )
+
+    def test_twice_email(self):
+        self.client.post(
+            du.reverse("users"), {**self.TEST_REQUEST, "username": "test1"}
+        )
         response = self.client.post(du.reverse("users"), self.TEST_REQUEST)
         self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
         self.assertEqual(

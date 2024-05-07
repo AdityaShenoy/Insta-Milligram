@@ -15,12 +15,13 @@ def post(request: dr.HttpRequest):
             rs.HTTP_400_BAD_REQUEST,
         )
     form_data = form.cleaned_data
-    try:
-        dam.User.objects.get(username=form_data["username"])
+    user1 = dam.User.objects.filter(email=form_data["email"])
+    user2 = dam.User.objects.filter(username=form_data["username"])
+    if len(user1) + len(user2):
         return rr.Response(
             {"message": "User Already Exists"},
             rs.HTTP_400_BAD_REQUEST,
         )
-    except dam.User.DoesNotExist:
+    else:
         dam.User.objects.create_user(**form_data)
     return rr.Response({"message": "Success"}, rs.HTTP_200_OK)
