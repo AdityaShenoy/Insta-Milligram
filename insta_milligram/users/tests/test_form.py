@@ -19,17 +19,17 @@ class TestForm(dt.SimpleTestCase):
     def test_missing_field(self):
         form = f.UserForm({})
         self.assertFalse(form.is_valid())
-        self.assertEqual(set(self.TEST_REQUEST.keys()), set(form.errors.keys()))
+        self.assertEqual(set(form.errors.keys()), set(self.TEST_REQUEST.keys()))
 
     def test_empty(self):
         form = f.UserForm(self.EMPTY_REQUEST)
         self.assertFalse(form.is_valid())
-        self.assertEqual(set(self.TEST_REQUEST.keys()), set(form.errors.keys()))
+        self.assertEqual(set(form.errors.keys()), set(self.TEST_REQUEST.keys()))
 
     def test_big(self):
         form = f.UserForm(self.BIG_REQUEST)
         self.assertFalse(form.is_valid())
-        self.assertEqual(set(self.TEST_REQUEST.keys()), set(form.errors.keys()))
+        self.assertEqual(set(form.errors.keys()), set(self.TEST_REQUEST.keys()))
 
     def test_small_password(self):
         form = f.UserForm(self.SMALL_PWD_REQUEST)
