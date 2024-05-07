@@ -17,8 +17,12 @@ class TestView(dt.TestCase):
         self.USER_ID = 1
 
     def test_without_id(self):
-        with self.assertRaises(TypeError):
-            self.client.delete(du.reverse("users"))
+        response = self.client.delete(du.reverse("users"))
+        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            response.data["message"],  # type: ignore
+            "User ID Missing",
+        )
 
     def test_wrong_id(self):
         response = self.client.delete(

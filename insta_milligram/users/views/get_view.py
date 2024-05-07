@@ -7,7 +7,12 @@ import rest_framework.status as rs  # type: ignore
 from .. import serializers as s
 
 
-def get(request: dr.HttpRequest, id: int):
+def get(request: dr.HttpRequest, id: int = -1):
+    if id == -1:
+        return rr.Response(
+            {"message": "User ID Missing"},
+            rs.HTTP_400_BAD_REQUEST,
+        )
     try:
         user = dam.User.objects.get(pk=id)
         serialized_user = s.UserSerializer(user)

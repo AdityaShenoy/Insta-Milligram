@@ -23,8 +23,12 @@ class TestView(dt.TestCase):
         self.client = rt.APIClient()
 
     def test_without_id(self):
-        with self.assertRaises(TypeError):
-            self.client.put(du.reverse("users"))
+        response = self.client.put(du.reverse("users"))
+        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
+        self.assertEqual(
+            response.data["message"],  # type: ignore
+            "User ID Missing",
+        )
 
     def test_invalid(self):
         response = self.client.put(du.reverse("users_id", args=[self.USER_ID]))

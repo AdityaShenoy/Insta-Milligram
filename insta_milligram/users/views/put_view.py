@@ -7,7 +7,12 @@ import rest_framework.status as rs  # type: ignore
 from .. import forms as f
 
 
-def put(request: dr.HttpRequest, id: int):
+def put(request: dr.HttpRequest, id: int = -1):
+    if id == -1:
+        return rr.Response(
+            {"message": "User ID Missing"},
+            rs.HTTP_400_BAD_REQUEST,
+        )
     form = f.UserForm(request.data)  # type: ignore
     if not form.is_valid():
         return rr.Response(
