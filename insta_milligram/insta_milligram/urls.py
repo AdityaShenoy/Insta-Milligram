@@ -19,6 +19,6 @@ import django.contrib.admin as da
 import django.urls as du
 
 urlpatterns = [
-    du.path("admin/", da.site.urls),
+    du.path("admin", da.site.urls),
     du.path("users", du.include("users.urls")),
 ]
