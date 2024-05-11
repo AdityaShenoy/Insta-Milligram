@@ -6,4 +6,5 @@ INCORRECT_TOKEN_PARAMETER = (
     "Incorrect Parameter - Expected ?action=generate or ?action=refresh"
 )
 USER_ALREADY_EXISTS = "User Already Exists"
+USER_ID_MISSING = "User ID Missing"
 INCORRECT_USER = "Incorrect User"

@@ -3,39 +3,31 @@ import django.urls as du
 
 import rest_framework.status as rs  # type: ignore
 
+import insta_milligram.helpers as h
+import insta_milligram.constants as c
+
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.TEST_REQUEST = {
-            "username": "test",
-            "password": "testpass",
-            "email": "test@test.com",
-            "first_name": "test",
-            "last_name": "test",
-        }
         self.USER_ID = 1
 
     def test_without_id(self):
         response = self.client.get(du.reverse("users"))
-        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "User ID Missing",
+        h.assertEqualResponse(
+            response, c.messages.USER_ID_MISSING, rs.HTTP_400_BAD_REQUEST
         )
 
     def test_wrong_id(self):
         response = self.client.get(du.reverse("users_id", args=[self.USER_ID]))
-        self.assertEqual(response.status_code, rs.HTTP_404_NOT_FOUND)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "User Not Found",
+        h.assertEqualResponse(
+            response, c.messages.USER_NOT_FOUND, rs.HTTP_404_NOT_FOUND
         )
 
     def test_correct(self):
-        self.client.post(du.reverse("users"), self.TEST_REQUEST)
+        self.client.post(du.reverse("users"), c.inputs.SIGNUP_REQUEST)
         response = self.client.get(du.reverse("users_id", args=[self.USER_ID]))
-        self.assertEqual(response.status_code, rs.HTTP_200_OK)
+        h.assertEqualResponse(response, c.messages.SUCCESS, rs.HTTP_200_OK)
         user: dict[str, str] = response.data  # type: ignore
-        for field in self.TEST_REQUEST:
+        for field in c.inputs.SIGNUP_REQUEST:
             if field != "password":
-                self.assertEqual(user[field], self.TEST_REQUEST[field])
+                self.assertEqual(user[field], c.inputs.SIGNUP_REQUEST[field])

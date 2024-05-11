@@ -6,7 +6,7 @@ from .. import messages as m
 SUCCESS = h.create_response(m.SUCCESS, rs.HTTP_200_OK)
 USER_NOT_FOUND = h.create_response(
     m.USER_NOT_FOUND,
-    rs.HTTP_401_UNAUTHORIZED,
+    rs.HTTP_404_NOT_FOUND,
 )
 INCORRECT_PASSWORD = h.create_response(
     m.INCORRECT_PASSWORD,
@@ -14,6 +14,10 @@ INCORRECT_PASSWORD = h.create_response(
 )
 USER_ALREADY_EXISTS = h.create_response(
     m.USER_ALREADY_EXISTS,
+    rs.HTTP_400_BAD_REQUEST,
+)
+USER_ID_MISSING = h.create_response(
+    m.USER_ID_MISSING,
     rs.HTTP_400_BAD_REQUEST,
 )
 INCORRECT_USER = h.create_response(

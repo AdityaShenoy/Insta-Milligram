@@ -1,24 +1,23 @@
 import django.http.request as dr
 import django.contrib.auth.models as dam
 
-import rest_framework.response as rr  # type: ignore
 import rest_framework.status as rs  # type: ignore
 
 from .. import serializers as s
+import insta_milligram.helpers as h
+import insta_milligram.constants as c
 
 
 def get(request: dr.HttpRequest, id: int = -1):
     if id == -1:
-        return rr.Response(
-            {"message": "User ID Missing"},
-            rs.HTTP_400_BAD_REQUEST,
-        )
+        return c.responses.USER_ID_MISSING
     try:
         user = dam.User.objects.get(pk=id)
         serialized_user = s.UserSerializer(user)
-        return rr.Response(serialized_user.data, rs.HTTP_200_OK)
-    except dam.User.DoesNotExist:
-        return rr.Response(
-            {"message": "User Not Found"},
-            rs.HTTP_404_NOT_FOUND,
+        return h.create_response(
+            c.messages.SUCCESS,
+            rs.HTTP_200_OK,
+            serialized_user.data,  # type: ignore
         )
+    except dam.User.DoesNotExist:
+        return c.responses.USER_NOT_FOUND
