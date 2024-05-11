@@ -7,9 +7,6 @@ import insta_milligram.helpers as h
 
 
 class TestView(dt.TestCase):
-
-    # TODO: make a variable for reversed urls
-
     def test_missing_action(self):
         response = self.client.post(c.urls.AUTHS, QUERY_STRING="")
         h.assertEqualResponse(

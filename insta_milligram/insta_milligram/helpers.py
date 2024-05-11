@@ -16,7 +16,6 @@ def assertEqualResponse(
     assert response.status_code == status_code
 
 
-# TODO: use this function wherever possible
 def assertEqualResponses(
     response1: dhres.HttpResponse,
     response2: dhres.HttpResponse,
