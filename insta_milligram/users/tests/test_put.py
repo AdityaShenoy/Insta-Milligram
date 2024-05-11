@@ -5,69 +5,49 @@ import django.contrib.auth.models as dam
 import rest_framework.status as rs  # type: ignore
 import rest_framework.test as rt  # type: ignore
 
+import insta_milligram.constants as c
+import insta_milligram.helpers as h
+
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.TEST_REQUEST = {
-            "username": "test",
-            "password": "testpass",
-            "email": "test@test.com",
-            "first_name": "test",
-            "last_name": "test",
-        }
-        self.EMPTY_REQUEST = {k: "" for k in self.TEST_REQUEST}
-        self.BIG_REQUEST = {k: "a" * 51 for k in self.TEST_REQUEST}
-        self.SMALL_PWD_REQUEST = {**self.TEST_REQUEST, "password": "test"}
-        self.UPDATE_REQUEST = {k: f"new_{v}" for k, v in self.TEST_REQUEST.items()}
         self.USER_ID = 1
         self.client = rt.APIClient()
 
     def test_without_id(self):
         response = self.client.put(du.reverse("users"))
-        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "User ID Missing",
-        )
+        h.assertEqualResponses(response, c.responses.USER_ID_MISSING)
 
     def test_invalid(self):
         response = self.client.put(du.reverse("users_id", args=[self.USER_ID]))
-        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "Invalid Data",
+        h.assertEqualResponse(
+            response,
+            c.messages.INVALID_DATA,
+            rs.HTTP_400_BAD_REQUEST,
         )
         self.assertEqual(
             set(response.data["errors"].keys()),  # type: ignore
-            set(self.TEST_REQUEST.keys()),
+            set(c.inputs.SIGNUP_REQUEST.keys()),
         )
 
     def test_valid(self):
-        self.client.post(du.reverse("users"), self.TEST_REQUEST)
+        self.client.post(du.reverse("users"), c.inputs.SIGNUP_REQUEST)
         response = self.client.put(
             du.reverse("users_id", args=[self.USER_ID]),
-            self.UPDATE_REQUEST,
+            c.inputs.UPDATE_REQUEST,
         )
-        self.assertEqual(response.status_code, rs.HTTP_200_OK)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "Success",
-        )
+        h.assertEqualResponses(response, c.responses.SUCCESS)
         user = dam.User.objects.get(pk=1)
-        for field in self.UPDATE_REQUEST:
+        for field in c.inputs.UPDATE_REQUEST:
             if field != "password":
                 self.assertEqual(
-                    user.__getattribute__(field), self.UPDATE_REQUEST[field]
+                    user.__getattribute__(field), c.inputs.UPDATE_REQUEST[field]
                 )
-        self.assertTrue(user.check_password(self.UPDATE_REQUEST["password"]))
+        self.assertTrue(user.check_password(c.inputs.UPDATE_REQUEST["password"]))
 
     def test_without_user(self):
         response = self.client.put(
             du.reverse("users_id", args=[self.USER_ID]),
-            self.UPDATE_REQUEST,
+            c.inputs.UPDATE_REQUEST,
         )
-        self.assertEqual(response.status_code, rs.HTTP_404_NOT_FOUND)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "User Does Not Exist",
-        )
+        h.assertEqualResponses(response, c.responses.USER_NOT_FOUND)

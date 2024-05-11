@@ -1,23 +1,22 @@
 import django.http.request as dr
 import django.contrib.auth.models as dam
 
-import rest_framework.response as rr  # type: ignore
 import rest_framework.status as rs  # type: ignore
 
 from .. import forms as f
+import insta_milligram.constants as c
+import insta_milligram.helpers as h
 
 
 def put(request: dr.HttpRequest, id: int = -1):
     if id == -1:
-        return rr.Response(
-            {"message": "User ID Missing"},
-            rs.HTTP_400_BAD_REQUEST,
-        )
+        return c.responses.USER_ID_MISSING
     form = f.UserForm(request.data)  # type: ignore
     if not form.is_valid():
-        return rr.Response(
-            {"message": "Invalid Data", "errors": form.errors},
+        return h.create_response(
+            c.messages.INVALID_DATA,
             rs.HTTP_400_BAD_REQUEST,
+            {"errors": form.errors},
         )
     form_data = form.cleaned_data
     try:
@@ -26,9 +25,6 @@ def put(request: dr.HttpRequest, id: int = -1):
             user.__setattr__(field, form_data[field])
         user.set_password(form_data["password"])
         user.save()
-        return rr.Response({"message": "Success"}, rs.HTTP_200_OK)
+        return c.responses.SUCCESS
     except dam.User.DoesNotExist:
-        return rr.Response(
-            {"message": "User Does Not Exist"},
-            rs.HTTP_404_NOT_FOUND,
-        )
+        return c.responses.USER_NOT_FOUND

@@ -6,3 +6,5 @@ SIGNUP_REQUEST = {
     "first_name": "test",
     "last_name": "test",
 }
+
+UPDATE_REQUEST = {k: f"new_{v}" for k, v in SIGNUP_REQUEST.items()}
