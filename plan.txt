@@ -7,9 +7,11 @@ put /users/<int:id>
 delete /users/<int:id>
 
 post /auths
+get /auths/<int:id>
 ================================================================================
 In Progress
 ================================================================================
+put /auths
 delete /auths
 
 post /users/<int:id>/followers
