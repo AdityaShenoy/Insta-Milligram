@@ -3,33 +3,28 @@ import django.urls as du
 
 import rest_framework.status as rs  # type: ignore
 
+import insta_milligram.constants as c
+import insta_milligram.helpers as h
+
 
 class TestView(dt.TestCase):
-    def setUp(self):
-        self.SIGNUP_REQUEST = {
-            "username": "test",
-            "password": "testpass",
-            "email": "test@test.com",
-            "first_name": "test",
-            "last_name": "test",
-        }
-        self.LOGIN_REQUEST = {"username": "test", "password": "testpass"}
-        self.TOKEN_FIELDS = {"access", "refresh"}
+
+    # TODO: make a variable for reversed urls
 
     def test_missing_action(self):
         response = self.client.post(du.reverse("auths"), QUERY_STRING="")
-        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "Incorrect Parameter - Expected ?action=generate or ?action=refresh",
+        h.assertEqualResponse(
+            response,
+            c.messages.INCORRECT_TOKEN_PARAMETER,
+            rs.HTTP_400_BAD_REQUEST,
         )
 
     def test_incorrect_action(self):
         response = self.client.post(du.reverse("auths"), QUERY_STRING="action=bla")
-        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "Incorrect Parameter - Expected ?action=generate or ?action=refresh",
+        h.assertEqualResponse(
+            response,
+            c.messages.INCORRECT_TOKEN_PARAMETER,
+            rs.HTTP_400_BAD_REQUEST,
         )
 
     def test_without_login(self):
@@ -37,50 +32,44 @@ class TestView(dt.TestCase):
             du.reverse("auths"),
             QUERY_STRING="action=generate",
         )
-        self.assertEqual(response.status_code, rs.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "Invalid Data",
+        h.assertEqualResponse(
+            response, c.messages.INVALID_DATA, rs.HTTP_400_BAD_REQUEST
         )
         self.assertEqual(
             set(response.data["errors"].keys()),  # type: ignore
-            set(self.LOGIN_REQUEST.keys()),
+            set(c.inputs.LOGIN_REQUEST.keys()),
         )
 
     def test_with_login(self):
-        self.client.post(du.reverse("users"), self.SIGNUP_REQUEST)
+        self.client.post(du.reverse("users"), c.inputs.SIGNUP_REQUEST)
         response = self.client.post(
             du.reverse("auths"),
-            self.LOGIN_REQUEST,
+            c.inputs.LOGIN_REQUEST,
             QUERY_STRING="action=generate",
         )
-        self.assertEqual(response.status_code, rs.HTTP_200_OK)
-        self.assertEqual(response.data["message"], "Success")  # type: ignore
+        h.assertEqualResponse(response, c.messages.SUCCESS, rs.HTTP_200_OK)
         self.assertEqual(
-            set(response.data["tokens"].keys()), self.TOKEN_FIELDS  # type: ignore
+            set(response.data["tokens"].keys()),  # type: ignore
+            {"access", "refresh"},
         )
 
     def test_with_incorrect_user(self):
         response = self.client.post(
             du.reverse("auths"),
-            {**self.LOGIN_REQUEST, "username": "test1"},
+            {**c.inputs.LOGIN_REQUEST, "username": "test1"},
             QUERY_STRING="action=generate",
         )
-        self.assertEqual(response.status_code, rs.HTTP_401_UNAUTHORIZED)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "User Not Found",
+        h.assertEqualResponse(
+            response, c.messages.USER_NOT_FOUND, rs.HTTP_401_UNAUTHORIZED
         )
 
     def test_with_incorrect_password(self):
-        self.client.post(du.reverse("users"), self.SIGNUP_REQUEST)
+        self.client.post(du.reverse("users"), c.inputs.SIGNUP_REQUEST)
         response = self.client.post(
             du.reverse("auths"),
-            {**self.LOGIN_REQUEST, "password": "testpass1"},
+            {**c.inputs.LOGIN_REQUEST, "password": "testpass1"},
             QUERY_STRING="action=generate",
         )
-        self.assertEqual(response.status_code, rs.HTTP_401_UNAUTHORIZED)
-        self.assertEqual(
-            response.data["message"],  # type: ignore
-            "Incorrect Password",
+        h.assertEqualResponse(
+            response, c.messages.INCORRECT_PASSWORD, rs.HTTP_401_UNAUTHORIZED
         )
