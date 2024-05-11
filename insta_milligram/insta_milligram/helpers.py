@@ -6,12 +6,12 @@ import typing as t
 
 
 def assertEqualResponse(
-    response1: dres.HttpResponse,
+    response: dres.HttpResponse,
     message: str,
     status_code: int,
 ):
-    assert response1.data["message"] == message  # type: ignore
-    assert response1.status_code == status_code
+    assert response.data["message"] == message  # type: ignore
+    assert response.status_code == status_code
 
 
 def create_response(
