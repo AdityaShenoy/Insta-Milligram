@@ -1,12 +1,9 @@
 import django.test as dt
-import django.urls as du
 
 from .. import views as v
+import insta_milligram.helpers as h
 
 
 class TestUrl(dt.SimpleTestCase):
     def test_url_resolution(self):
-        self.assertEqual(
-            du.resolve(du.reverse("auths")).func.cls,  # type: ignore
-            v.AuthView,
-        )
+        h.test_url_resolution("auths", v.AuthView)  # type: ignore
