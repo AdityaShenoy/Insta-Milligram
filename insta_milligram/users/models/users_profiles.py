@@ -3,7 +3,7 @@ import django.contrib.auth.models as dcam
 
 
 class UsersProfiles(ddm.Model):
-    user = ddm.ForeignKey(
+    user = ddm.OneToOneField(
         dcam.User,
         on_delete=ddm.CASCADE,
         related_name="profile",
