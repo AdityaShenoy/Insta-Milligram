@@ -10,6 +10,7 @@ from . import refresh_tokens as r
 def post(request: dr.HttpRequest):
     action = request.GET.get("action")
     if action not in ["generate", "refresh"]:
+        # todo: move this to constants
         return rr.Response(
             {
                 "message": "Incorrect Parameter - "
