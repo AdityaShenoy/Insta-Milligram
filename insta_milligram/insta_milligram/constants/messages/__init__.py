@@ -5,3 +5,4 @@ INCORRECT_PASSWORD = "Incorrect Password"
 INCORRECT_TOKEN_PARAMETER = (
     "Incorrect Parameter - Expected ?action=generate or ?action=refresh"
 )
+USER_ALREADY_EXISTS = "User Already Exists"
