@@ -60,7 +60,7 @@ class TestView(dt.TestCase):
             QUERY_STRING="action=generate",
         )
         h.assertEqualResponse(
-            response, c.messages.USER_NOT_FOUND, rs.HTTP_401_UNAUTHORIZED
+            response, c.messages.INCORRECT_USER, rs.HTTP_401_UNAUTHORIZED
         )
 
     def test_with_incorrect_password(self):

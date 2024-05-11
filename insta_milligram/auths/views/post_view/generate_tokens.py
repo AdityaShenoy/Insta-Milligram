@@ -31,4 +31,4 @@ def generate_tokens(request: dr.HttpRequest):
         )
 
     except dam.User.DoesNotExist:
-        return c.responses.USER_NOT_FOUND
+        return c.responses.INCORRECT_USER
