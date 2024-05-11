@@ -24,7 +24,7 @@ class TestView(dt.TestCase):
             du.reverse("users"),
             c.inputs.SIGNUP_REQUEST,
         )
-        h.assertEqualResponse(response, c.messages.SUCCESS, rs.HTTP_200_OK)
+        h.assertEqualResponses(response, c.responses.SUCCESS)
         user = dam.User.objects.get(
             username=c.inputs.SIGNUP_REQUEST["username"],
         )
@@ -48,9 +48,7 @@ class TestView(dt.TestCase):
             du.reverse("users"),
             c.inputs.SIGNUP_REQUEST,
         )
-        h.assertEqualResponse(
-            response, c.messages.USER_ALREADY_EXISTS, rs.HTTP_400_BAD_REQUEST
-        )
+        h.assertEqualResponses(response, c.responses.USER_ALREADY_EXISTS)
 
     def test_twice_email(self):
         self.client.post(
@@ -61,6 +59,4 @@ class TestView(dt.TestCase):
             du.reverse("users"),
             c.inputs.SIGNUP_REQUEST,
         )
-        h.assertEqualResponse(
-            response, c.messages.USER_ALREADY_EXISTS, rs.HTTP_400_BAD_REQUEST
-        )
+        h.assertEqualResponses(response, c.responses.USER_ALREADY_EXISTS)

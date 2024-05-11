@@ -13,15 +13,11 @@ class TestView(dt.TestCase):
 
     def test_without_id(self):
         response = self.client.get(du.reverse("users"))
-        h.assertEqualResponse(
-            response, c.messages.USER_ID_MISSING, rs.HTTP_400_BAD_REQUEST
-        )
+        h.assertEqualResponses(response, c.responses.USER_ID_MISSING)
 
     def test_wrong_id(self):
         response = self.client.get(du.reverse("users_id", args=[self.USER_ID]))
-        h.assertEqualResponse(
-            response, c.messages.USER_NOT_FOUND, rs.HTTP_404_NOT_FOUND
-        )
+        h.assertEqualResponses(response, c.responses.USER_NOT_FOUND)
 
     def test_correct(self):
         self.client.post(du.reverse("users"), c.inputs.SIGNUP_REQUEST)
