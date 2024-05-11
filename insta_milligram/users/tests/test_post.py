@@ -31,6 +31,8 @@ class TestView(dt.TestCase):
         self.assertEqual(user.first_name, c.inputs.SIGNUP_REQUEST["first_name"])
         self.assertEqual(user.last_name, c.inputs.SIGNUP_REQUEST["last_name"])
         self.assertEqual(user.email, c.inputs.SIGNUP_REQUEST["email"])
+        self.assertEqual(user.profile.followers_count, 0)  # type: ignore
+        self.assertEqual(user.profile.followings_count, 0)  # type: ignore
 
     def test_twice_username(self):
         self.client.post(
