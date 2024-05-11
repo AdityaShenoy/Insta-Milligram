@@ -1,5 +1,4 @@
 import django.test as dt
-import django.urls as du
 
 import rest_framework.status as rs  # type: ignore
 
@@ -12,7 +11,7 @@ class TestView(dt.TestCase):
     # TODO: make a variable for reversed urls
 
     def test_missing_action(self):
-        response = self.client.post(du.reverse("auths"), QUERY_STRING="")
+        response = self.client.post(c.urls.AUTHS, QUERY_STRING="")
         h.assertEqualResponse(
             response,
             c.messages.INCORRECT_TOKEN_PARAMETER,
@@ -20,7 +19,7 @@ class TestView(dt.TestCase):
         )
 
     def test_incorrect_action(self):
-        response = self.client.post(du.reverse("auths"), QUERY_STRING="action=bla")
+        response = self.client.post(c.urls.AUTHS, QUERY_STRING="action=bla")
         h.assertEqualResponse(
             response,
             c.messages.INCORRECT_TOKEN_PARAMETER,
@@ -29,7 +28,7 @@ class TestView(dt.TestCase):
 
     def test_without_login(self):
         response = self.client.post(
-            du.reverse("auths"),
+            c.urls.AUTHS,
             QUERY_STRING="action=generate",
         )
         h.assertEqualResponse(
@@ -41,9 +40,9 @@ class TestView(dt.TestCase):
         )
 
     def test_with_login(self):
-        self.client.post(du.reverse("users"), c.inputs.SIGNUP_REQUEST)
+        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
         response = self.client.post(
-            du.reverse("auths"),
+            c.urls.AUTHS,
             c.inputs.LOGIN_REQUEST,
             QUERY_STRING="action=generate",
         )
@@ -55,7 +54,7 @@ class TestView(dt.TestCase):
 
     def test_with_incorrect_user(self):
         response = self.client.post(
-            du.reverse("auths"),
+            c.urls.AUTHS,
             {**c.inputs.LOGIN_REQUEST, "username": "test1"},
             QUERY_STRING="action=generate",
         )
@@ -64,9 +63,9 @@ class TestView(dt.TestCase):
         )
 
     def test_with_incorrect_password(self):
-        self.client.post(du.reverse("users"), c.inputs.SIGNUP_REQUEST)
+        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
         response = self.client.post(
-            du.reverse("auths"),
+            c.urls.AUTHS,
             {**c.inputs.LOGIN_REQUEST, "password": "testpass1"},
             QUERY_STRING="action=generate",
         )

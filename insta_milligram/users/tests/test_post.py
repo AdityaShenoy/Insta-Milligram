@@ -1,5 +1,4 @@
 import django.test as dt
-import django.urls as du
 import django.contrib.auth.models as dam
 
 import rest_framework.status as rs  # type: ignore
@@ -10,7 +9,7 @@ import insta_milligram.helpers as h
 
 class TestView(dt.TestCase):
     def test_invalid(self):
-        response = self.client.post(du.reverse("users"))
+        response = self.client.post(c.urls.USERS)
         h.assertEqualResponse(
             response, c.messages.INVALID_DATA, rs.HTTP_400_BAD_REQUEST
         )
@@ -20,10 +19,7 @@ class TestView(dt.TestCase):
         )
 
     def test_valid(self):
-        response = self.client.post(
-            du.reverse("users"),
-            c.inputs.SIGNUP_REQUEST,
-        )
+        response = self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
         h.assertEqualResponses(response, c.responses.SUCCESS)
         user = dam.User.objects.get(
             username=c.inputs.SIGNUP_REQUEST["username"],
@@ -38,25 +34,15 @@ class TestView(dt.TestCase):
 
     def test_twice_username(self):
         self.client.post(
-            du.reverse("users"),
-            {
-                **c.inputs.SIGNUP_REQUEST,
-                "email": "test1@test.com",
-            },
+            c.urls.USERS, {**c.inputs.SIGNUP_REQUEST, "email": "test1@test.com"}
         )
-        response = self.client.post(
-            du.reverse("users"),
-            c.inputs.SIGNUP_REQUEST,
-        )
+        response = self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
         h.assertEqualResponses(response, c.responses.USER_ALREADY_EXISTS)
 
     def test_twice_email(self):
         self.client.post(
-            du.reverse("users"),
+            c.urls.USERS,
             {**c.inputs.SIGNUP_REQUEST, "username": "test1"},
         )
-        response = self.client.post(
-            du.reverse("users"),
-            c.inputs.SIGNUP_REQUEST,
-        )
+        response = self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
         h.assertEqualResponses(response, c.responses.USER_ALREADY_EXISTS)
