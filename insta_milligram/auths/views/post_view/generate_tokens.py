@@ -22,7 +22,7 @@ def generate_tokens(request: dr.HttpRequest):
     try:
         user = dam.User.objects.get(username=form_data["username"])
         if not user.check_password(form_data["password"]):
-            return c.responses.INCORRECT_PASSWORD_RESPONSE
+            return c.responses.INCORRECT_PASSWORD
         tokens = jv.token_obtain_pair(request._request)  # type: ignore
         return h.create_response(
             c.messages.SUCCESS,
@@ -31,4 +31,4 @@ def generate_tokens(request: dr.HttpRequest):
         )
 
     except dam.User.DoesNotExist:
-        return c.responses.USER_NOT_FOUND_RESPONSE
+        return c.responses.USER_NOT_FOUND
