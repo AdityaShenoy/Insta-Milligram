@@ -37,5 +37,5 @@ def generate_headers(login_response: dhres.HttpResponse):
     return {"Authorization": f"Bearer {access_token}"}
 
 
-def test_url_resolution(app_name: str, view: rv.APIView, args: list[t.Any] = []):
-    assert du.resolve(du.reverse(app_name, args=args)).func.cls == view  # type: ignore
+def test_url_resolution(url_name: str, view: rv.APIView, args: list[t.Any] = []):
+    assert du.resolve(du.reverse(url_name, args=args)).func.cls == view  # type: ignore
