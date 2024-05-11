@@ -28,6 +28,14 @@ OPERATION_NOT_ALLOWED = h.create_response(
     m.OPERATION_NOT_ALLOWED,
     rs.HTTP_403_FORBIDDEN,
 )
+TOKEN_MISSING = h.create_response(
+    m.TOKEN_MISSING,
+    rs.HTTP_401_UNAUTHORIZED,
+)
+INVALID_TOKEN = h.create_response(
+    m.INVALID_TOKEN,
+    rs.HTTP_401_UNAUTHORIZED,
+)
 
 
 # INCORRECT_TOKEN_PARAMETER = h.create_response(
