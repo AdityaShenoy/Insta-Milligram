@@ -8,3 +8,4 @@ INCORRECT_TOKEN_PARAMETER = (
 USER_ALREADY_EXISTS = "User Already Exists"
 USER_ID_MISSING = "User ID Missing"
 INCORRECT_USER = "Incorrect User"
+OPERATION_NOT_ALLOWED = "Operation Not Allowed"

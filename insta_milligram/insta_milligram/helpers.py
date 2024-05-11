@@ -29,3 +29,8 @@ def create_response(
     data: dict[str, t.Any] = dict(),
 ):
     return rr.Response({"message": message, **data}, status_code)
+
+
+def generate_headers(login_response: dres.HttpResponse):
+    access_token = login_response.data["tokens"]["access"]  # type: ignore
+    return {"Authorization": f"Bearer {access_token}"}
