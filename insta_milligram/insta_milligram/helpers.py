@@ -20,6 +20,7 @@ def assertEqualResponses(
     response1: dhres.HttpResponse,
     response2: dhres.HttpResponse,
 ):
+    # todo: make this more generic to replace the above function
     assert response1.data == response2.data  # type: ignore
     assert response1.status_code == response1.status_code
 
