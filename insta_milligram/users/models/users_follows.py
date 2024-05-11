@@ -3,11 +3,13 @@ import django.contrib.auth.models as dcam
 
 
 class UsersFollows(ddm.Model):
-    follower = ddm.ManyToManyField(  # type: ignore
+    follower = ddm.ForeignKey(  # type: ignore
         dcam.User,
+        on_delete=ddm.CASCADE,
         related_name="followers",
     )
-    following = ddm.ManyToManyField(  # type: ignore
+    following = ddm.ForeignKey(  # type: ignore
         dcam.User,
+        on_delete=ddm.CASCADE,
         related_name="followings",
     )
