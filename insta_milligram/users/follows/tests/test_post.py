@@ -76,17 +76,5 @@ class TestView(dt.TestCase):
         )
         assert follows.exists()
         assert follows[0].at < d.datetime.now(tz=d.UTC)
-        assert (
-            user1.id  # type: ignore
-            in user2.followers.all().values_list(  # type: ignore
-                "follower",
-                flat=True,
-            )
-        )
-        assert (
-            user2.id  # type: ignore
-            in user1.followings.all().values_list(  # type: ignore
-                "following",
-                flat=True,
-            )
-        )
+        assert user2.followers.filter(follower=user1).exists()  # type: ignore
+        assert user1.followings.filter(following=user2).exists()  # type: ignore
