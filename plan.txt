@@ -17,7 +17,6 @@ In Progress
 ================================================================================
 
 get /users/<int:id>/followers
-get /users/<int:id>/followers/<int:id>
 delete /users/<int:id>/followers/<int:id>
 
 ================================================================================

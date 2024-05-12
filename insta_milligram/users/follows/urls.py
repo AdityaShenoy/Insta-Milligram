@@ -13,5 +13,9 @@ urlpatterns = [
         v.UserFollowView.as_view(),
         name="users_followings",
     ),
-    # du.path("/<int:id>", v.UserFollowView.as_view(), name="users_follows_id"),
+    du.path(
+        "followers",
+        v.UserFollowerView.as_view(),
+        name="users_followers",
+    ),
 ]

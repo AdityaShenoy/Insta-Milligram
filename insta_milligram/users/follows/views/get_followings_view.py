@@ -19,6 +19,7 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
     except dcam.User.DoesNotExist:
         return c.responses.USER_NOT_FOUND
 
+    # todo: paginate the users list instead of sending user ids
     if id1 == -1:
         followings = user.followings.all().values_list(  # type: ignore
             "following", flat=True

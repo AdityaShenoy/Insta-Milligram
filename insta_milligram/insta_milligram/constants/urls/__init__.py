@@ -10,3 +10,6 @@ USERS_3_FOLLOWINGS = "/users/3/followings"
 
 USERS_1_FOLLOWINGS_2 = "/users/1/followings/2"
 USERS_1_FOLLOWINGS_3 = "/users/1/followings/3"
+
+USERS_2_FOLLOWERS = "/users/2/followers"
+USERS_3_FOLLOWERS = "/users/3/followers"
