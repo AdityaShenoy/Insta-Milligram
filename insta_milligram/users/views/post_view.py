@@ -29,5 +29,5 @@ def post(request: dr.HttpRequest):
     else:
         with ddt.atomic():
             user = dam.User.objects.create_user(**form_data)
-            umup.UsersProfiles.objects.create(user=user)
+            umup.UserProfile.objects.create(user=user)
     return c.responses.SUCCESS
