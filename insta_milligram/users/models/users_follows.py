@@ -13,3 +13,7 @@ class UserFollow(ddm.Model):
         on_delete=ddm.CASCADE,
         related_name="followers",
     )
+    # todo: add timestamp
+
+    def __str__(self):
+        return f"{self.follower} follows {self.following}"
