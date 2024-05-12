@@ -9,14 +9,14 @@ delete /users/<int:id>
 post /auths
 get /auths/<int:id>
 
-post /users/<int:id>/followers
-get /users/<int:id>/followers
+post /users/<int:id>/followings
+get /users/<int:id>/followings
+get /users/<int:id>/followings/<int:id>
 ================================================================================
 In Progress
 ================================================================================
 
-get /users/<int:id>/followings
-get /users/<int:id>/followings/<int:id>
+get /users/<int:id>/followers
 get /users/<int:id>/followers/<int:id>
 delete /users/<int:id>/followers/<int:id>
 

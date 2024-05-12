@@ -35,3 +35,18 @@ class TestView(dt.TestCase):
         )
         h.assertEqualResponses(response, c.responses.SUCCESS)
         assert 2 in response.data["followings"]  # type: ignore
+
+    def test_valid_id(self):
+        response = self.client.get(
+            c.urls.USERS_1_FOLLOWINGS_2,
+            headers=h.generate_headers(self.login_response),  # type: ignore
+        )
+        h.assertEqualResponses(response, c.responses.SUCCESS)
+        assert response.data["is_following"]  # type: ignore
+
+    def test_wrong_user_id(self):
+        response = self.client.get(
+            c.urls.USERS_1_FOLLOWINGS_3,
+            headers=h.generate_headers(self.login_response),  # type: ignore
+        )
+        h.assertEqualResponses(response, c.responses.USER_NOT_FOUND)

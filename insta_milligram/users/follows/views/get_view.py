@@ -8,7 +8,7 @@ import insta_milligram.helpers as h
 import auths.views as v
 
 
-def get(request: dhreq.HttpRequest, id: int):
+def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
     response = v.get(request, id)
     user = response.data.get("user")  # type: ignore
     if not user:
@@ -19,11 +19,26 @@ def get(request: dhreq.HttpRequest, id: int):
     except dcam.User.DoesNotExist:
         return c.responses.USER_NOT_FOUND
 
-    followings = user.followings.all().values_list(  # type: ignore
-        "following", flat=True
-    )
+    if id1 == -1:
+        followings = user.followings.all().values_list(  # type: ignore
+            "following", flat=True
+        )
+        return h.create_response(
+            c.messages.SUCCESS,
+            rs.HTTP_200_OK,
+            {"followings": followings},
+        )
+
+    try:
+        followed_user = dcam.User.objects.get(pk=id1)
+    except dcam.User.DoesNotExist:
+        return c.responses.USER_NOT_FOUND
+
+    is_following = user.followings.filter(  # type: ignore
+        following=followed_user,
+    ).exists()
     return h.create_response(
         c.messages.SUCCESS,
         rs.HTTP_200_OK,
-        {"followings": followings},
+        {"is_following": is_following},
     )
