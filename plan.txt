@@ -8,13 +8,12 @@ delete /users/<int:id>
 
 post /auths
 get /auths/<int:id>
+
+post /users/<int:id>/followers
 ================================================================================
 In Progress
 ================================================================================
-put /auths
-delete /auths
 
-post /users/<int:id>/followers
 get /users/<int:id>/followers
 get /users/<int:id>/following
 get /users/<int:id>/following/<int:id>
@@ -24,6 +23,9 @@ delete /users/<int:id>/followers/<int:id>
 ================================================================================
 Backlog
 ================================================================================
+put /auths
+delete /auths
+
 post /contents
 get /contents/<int:id>
 put /contents/<int:id>

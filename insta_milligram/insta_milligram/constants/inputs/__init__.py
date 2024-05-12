@@ -7,7 +7,6 @@ SIGNUP_REQUEST = {
     "first_name": "test",
     "last_name": "test",
 }
-
 SIGNUP_REQUEST_1 = {
     **LOGIN_REQUEST_1,
     "email": "test1@test1.com",
@@ -18,3 +17,5 @@ SIGNUP_REQUEST_1 = {
 UPDATE_REQUEST = {k: f"new_{v}" for k, v in SIGNUP_REQUEST.items()}
 
 EXPIRED_ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTQ3MzU5LCJpYXQiOjE3MTUxNDcwNTksImp0aSI6IjYxNzlkMGQ5NTk1MTQ3NTdiMGU5YTA4ZjQ2YmRiMDY5IiwidXNlcl9pZCI6MX0.0q-rm-CvDISZyR4Pksfv5Ik00ltAyV5IK2SAsHb1KaI"
+
+FOLLOW_REQUEST_2 = {"user": 2}
