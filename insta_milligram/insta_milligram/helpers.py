@@ -29,4 +29,9 @@ def generate_headers(login_response: dhres.HttpResponse):
 
 
 def test_url_resolution(url_name: str, view: rv.APIView, args: list[t.Any] = []):
-    assert du.resolve(du.reverse(url_name, args=args)).func.cls == view  # type: ignore
+    assert (
+        du.resolve(
+            du.reverse(url_name, args=args),
+        ).func.cls  # type: ignore
+        == view
+    )

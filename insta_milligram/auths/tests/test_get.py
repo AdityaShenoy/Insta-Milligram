@@ -22,7 +22,7 @@ class TestView(dt.TestCase):
             c.urls.USERS_ID_1,
         )
         h.assertEqualResponses(response, c.responses.TOKEN_MISSING)
-        self.assertEqual(len(dam.User.objects.all()), 1)
+        assert len(dam.User.objects.all()) == 1
 
     def test_incorrect_token(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
@@ -37,7 +37,7 @@ class TestView(dt.TestCase):
             headers={"Authorization": f"Bearer {access_token}a"},  # type: ignore
         )
         h.assertEqualResponses(response, c.responses.INVALID_TOKEN)
-        self.assertEqual(len(dam.User.objects.all()), 1)
+        assert len(dam.User.objects.all()) == 1
 
     def test_expired_token(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
@@ -46,7 +46,7 @@ class TestView(dt.TestCase):
             headers={"Authorization": f"Bearer {c.inputs.EXPIRED_ACCESS_TOKEN}"},  # type: ignore
         )
         h.assertEqualResponses(response, c.responses.INVALID_TOKEN)
-        self.assertEqual(len(dam.User.objects.all()), 1)
+        assert len(dam.User.objects.all()) == 1
 
     def test_delete_twice(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)

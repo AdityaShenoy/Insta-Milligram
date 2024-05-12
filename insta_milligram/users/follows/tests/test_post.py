@@ -26,7 +26,7 @@ class TestView(dt.TestCase):
             headers=h.generate_headers(self.login_response),  # type: ignore
         )
         h.assertEqualResponses(response, c.responses.INVALID_DATA)
-        self.assertIn("user", response.data["errors"])  # type: ignore
+        assert "user" in response.data["errors"]  # type: ignore
 
     def test_self_follow(self):
         response = self.client.post(
@@ -66,20 +66,26 @@ class TestView(dt.TestCase):
         h.assertEqualResponses(response, c.responses.SUCCESS)
         user1 = dcam.User.objects.get(pk=1)
         user2 = dcam.User.objects.get(pk=2)
-        self.assertEqual(user1.profile.followings_count, 1)  # type: ignore
-        self.assertEqual(user2.profile.followers_count, 1)  # type: ignore
-        follow = umuf.UserFollow.objects.filter(
-            follower=user1,
-            following=user2,
+        assert user1.profile.followings_count == 1  # type: ignore
+        assert user2.profile.followers_count == 1  # type: ignore
+        assert (
+            umuf.UserFollow.objects.filter(
+                follower=user1,
+                following=user2,
+            ).exists()
         )
-        self.assertEqual(len(follow), 1)
 
-        self.assertIn(
-            user1.id,  # type: ignore
-            user2.followers.all().values_list("follower", flat=True),  # type: ignore
+        assert (
+            user1.id  # type: ignore
+            in user2.followers.all().values_list(  # type: ignore
+                "follower",
+                flat=True,
+            )
         )
-        self.assertIn(
-            user2.id,  # type: ignore
-            user1.followings.all().values_list("following", flat=True),  # type: ignore
+        assert (
+            user2.id  # type: ignore
+            in user1.followings.all().values_list(  # type: ignore
+                "following",
+                flat=True,
+            )
         )
-        # todo: convert self.assertEqual to assert statements

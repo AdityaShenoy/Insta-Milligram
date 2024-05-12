@@ -22,4 +22,4 @@ class TestView(dt.TestCase):
         user: dict[str, str] = response.data  # type: ignore
         for field in c.inputs.SIGNUP_REQUEST:
             if field != "password":
-                self.assertEqual(user[field], c.inputs.SIGNUP_REQUEST[field])
+                assert user[field] == c.inputs.SIGNUP_REQUEST[field]

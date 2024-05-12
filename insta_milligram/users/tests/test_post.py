@@ -11,9 +11,8 @@ class TestView(dt.TestCase):
     def test_invalid(self):
         response = self.client.post(c.urls.USERS)
         h.assertEqualResponses(response, c.responses.INVALID_DATA)
-        self.assertEqual(
-            set(response.data["errors"].keys()),  # type: ignore
-            set(c.inputs.SIGNUP_REQUEST.keys()),
+        assert set(response.data["errors"].keys()) == set(  # type: ignore
+            c.inputs.SIGNUP_REQUEST.keys()
         )
 
     def test_valid(self):
@@ -22,15 +21,13 @@ class TestView(dt.TestCase):
         user = dam.User.objects.get(
             username=c.inputs.SIGNUP_REQUEST["username"],
         )
-        self.assertEqual(user.username, c.inputs.SIGNUP_REQUEST["username"])
-        self.assertTrue(
-            user.check_password(c.inputs.SIGNUP_REQUEST["password"]),
-        )
-        self.assertEqual(user.first_name, c.inputs.SIGNUP_REQUEST["first_name"])
-        self.assertEqual(user.last_name, c.inputs.SIGNUP_REQUEST["last_name"])
-        self.assertEqual(user.email, c.inputs.SIGNUP_REQUEST["email"])
-        self.assertEqual(user.profile.followers_count, 0)  # type: ignore
-        self.assertEqual(user.profile.followings_count, 0)  # type: ignore
+        assert user.username == c.inputs.SIGNUP_REQUEST["username"]
+        assert user.check_password(c.inputs.SIGNUP_REQUEST["password"])
+        assert user.first_name == c.inputs.SIGNUP_REQUEST["first_name"]
+        assert user.last_name == c.inputs.SIGNUP_REQUEST["last_name"]
+        assert user.email == c.inputs.SIGNUP_REQUEST["email"]
+        assert user.profile.followers_count == 0  # type: ignore
+        assert user.profile.followings_count == 0  # type: ignore
 
     def test_twice_username(self):
         self.client.post(

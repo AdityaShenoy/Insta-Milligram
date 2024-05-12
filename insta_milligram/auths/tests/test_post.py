@@ -21,9 +21,8 @@ class TestView(dt.TestCase):
             QUERY_STRING="action=generate",
         )
         h.assertEqualResponses(response, c.responses.INVALID_DATA)
-        self.assertEqual(
-            set(response.data["errors"].keys()),  # type: ignore
-            set(c.inputs.LOGIN_REQUEST.keys()),
+        assert set(response.data["errors"].keys()) == set(  # type: ignore
+            c.inputs.LOGIN_REQUEST.keys()
         )
 
     def test_with_login(self):
@@ -34,10 +33,10 @@ class TestView(dt.TestCase):
             QUERY_STRING="action=generate",
         )
         h.assertEqualResponses(response, c.responses.SUCCESS)
-        self.assertEqual(
-            set(response.data["tokens"].keys()),  # type: ignore
-            {"access", "refresh"},
-        )
+        assert set(response.data["tokens"].keys()) == {  # type: ignore
+            "access",
+            "refresh",
+        }
 
     def test_with_incorrect_user(self):
         response = self.client.post(

@@ -19,7 +19,7 @@ class TestView(dt.TestCase):
             headers={"Authorization": f"Bearer {access_token}"},  # type: ignore
         )
         h.assertEqualResponses(response, c.responses.SUCCESS)
-        self.assertEqual(len(dam.User.objects.all()), 0)
+        assert len(dam.User.objects.all()) == 0
 
     def test_incorrect_id(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
@@ -34,4 +34,4 @@ class TestView(dt.TestCase):
             headers=h.generate_headers(login_response),  # type: ignore
         )
         h.assertEqualResponses(response, c.responses.OPERATION_NOT_ALLOWED)
-        self.assertEqual(len(dam.User.objects.all()), 2)
+        assert len(dam.User.objects.all()) == 2
