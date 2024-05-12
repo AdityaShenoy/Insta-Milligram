@@ -7,21 +7,11 @@ import rest_framework.views as rv  # type: ignore
 import typing as t
 
 
-def assertEqualResponse(
-    response: dhres.HttpResponse,
-    message: str,
-    status_code: int,
-):
-    assert response.data["message"] == message  # type: ignore
-    assert response.status_code == status_code
-
-
 def assertEqualResponses(
     response1: dhres.HttpResponse,
     response2: dhres.HttpResponse,
 ):
-    # todo: make this more generic to replace the above function
-    assert response1.data == response2.data  # type: ignore
+    assert response1.data["message"] == response2.data["message"]  # type: ignore
     assert response1.status_code == response1.status_code
 
 

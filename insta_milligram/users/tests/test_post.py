@@ -10,9 +10,7 @@ import insta_milligram.helpers as h
 class TestView(dt.TestCase):
     def test_invalid(self):
         response = self.client.post(c.urls.USERS)
-        h.assertEqualResponse(
-            response, c.messages.INVALID_DATA, rs.HTTP_400_BAD_REQUEST
-        )
+        h.assertEqualResponses(response, c.responses.INVALID_DATA)
         self.assertEqual(
             set(response.data["errors"].keys()),  # type: ignore
             set(c.inputs.SIGNUP_REQUEST.keys()),

@@ -39,3 +39,7 @@ INVALID_TOKEN = h.create_response(
 INCORRECT_TOKEN_PARAMETER = h.create_response(
     m.INCORRECT_TOKEN_PARAMETER, rs.HTTP_400_BAD_REQUEST
 )
+INVALID_DATA = h.create_response(
+    m.INVALID_DATA,
+    rs.HTTP_400_BAD_REQUEST,
+)

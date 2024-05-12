@@ -9,28 +9,18 @@ import insta_milligram.helpers as h
 class TestView(dt.TestCase):
     def test_missing_action(self):
         response = self.client.post(c.urls.AUTHS, QUERY_STRING="")
-        h.assertEqualResponse(
-            response,
-            c.messages.INCORRECT_TOKEN_PARAMETER,
-            rs.HTTP_400_BAD_REQUEST,
-        )
+        h.assertEqualResponses(response, c.responses.INCORRECT_TOKEN_PARAMETER)
 
     def test_incorrect_action(self):
         response = self.client.post(c.urls.AUTHS, QUERY_STRING="action=bla")
-        h.assertEqualResponse(
-            response,
-            c.messages.INCORRECT_TOKEN_PARAMETER,
-            rs.HTTP_400_BAD_REQUEST,
-        )
+        h.assertEqualResponses(response, c.responses.INCORRECT_TOKEN_PARAMETER)
 
     def test_without_login(self):
         response = self.client.post(
             c.urls.AUTHS,
             QUERY_STRING="action=generate",
         )
-        h.assertEqualResponse(
-            response, c.messages.INVALID_DATA, rs.HTTP_400_BAD_REQUEST
-        )
+        h.assertEqualResponses(response, c.responses.INVALID_DATA)
         self.assertEqual(
             set(response.data["errors"].keys()),  # type: ignore
             set(c.inputs.LOGIN_REQUEST.keys()),
@@ -43,7 +33,7 @@ class TestView(dt.TestCase):
             c.inputs.LOGIN_REQUEST,
             QUERY_STRING="action=generate",
         )
-        h.assertEqualResponse(response, c.messages.SUCCESS, rs.HTTP_200_OK)
+        h.assertEqualResponses(response, c.responses.SUCCESS)
         self.assertEqual(
             set(response.data["tokens"].keys()),  # type: ignore
             {"access", "refresh"},
@@ -55,9 +45,7 @@ class TestView(dt.TestCase):
             {**c.inputs.LOGIN_REQUEST, "username": "test1"},
             QUERY_STRING="action=generate",
         )
-        h.assertEqualResponse(
-            response, c.messages.INCORRECT_USER, rs.HTTP_401_UNAUTHORIZED
-        )
+        h.assertEqualResponses(response, c.responses.INCORRECT_USER)
 
     def test_with_incorrect_password(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
@@ -66,6 +54,4 @@ class TestView(dt.TestCase):
             {**c.inputs.LOGIN_REQUEST, "password": "testpass1"},
             QUERY_STRING="action=generate",
         )
-        h.assertEqualResponse(
-            response, c.messages.INCORRECT_PASSWORD, rs.HTTP_401_UNAUTHORIZED
-        )
+        h.assertEqualResponses(response, c.responses.INCORRECT_PASSWORD)

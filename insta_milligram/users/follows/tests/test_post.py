@@ -25,9 +25,7 @@ class TestView(dt.TestCase):
             c.urls.USERS_1_FOLLOWINGS,
             headers=h.generate_headers(self.login_response),  # type: ignore
         )
-        h.assertEqualResponse(
-            response, c.messages.INVALID_DATA, rs.HTTP_400_BAD_REQUEST
-        )
+        h.assertEqualResponses(response, c.responses.INVALID_DATA)
         self.assertIn("user", response.data["errors"])  # type: ignore
 
     def test_self_follow(self):

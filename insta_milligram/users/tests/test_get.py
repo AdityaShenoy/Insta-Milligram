@@ -18,7 +18,7 @@ class TestView(dt.TestCase):
     def test_correct(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
         response = self.client.get(c.urls.USERS_ID_1)
-        h.assertEqualResponse(response, c.messages.SUCCESS, rs.HTTP_200_OK)
+        h.assertEqualResponses(response, c.responses.SUCCESS)
         user: dict[str, str] = response.data  # type: ignore
         for field in c.inputs.SIGNUP_REQUEST:
             if field != "password":
