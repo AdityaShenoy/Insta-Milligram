@@ -10,13 +10,13 @@ post /auths
 get /auths/<int:id>
 
 post /users/<int:id>/followers
+get /users/<int:id>/followers
 ================================================================================
 In Progress
 ================================================================================
 
-get /users/<int:id>/followers
-get /users/<int:id>/following
-get /users/<int:id>/following/<int:id>
+get /users/<int:id>/followings
+get /users/<int:id>/followings/<int:id>
 get /users/<int:id>/followers/<int:id>
 delete /users/<int:id>/followers/<int:id>
 
