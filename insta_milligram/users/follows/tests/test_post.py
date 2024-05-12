@@ -3,6 +3,8 @@ import django.contrib.auth.models as dcam
 
 import rest_framework.status as rs  # type: ignore
 
+import datetime as d
+
 import insta_milligram.constants as c
 import insta_milligram.helpers as h
 import users.models.users_follows as umuf
@@ -68,13 +70,12 @@ class TestView(dt.TestCase):
         user2 = dcam.User.objects.get(pk=2)
         assert user1.profile.followings_count == 1  # type: ignore
         assert user2.profile.followers_count == 1  # type: ignore
-        assert (
-            umuf.UserFollow.objects.filter(
-                follower=user1,
-                following=user2,
-            ).exists()
+        follows = umuf.UserFollow.objects.filter(
+            follower=user1,
+            following=user2,
         )
-
+        assert follows.exists()
+        assert follows[0].at < d.datetime.now(tz=d.UTC)
         assert (
             user1.id  # type: ignore
             in user2.followers.all().values_list(  # type: ignore
