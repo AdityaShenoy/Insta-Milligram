@@ -22,8 +22,7 @@ def post(request: dhreq.HttpRequest):
     )
     if existing_users_with_same_email or exisitng_users_with_same_username:
         return ic.responses.USER_ALREADY_EXISTS
-    else:
-        with ddt.atomic():
-            user = dcam.User.objects.create_user(**form_data)
-            umup.UserProfile.objects.create(user=user)
+    with ddt.atomic():
+        user = dcam.User.objects.create_user(**form_data)
+        umup.UserProfile.objects.create(user=user)
     return ic.responses.SUCCESS
