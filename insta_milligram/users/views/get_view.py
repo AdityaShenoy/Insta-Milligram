@@ -1,22 +1,18 @@
-import django.http.request as dr
-import django.contrib.auth.models as dam
-
-import rest_framework.status as rs  # type: ignore
+import django.contrib.auth.models as dcam
+import django.http.request as dhreq
 
 from .. import serializers as s
-import insta_milligram.responses as r
+import insta_milligram.constants as ic
+import insta_milligram.responses as ir
 import insta_milligram.responses.decorators as ird
-import insta_milligram.constants as c
 
 
 @ird.check_missing_id()
-def get(request: dr.HttpRequest, id: int = -1):
-    try:
-        user = dam.User.objects.get(pk=id)
-        serialized_user = s.UserSerializer(user)
-        return r.create_response(
-            c.responses.SUCCESS,
-            serialized_user.data,  # type: ignore
-        )
-    except dam.User.DoesNotExist:
-        return c.responses.USER_NOT_FOUND
+@ird.check_user_exists()
+def get(request: dhreq.HttpRequest, id: int = -1):
+    user = dcam.User.objects.get(pk=id)
+    serialized_user = s.UserSerializer(user)
+    return ir.create_response(
+        ic.responses.SUCCESS,
+        serialized_user.data,  # type: ignore
+    )
