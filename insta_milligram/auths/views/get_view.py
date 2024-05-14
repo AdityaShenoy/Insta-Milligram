@@ -6,6 +6,8 @@ import rest_framework_simplejwt.exceptions as je
 import insta_milligram.constants as ic
 import insta_milligram.responses as ir
 
+# todo: delete this file after removing dependencies
+
 
 def get(request: dhreq.HttpRequest, id: int):
     if id == -1:
