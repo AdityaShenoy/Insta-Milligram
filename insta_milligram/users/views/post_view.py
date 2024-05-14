@@ -6,6 +6,7 @@ from .. import forms as f
 
 import insta_milligram.constants as c
 import insta_milligram.responses.decorators as ird
+import insta_milligram.forms as if_
 import users.models.users_profiles as umup
 
 # todo: standardize import abbreviations
@@ -13,9 +14,7 @@ import users.models.users_profiles as umup
 
 @ird.check_form(f.UserForm)
 def post(request: dr.HttpRequest):
-    form = f.UserForm(request.POST)
-    form.is_valid()
-    form_data = form.cleaned_data
+    form_data = if_.get_data(f.UserForm(request.POST))
     user1 = dam.User.objects.filter(email=form_data["email"])
     user2 = dam.User.objects.filter(username=form_data["username"])
     if len(user1) + len(user2):
