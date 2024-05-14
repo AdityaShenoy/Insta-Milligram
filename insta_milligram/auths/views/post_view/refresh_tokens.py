@@ -1,4 +1,4 @@
-import django.http.request as dr
+import django.http.request as dhreq
 
 
-def refresh_tokens(request: dr.HttpRequest): ...
+def refresh_tokens(request: dhreq.HttpRequest): ...

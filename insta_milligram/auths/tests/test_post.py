@@ -1,36 +1,36 @@
 import django.test as dt
 
-import insta_milligram.constants as c
-import insta_milligram.tests as t
+import insta_milligram.constants as ic
+import insta_milligram.tests as it
 
 
 class TestView(dt.TestCase):
     def test_missing_action(self):
-        response = self.client.post(c.urls.AUTHS, QUERY_STRING="")
-        t.assert_equal_responses(response, c.responses.INCORRECT_TOKEN_PARAMETER)
+        response = self.client.post(ic.urls.AUTHS, QUERY_STRING="")
+        it.assert_equal_responses(response, ic.responses.INCORRECT_TOKEN_PARAMETER)
 
     def test_incorrect_action(self):
-        response = self.client.post(c.urls.AUTHS, QUERY_STRING="action=bla")
-        t.assert_equal_responses(response, c.responses.INCORRECT_TOKEN_PARAMETER)
+        response = self.client.post(ic.urls.AUTHS, QUERY_STRING="action=bla")
+        it.assert_equal_responses(response, ic.responses.INCORRECT_TOKEN_PARAMETER)
 
     def test_without_login(self):
         response = self.client.post(
-            c.urls.AUTHS,
+            ic.urls.AUTHS,
             QUERY_STRING="action=generate",
         )
-        t.assert_equal_responses(response, c.responses.INVALID_DATA)
+        it.assert_equal_responses(response, ic.responses.INVALID_DATA)
         assert set(response.data["errors"].keys()) == set(  # type: ignore
-            c.inputs.LOGIN_REQUEST.keys()
+            ic.inputs.LOGIN_REQUEST.keys()
         )
 
     def test_with_login(self):
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
+        self.client.post(ic.urls.USERS, ic.inputs.SIGNUP_REQUEST)
         response = self.client.post(
-            c.urls.AUTHS,
-            c.inputs.LOGIN_REQUEST,
+            ic.urls.AUTHS,
+            ic.inputs.LOGIN_REQUEST,
             QUERY_STRING="action=generate",
         )
-        t.assert_equal_responses(response, c.responses.SUCCESS)
+        it.assert_equal_responses(response, ic.responses.SUCCESS)
         assert set(response.data["tokens"].keys()) == {  # type: ignore
             "access",
             "refresh",
@@ -38,17 +38,17 @@ class TestView(dt.TestCase):
 
     def test_with_incorrect_user(self):
         response = self.client.post(
-            c.urls.AUTHS,
-            {**c.inputs.LOGIN_REQUEST, "username": "test1"},
+            ic.urls.AUTHS,
+            {**ic.inputs.LOGIN_REQUEST, "username": "test1"},
             QUERY_STRING="action=generate",
         )
-        t.assert_equal_responses(response, c.responses.INCORRECT_USER)
+        it.assert_equal_responses(response, ic.responses.INCORRECT_USER)
 
     def test_with_incorrect_password(self):
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
+        self.client.post(ic.urls.USERS, ic.inputs.SIGNUP_REQUEST)
         response = self.client.post(
-            c.urls.AUTHS,
-            {**c.inputs.LOGIN_REQUEST, "password": "testpass1"},
+            ic.urls.AUTHS,
+            {**ic.inputs.LOGIN_REQUEST, "password": "testpass1"},
             QUERY_STRING="action=generate",
         )
-        t.assert_equal_responses(response, c.responses.INCORRECT_PASSWORD)
+        it.assert_equal_responses(response, ic.responses.INCORRECT_PASSWORD)

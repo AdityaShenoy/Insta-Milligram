@@ -5,7 +5,7 @@ import django.db.transaction as ddt
 import rest_framework.status as rs  # type: ignore
 
 from .. import forms as f
-import insta_milligram.constants as c
+import insta_milligram.constants as ic
 import insta_milligram.responses as r
 import auths.views as v
 import users.models.users_follows as umuf
@@ -20,23 +20,23 @@ def post(request: dhreq.HttpRequest, id: int):
     form = f.UserFollowForm(request.POST)
     if not form.is_valid():
         return r.create_response(
-            c.responses.INVALID_DATA,
+            ic.responses.INVALID_DATA,
             {"errors": form.errors},
         )
 
     form_data = form.cleaned_data
     followed_users = dcam.User.objects.filter(pk=form_data["user"])
     if not followed_users:
-        return c.responses.USER_NOT_FOUND
+        return ic.responses.USER_NOT_FOUND
     followed_user = followed_users[0]
     if followed_user == user:
-        return c.responses.OPERATION_NOT_ALLOWED
+        return ic.responses.OPERATION_NOT_ALLOWED
 
     is_already_following = umuf.UserFollow.objects.filter(
         follower=user, following=followed_user
     ).exists()
     if is_already_following:
-        return c.responses.OPERATION_NOT_ALLOWED
+        return ic.responses.OPERATION_NOT_ALLOWED
 
     with ddt.atomic():
         umuf.UserFollow.objects.create(
@@ -47,4 +47,4 @@ def post(request: dhreq.HttpRequest, id: int):
         user.profile.followings_count += 1  # type: ignore
         followed_user.profile.save()  # type: ignore
         user.profile.save()  # type: ignore
-    return c.responses.SUCCESS
+    return ic.responses.SUCCESS

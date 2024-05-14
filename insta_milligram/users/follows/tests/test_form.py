@@ -1,7 +1,7 @@
 import django.test as dt
 
 from .. import forms as f
-import insta_milligram.constants as c
+import insta_milligram.constants as ic
 
 
 class TestForm(dt.SimpleTestCase):
@@ -16,6 +16,6 @@ class TestForm(dt.SimpleTestCase):
         assert "user" in form.errors.keys()
 
     def test_valid(self):
-        form = f.UserFollowForm(c.inputs.FOLLOW_REQUEST_2)
+        form = f.UserFollowForm(ic.inputs.FOLLOW_REQUEST_2)
         assert form.is_valid()
         assert len(form.errors) == 0

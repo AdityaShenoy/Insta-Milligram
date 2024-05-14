@@ -11,7 +11,9 @@ def get(request: dhreq.HttpRequest, id: int):
     if id == -1:
         return ic.responses.USER_ID_MISSING
     try:
-        result = ja.JWTAuthentication().authenticate(request._request)  # type: ignore
+        result = ja.JWTAuthentication().authenticate(  # type: ignore
+            request._request,  # type: ignore
+        )
         if result:
             return ir.create_response(ic.responses.SUCCESS, {"user": result[0]})
         return ic.responses.TOKEN_MISSING

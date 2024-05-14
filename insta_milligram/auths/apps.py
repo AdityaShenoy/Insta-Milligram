@@ -1,6 +1,6 @@
-from django.apps import AppConfig
+import django.apps as da
 
 
-class AuthsConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'auths'
+class AuthsConfig(da.AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "auths"
