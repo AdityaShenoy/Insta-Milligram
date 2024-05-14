@@ -7,7 +7,7 @@ import insta_milligram.tests as it
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.signup_request = ic.inputs.SIGNUP_REQUESTS[0]
+        self.signup_request = ic.inputs.SIGNUP_REQUESTS[1]
 
     def test_invalid(self):
         response = self.client.post(ic.urls.USERS)
