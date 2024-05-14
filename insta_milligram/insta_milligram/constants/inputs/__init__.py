@@ -1,3 +1,23 @@
+NUM_USERS = 15
+
+LOGIN_REQUESTS = [
+    {
+        "username": f"test_{i}",
+        "password": f"test_{i}_pass",
+    }
+    for i in range(NUM_USERS)
+]
+
+SIGNUP_REQUESTS = [
+    {
+        **LOGIN_REQUESTS[i],
+        "email": f"test_{i}@test.com",
+        "first_name": f"test_{i}",
+        "last_name": f"test_{i}",
+    }
+    for i in range(NUM_USERS)
+]
+
 LOGIN_REQUEST = {"username": "test", "password": "testpass"}
 LOGIN_REQUEST_1 = {"username": "test1", "password": "test1pass"}
 
