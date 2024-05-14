@@ -1,17 +1,17 @@
-import django.http.request as dr
+import django.http.request as dhreq
 
-import auths.views as v
-import insta_milligram.constants as c
+import auths.views as av
+import insta_milligram.constants as ic
 import insta_milligram.responses.decorators as ird
 
 
 @ird.check_missing_id()
-def delete(request: dr.HttpRequest, id: int = -1):
-    response = v.get(request, id)
+def delete(request: dhreq.HttpRequest, id: int = -1):
+    response = av.get(request, id)
     user = response.data.get("user")  # type: ignore
     if not user:
         return response
     if user.id != id:  # type: ignore
-        return c.responses.OPERATION_NOT_ALLOWED
+        return ic.responses.OPERATION_NOT_ALLOWED
     user.delete()  # type: ignore
-    return c.responses.SUCCESS
+    return ic.responses.SUCCESS
