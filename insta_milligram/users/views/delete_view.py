@@ -2,8 +2,10 @@ import django.http.request as dr
 
 import auths.views as v
 import insta_milligram.constants as c
+import insta_milligram.responses.decorators as ird
 
 
+@ird.check_missing_id()
 def delete(request: dr.HttpRequest, id: int = -1):
     response = v.get(request, id)
     user = response.data.get("user")  # type: ignore

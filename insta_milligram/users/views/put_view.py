@@ -6,11 +6,11 @@ import rest_framework.status as rs  # type: ignore
 from .. import forms as f
 import insta_milligram.constants as c
 import insta_milligram.responses as r
+import insta_milligram.responses.decorators as ird
 
 
+@ird.check_missing_id()
 def put(request: dr.HttpRequest, id: int = -1):
-    if id == -1:
-        return c.responses.USER_ID_MISSING
     form = f.UserForm(request.data)  # type: ignore
     if not form.is_valid():
         return r.create_response(
