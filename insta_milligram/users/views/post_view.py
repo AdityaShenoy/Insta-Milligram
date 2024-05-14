@@ -2,25 +2,19 @@ import django.http.request as dr
 import django.contrib.auth.models as dam
 import django.db.transaction as ddt
 
-import rest_framework.status as rs  # type: ignore
-
 from .. import forms as f
 
 import insta_milligram.constants as c
-import insta_milligram.responses as r
+import insta_milligram.responses.decorators as ird
 import users.models.users_profiles as umup
 
 # todo: standardize import abbreviations
 
 
+@ird.check_form(f.UserForm)
 def post(request: dr.HttpRequest):
     form = f.UserForm(request.POST)
-    if not form.is_valid():
-        return r.create_response(
-            c.messages.INVALID_DATA,
-            rs.HTTP_400_BAD_REQUEST,
-            {"errors": form.errors},
-        )
+    form.is_valid()
     form_data = form.cleaned_data
     user1 = dam.User.objects.filter(email=form_data["email"])
     user2 = dam.User.objects.filter(username=form_data["username"])
