@@ -7,11 +7,17 @@ import insta_milligram.tests as it
 class TestView(dt.TestCase):
     def test_missing_action(self):
         response = self.client.post(ic.urls.AUTHS, QUERY_STRING="")
-        it.assert_equal_responses(response, ic.responses.INCORRECT_TOKEN_PARAMETER)
+        it.assert_equal_responses(
+            response,
+            ic.responses.INCORRECT_TOKEN_PARAMETER,
+        )
 
     def test_incorrect_action(self):
         response = self.client.post(ic.urls.AUTHS, QUERY_STRING="action=bla")
-        it.assert_equal_responses(response, ic.responses.INCORRECT_TOKEN_PARAMETER)
+        it.assert_equal_responses(
+            response,
+            ic.responses.INCORRECT_TOKEN_PARAMETER,
+        )
 
     def test_without_login(self):
         response = self.client.post(
