@@ -4,8 +4,10 @@ import typing as t
 
 
 def create_response(
-    message: str,
-    status_code: int,
+    response: rr.Response,
     data: dict[str, t.Any] = dict(),
 ):
-    return rr.Response({"message": message, **data}, status_code)
+    return rr.Response(
+        {"message": response.data["message"], **data},  # type: ignore
+        response.status_code,
+    )

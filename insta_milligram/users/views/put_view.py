@@ -14,8 +14,7 @@ def put(request: dr.HttpRequest, id: int = -1):
     form = f.UserForm(request.data)  # type: ignore
     if not form.is_valid():
         return r.create_response(
-            c.messages.INVALID_DATA,
-            rs.HTTP_400_BAD_REQUEST,
+            c.responses.INVALID_DATA,
             {"errors": form.errors},
         )
     form_data = form.cleaned_data

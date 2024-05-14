@@ -16,9 +16,7 @@ def get(request: dhreq.HttpRequest, id: int):
     try:
         result = ja.JWTAuthentication().authenticate(request._request)  # type: ignore
         if result:
-            return r.create_response(
-                c.messages.SUCCESS, rs.HTTP_200_OK, {"user": result[0]}
-            )
+            return r.create_response(c.responses.SUCCESS, {"user": result[0]})
         return c.responses.TOKEN_MISSING
     except je.InvalidToken:
         return c.responses.INVALID_TOKEN

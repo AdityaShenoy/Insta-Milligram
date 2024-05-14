@@ -18,9 +18,7 @@ def check_form(form_class: t.Callable[..., df.Form]):
             form = form_class(request.POST)
             if not form.is_valid():
                 return ir.create_response(
-                    ic.messages.INVALID_DATA,
-                    rs.HTTP_400_BAD_REQUEST,
-                    {"errors": form.errors},
+                    ic.responses.INVALID_DATA, {"errors": form.errors}
                 )
 
             return func(*args, **kwargs)

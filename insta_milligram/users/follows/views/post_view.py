@@ -20,8 +20,7 @@ def post(request: dhreq.HttpRequest, id: int):
     form = f.UserFollowForm(request.POST)
     if not form.is_valid():
         return r.create_response(
-            c.messages.INVALID_DATA,
-            rs.HTTP_400_BAD_REQUEST,
+            c.responses.INVALID_DATA,
             {"errors": form.errors},
         )
 

@@ -14,8 +14,7 @@ def generate_tokens(request: dr.HttpRequest):
     form = f.GenerateTokenForm(request.POST)
     if not form.is_valid():
         return r.create_response(
-            c.messages.INVALID_DATA,
-            rs.HTTP_400_BAD_REQUEST,
+            c.responses.INVALID_DATA,
             {"errors": form.errors},
         )
     form_data = form.cleaned_data
@@ -25,8 +24,7 @@ def generate_tokens(request: dr.HttpRequest):
             return c.responses.INCORRECT_PASSWORD
         tokens = jv.token_obtain_pair(request._request)  # type: ignore
         return r.create_response(
-            c.messages.SUCCESS,
-            rs.HTTP_200_OK,
+            c.responses.SUCCESS,
             {"tokens": tokens.data},  # type: ignore
         )
 

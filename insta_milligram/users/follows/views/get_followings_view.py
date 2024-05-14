@@ -25,8 +25,7 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
             "following", flat=True
         )
         return r.create_response(
-            c.messages.SUCCESS,
-            rs.HTTP_200_OK,
+            c.responses.SUCCESS,
             {"followings": followings},
         )
 
@@ -39,7 +38,6 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
         following=followed_user,
     ).exists()
     return r.create_response(
-        c.messages.SUCCESS,
-        rs.HTTP_200_OK,
+        c.responses.SUCCESS,
         {"is_following": is_following},
     )

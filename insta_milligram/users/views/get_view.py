@@ -15,8 +15,7 @@ def get(request: dr.HttpRequest, id: int = -1):
         user = dam.User.objects.get(pk=id)
         serialized_user = s.UserSerializer(user)
         return r.create_response(
-            c.messages.SUCCESS,
-            rs.HTTP_200_OK,
+            c.responses.SUCCESS,
             serialized_user.data,  # type: ignore
         )
     except dam.User.DoesNotExist:

@@ -24,8 +24,4 @@ def get_followers(request: dhreq.HttpRequest, id: int):
         "follower",
         flat=True,
     )
-    return r.create_response(
-        c.messages.SUCCESS,
-        rs.HTTP_200_OK,
-        {"followers": followers},
-    )
+    return r.create_response(c.responses.SUCCESS, {"followers": followers})
