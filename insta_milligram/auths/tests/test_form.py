@@ -19,6 +19,9 @@ class TestForm(dt.SimpleTestCase):
         assert set(form.errors.keys()) == set(
             ic.inputs.LOGIN_REQUESTS[1].keys(),
         )
+        form = f.RefreshTokenForm({})
+        assert not form.is_valid()
+        assert "refresh" in form.errors
 
     def test_empty(self):
         form = f.GenerateTokenForm(self.EMPTY_REQUEST)
@@ -26,6 +29,9 @@ class TestForm(dt.SimpleTestCase):
         assert set(form.errors.keys()) == set(
             ic.inputs.LOGIN_REQUESTS[1].keys(),
         )
+        form = f.RefreshTokenForm({"refresh": ""})
+        assert not form.is_valid()
+        assert "refresh" in form.errors
 
     def test_big(self):
         form = f.GenerateTokenForm(self.BIG_REQUEST)
