@@ -14,11 +14,11 @@ class TestView(dt.TestCase):
 
     def test_without_id(self):
         response = self.client.put(c.urls.USERS)
-        r.assertEqualResponses(response, c.responses.USER_ID_MISSING)
+        r.assert_equal_responses(response, c.responses.USER_ID_MISSING)
 
     def test_invalid(self):
         response = self.client.put(c.urls.USERS_ID_1)
-        r.assertEqualResponses(response, c.responses.INVALID_DATA)
+        r.assert_equal_responses(response, c.responses.INVALID_DATA)
         assert set(response.data["errors"].keys()) == set(  # type: ignore
             c.inputs.SIGNUP_REQUEST.keys()
         )
@@ -26,7 +26,7 @@ class TestView(dt.TestCase):
     def test_valid(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
         response = self.client.put(c.urls.USERS_ID_1, c.inputs.UPDATE_REQUEST)
-        r.assertEqualResponses(response, c.responses.SUCCESS)
+        r.assert_equal_responses(response, c.responses.SUCCESS)
         user = dam.User.objects.get(pk=1)
         for field in c.inputs.UPDATE_REQUEST:
             if field == "password":
@@ -36,4 +36,4 @@ class TestView(dt.TestCase):
 
     def test_without_user(self):
         response = self.client.put(c.urls.USERS_ID_1, c.inputs.UPDATE_REQUEST)
-        r.assertEqualResponses(response, c.responses.USER_NOT_FOUND)
+        r.assert_equal_responses(response, c.responses.USER_NOT_FOUND)

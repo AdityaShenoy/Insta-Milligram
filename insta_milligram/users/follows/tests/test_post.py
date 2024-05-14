@@ -19,14 +19,14 @@ class TestView(dt.TestCase):
 
     def test_without_login(self):
         response = self.client.post(c.urls.USERS_1_FOLLOWINGS)
-        r.assertEqualResponses(response, c.responses.TOKEN_MISSING)
+        r.assert_equal_responses(response, c.responses.TOKEN_MISSING)
 
     def test_invalid(self):
         response = self.client.post(
             c.urls.USERS_1_FOLLOWINGS,
             headers=t.generate_headers(self.login_response),  # type: ignore
         )
-        r.assertEqualResponses(response, c.responses.INVALID_DATA)
+        r.assert_equal_responses(response, c.responses.INVALID_DATA)
         assert "user" in response.data["errors"]  # type: ignore
 
     def test_self_follow(self):
@@ -35,7 +35,7 @@ class TestView(dt.TestCase):
             {"user": 1},
             headers=t.generate_headers(self.login_response),  # type: ignore
         )
-        r.assertEqualResponses(response, c.responses.OPERATION_NOT_ALLOWED)
+        r.assert_equal_responses(response, c.responses.OPERATION_NOT_ALLOWED)
 
     def test_follow_wrong_user(self):
         response = self.client.post(
@@ -43,7 +43,7 @@ class TestView(dt.TestCase):
             {"user": 3},
             headers=t.generate_headers(self.login_response),  # type: ignore
         )
-        r.assertEqualResponses(response, c.responses.USER_NOT_FOUND)
+        r.assert_equal_responses(response, c.responses.USER_NOT_FOUND)
 
     def test_follow_twice(self):
         self.client.post(
@@ -56,7 +56,7 @@ class TestView(dt.TestCase):
             {"user": 2},
             headers=t.generate_headers(self.login_response),  # type: ignore
         )
-        r.assertEqualResponses(response, c.responses.OPERATION_NOT_ALLOWED)
+        r.assert_equal_responses(response, c.responses.OPERATION_NOT_ALLOWED)
 
     def test_valid(self):
         response = self.client.post(
@@ -64,7 +64,7 @@ class TestView(dt.TestCase):
             {"user": 2},
             headers=t.generate_headers(self.login_response),  # type: ignore
         )
-        r.assertEqualResponses(response, c.responses.SUCCESS)
+        r.assert_equal_responses(response, c.responses.SUCCESS)
         user1 = dcam.User.objects.get(pk=1)
         user2 = dcam.User.objects.get(pk=2)
         assert user1.profile.followings_count == 1  # type: ignore

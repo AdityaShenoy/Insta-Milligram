@@ -20,19 +20,19 @@ class TestView(dt.TestCase):
 
     def test_without_login(self):
         response = self.client.get(c.urls.USERS_2_FOLLOWERS)
-        r.assertEqualResponses(response, c.responses.TOKEN_MISSING)
+        r.assert_equal_responses(response, c.responses.TOKEN_MISSING)
 
     def test_follow_wrong_user(self):
         response = self.client.get(
             c.urls.USERS_3_FOLLOWERS,
             headers=t.generate_headers(self.login_response),  # type: ignore
         )
-        r.assertEqualResponses(response, c.responses.USER_NOT_FOUND)
+        r.assert_equal_responses(response, c.responses.USER_NOT_FOUND)
 
     def test_valid(self):
         response = self.client.get(
             c.urls.USERS_2_FOLLOWERS,
             headers=t.generate_headers(self.login_response),  # type: ignore
         )
-        r.assertEqualResponses(response, c.responses.SUCCESS)
+        r.assert_equal_responses(response, c.responses.SUCCESS)
         assert 1 in response.data["followers"]  # type: ignore

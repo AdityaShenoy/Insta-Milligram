@@ -5,7 +5,7 @@ import rest_framework.response as rr  # type: ignore
 import typing as t
 
 
-def assertEqualResponses(
+def assert_equal_responses(
     response1: dhres.HttpResponse,
     response2: dhres.HttpResponse,
 ):
