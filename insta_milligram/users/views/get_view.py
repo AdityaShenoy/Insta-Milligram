@@ -7,6 +7,7 @@ import insta_milligram.responses as ir
 import insta_milligram.responses.decorators as ird
 
 
+@ird.check_authenticated()
 @ird.check_missing_id()
 @ird.check_user_exists()
 def get(request: dhreq.HttpRequest, id: int = -1):
