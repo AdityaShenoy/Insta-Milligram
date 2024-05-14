@@ -1,5 +1,5 @@
-import django.db.models as ddm
 import django.contrib.auth.models as dcam
+import django.db.models as ddm
 
 
 class UserProfile(ddm.Model):
