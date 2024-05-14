@@ -26,14 +26,14 @@ class TestView(dt.TestCase):
         )
         it.assert_equal_responses(response, ic.responses.INVALID_DATA)
         assert set(response.data["errors"].keys()) == set(  # type: ignore
-            ic.inputs.LOGIN_REQUEST.keys()
+            ic.inputs.LOGIN_REQUESTS[1].keys()
         )
 
     def test_with_login(self):
-        self.client.post(ic.urls.USERS, ic.inputs.SIGNUP_REQUEST)
+        self.client.post(ic.urls.USERS, ic.inputs.SIGNUP_REQUESTS[1])
         response = self.client.post(
             ic.urls.AUTHS,
-            ic.inputs.LOGIN_REQUEST,
+            ic.inputs.LOGIN_REQUESTS[1],
             QUERY_STRING="action=generate",
         )
         it.assert_equal_responses(response, ic.responses.SUCCESS)
@@ -45,16 +45,16 @@ class TestView(dt.TestCase):
     def test_with_incorrect_user(self):
         response = self.client.post(
             ic.urls.AUTHS,
-            {**ic.inputs.LOGIN_REQUEST, "username": "test1"},
+            {**ic.inputs.LOGIN_REQUESTS[1], "username": "test1"},
             QUERY_STRING="action=generate",
         )
         it.assert_equal_responses(response, ic.responses.INCORRECT_USER)
 
     def test_with_incorrect_password(self):
-        self.client.post(ic.urls.USERS, ic.inputs.SIGNUP_REQUEST)
+        self.client.post(ic.urls.USERS, ic.inputs.SIGNUP_REQUESTS[1])
         response = self.client.post(
             ic.urls.AUTHS,
-            {**ic.inputs.LOGIN_REQUEST, "password": "testpass1"},
+            {**ic.inputs.LOGIN_REQUESTS[1], "password": "testpass1"},
             QUERY_STRING="action=generate",
         )
         it.assert_equal_responses(response, ic.responses.INCORRECT_PASSWORD)
