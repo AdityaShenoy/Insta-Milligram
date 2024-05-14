@@ -1,4 +1,3 @@
-import django.http.request as dr
 import django.contrib.auth.models as dcam
 import django.http.request as dhreq
 
@@ -6,17 +5,14 @@ import rest_framework_simplejwt.views as jv
 
 from ... import forms as f
 import insta_milligram.constants as ic
+import insta_milligram.forms as if_
 import insta_milligram.responses as ir
+import insta_milligram.responses.decorators as ird
 
 
-def generate_tokens(request: dr.HttpRequest):
-    form = f.GenerateTokenForm(request.POST)
-    if not form.is_valid():
-        return ir.create_response(
-            ic.responses.INVALID_DATA,
-            {"errors": form.errors},
-        )
-    form_data = form.cleaned_data
+@ird.check_form(f.GenerateTokenForm)
+def generate_tokens(request: dhreq.HttpRequest):
+    form_data = if_.get_data(f.GenerateTokenForm(request.POST))
     try:
         user = dcam.User.objects.get(username=form_data["username"])
         if not user.check_password(form_data["password"]):
