@@ -1,7 +1,6 @@
 import django.forms as df
 
 import rest_framework.response as rr  # type: ignore
-import rest_framework.status as rs  # type: ignore
 
 import typing as t
 
