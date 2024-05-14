@@ -1,5 +1,9 @@
 USERS = "/users"
 
+NUM_USERS = 15
+
+USERS_ID = [f"/users/{i}" for i in range(NUM_USERS)]
+
 USERS_ID_1 = "/users/1"
 USERS_ID_2 = "/users/2"
 
