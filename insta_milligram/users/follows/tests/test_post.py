@@ -10,11 +10,11 @@ import users.models.users_follows as umuf
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST_1)
-        self.login_response = self.client.post(
-            c.urls.AUTHS, c.inputs.LOGIN_REQUEST, QUERY_STRING="action=generate"
+        self.header = t.signup_and_login(
+            self.client,
+            c.inputs.SIGNUP_REQUESTS[0],
         )
+        t.signup_and_login(self.client, c.inputs.SIGNUP_REQUESTS[1])
 
     def test_without_login(self):
         response = self.client.post(c.urls.USERS_1_FOLLOWINGS)
@@ -23,7 +23,7 @@ class TestView(dt.TestCase):
     def test_invalid(self):
         response = self.client.post(
             c.urls.USERS_1_FOLLOWINGS,
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.INVALID_DATA)
         assert "user" in response.data["errors"]  # type: ignore
@@ -32,7 +32,7 @@ class TestView(dt.TestCase):
         response = self.client.post(
             c.urls.USERS_1_FOLLOWINGS,
             {"user": 1},
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.OPERATION_NOT_ALLOWED)
 
@@ -40,7 +40,7 @@ class TestView(dt.TestCase):
         response = self.client.post(
             c.urls.USERS_1_FOLLOWINGS,
             {"user": 3},
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.USER_NOT_FOUND)
 
@@ -48,12 +48,12 @@ class TestView(dt.TestCase):
         self.client.post(
             c.urls.USERS_1_FOLLOWINGS,
             {"user": 2},
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         response = self.client.post(
             c.urls.USERS_1_FOLLOWINGS,
             {"user": 2},
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.OPERATION_NOT_ALLOWED)
 
@@ -61,7 +61,7 @@ class TestView(dt.TestCase):
         response = self.client.post(
             c.urls.USERS_1_FOLLOWINGS,
             {"user": 2},
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.SUCCESS)
         user1 = dcam.User.objects.get(pk=1)

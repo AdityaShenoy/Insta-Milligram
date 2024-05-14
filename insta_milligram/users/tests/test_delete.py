@@ -6,32 +6,25 @@ import insta_milligram.tests as t
 
 
 class TestView(dt.TestCase):
-    def test_correct(self):
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
-        login_response = self.client.post(
-            c.urls.AUTHS,
-            c.inputs.LOGIN_REQUEST,
-            QUERY_STRING="action=generate",
+    def setUp(self):
+        self.header = t.signup_and_login(
+            self.client,
+            c.inputs.SIGNUP_REQUESTS[0],
         )
-        access_token = login_response.data["tokens"]["access"]  # type: ignore
+        t.signup_and_login(self.client, c.inputs.SIGNUP_REQUESTS[1])
+
+    def test_correct(self):
         response = self.client.delete(
             c.urls.USERS_ID_1,
-            headers={"Authorization": f"Bearer {access_token}"},  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.SUCCESS)
-        assert len(dam.User.objects.all()) == 0
+        assert len(dam.User.objects.all()) == 1
 
     def test_incorrect_id(self):
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST_1)
-        login_response = self.client.post(
-            c.urls.AUTHS,
-            c.inputs.LOGIN_REQUEST,
-            QUERY_STRING="action=generate",
-        )
         response = self.client.delete(
             c.urls.USERS_ID_2,
-            headers=t.generate_headers(login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.OPERATION_NOT_ALLOWED)
         assert len(dam.User.objects.all()) == 2

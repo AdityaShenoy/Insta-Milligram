@@ -6,15 +6,15 @@ import insta_milligram.tests as t
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST_1)
-        self.login_response = self.client.post(
-            c.urls.AUTHS, c.inputs.LOGIN_REQUEST, QUERY_STRING="action=generate"
+        self.header = t.signup_and_login(
+            self.client,
+            c.inputs.SIGNUP_REQUESTS[0],
         )
+        t.signup_and_login(self.client, c.inputs.SIGNUP_REQUESTS[1])
         self.client.post(
             c.urls.USERS_1_FOLLOWINGS,
             {"user": 2},
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
 
     def test_without_login(self):
@@ -24,14 +24,14 @@ class TestView(dt.TestCase):
     def test_follow_wrong_user(self):
         response = self.client.get(
             c.urls.USERS_3_FOLLOWINGS,
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.USER_NOT_FOUND)
 
     def test_valid(self):
         response = self.client.get(
             c.urls.USERS_1_FOLLOWINGS,
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.SUCCESS)
         assert 2 in response.data["followings"]  # type: ignore
@@ -39,7 +39,7 @@ class TestView(dt.TestCase):
     def test_valid_id(self):
         response = self.client.get(
             c.urls.USERS_1_FOLLOWINGS_2,
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.SUCCESS)
         assert response.data["is_following"]  # type: ignore
@@ -47,6 +47,6 @@ class TestView(dt.TestCase):
     def test_wrong_user_id(self):
         response = self.client.get(
             c.urls.USERS_1_FOLLOWINGS_3,
-            headers=t.generate_headers(self.login_response),  # type: ignore
+            headers=self.header,  # type: ignore
         )
         t.assert_equal_responses(response, c.responses.USER_NOT_FOUND)
