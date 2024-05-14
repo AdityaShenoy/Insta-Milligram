@@ -1,9 +1,9 @@
 import django.test as dt
 
 from .. import views as v
-import insta_milligram.helpers as h
+import insta_milligram.tests as t
 
 
 class TestUrl(dt.SimpleTestCase):
     def test_url_resolution(self):
-        h.test_url_resolution("auths", v.AuthView)  # type: ignore
+        t.test_url_resolution("auths", v.AuthView)  # type: ignore

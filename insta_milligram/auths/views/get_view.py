@@ -7,7 +7,7 @@ import rest_framework_simplejwt.exceptions as je
 
 
 import insta_milligram.constants as c
-import insta_milligram.helpers as h
+import insta_milligram.responses as r
 
 
 def get(request: dhreq.HttpRequest, id: int):
@@ -16,7 +16,7 @@ def get(request: dhreq.HttpRequest, id: int):
     try:
         result = ja.JWTAuthentication().authenticate(request._request)  # type: ignore
         if result:
-            return h.create_response(
+            return r.create_response(
                 c.messages.SUCCESS, rs.HTTP_200_OK, {"user": result[0]}
             )
         return c.responses.TOKEN_MISSING

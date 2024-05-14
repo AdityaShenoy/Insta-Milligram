@@ -5,7 +5,7 @@ import rest_framework.status as rs  # type: ignore
 import rest_framework.test as rt  # type: ignore
 
 import insta_milligram.constants as c
-import insta_milligram.helpers as h
+import insta_milligram.responses as r
 
 
 class TestView(dt.TestCase):
@@ -14,11 +14,11 @@ class TestView(dt.TestCase):
 
     def test_without_id(self):
         response = self.client.put(c.urls.USERS)
-        h.assertEqualResponses(response, c.responses.USER_ID_MISSING)
+        r.assertEqualResponses(response, c.responses.USER_ID_MISSING)
 
     def test_invalid(self):
         response = self.client.put(c.urls.USERS_ID_1)
-        h.assertEqualResponses(response, c.responses.INVALID_DATA)
+        r.assertEqualResponses(response, c.responses.INVALID_DATA)
         assert set(response.data["errors"].keys()) == set(  # type: ignore
             c.inputs.SIGNUP_REQUEST.keys()
         )
@@ -26,7 +26,7 @@ class TestView(dt.TestCase):
     def test_valid(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
         response = self.client.put(c.urls.USERS_ID_1, c.inputs.UPDATE_REQUEST)
-        h.assertEqualResponses(response, c.responses.SUCCESS)
+        r.assertEqualResponses(response, c.responses.SUCCESS)
         user = dam.User.objects.get(pk=1)
         for field in c.inputs.UPDATE_REQUEST:
             if field == "password":
@@ -36,4 +36,4 @@ class TestView(dt.TestCase):
 
     def test_without_user(self):
         response = self.client.put(c.urls.USERS_ID_1, c.inputs.UPDATE_REQUEST)
-        h.assertEqualResponses(response, c.responses.USER_NOT_FOUND)
+        r.assertEqualResponses(response, c.responses.USER_NOT_FOUND)

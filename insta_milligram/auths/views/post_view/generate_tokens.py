@@ -6,14 +6,14 @@ import rest_framework.status as rs  # type: ignore
 import rest_framework_simplejwt.views as jv
 
 from ... import forms as f
-import insta_milligram.helpers as h
+import insta_milligram.responses as r
 import insta_milligram.constants as c
 
 
 def generate_tokens(request: dr.HttpRequest):
     form = f.GenerateTokenForm(request.POST)
     if not form.is_valid():
-        return h.create_response(
+        return r.create_response(
             c.messages.INVALID_DATA,
             rs.HTTP_400_BAD_REQUEST,
             {"errors": form.errors},
@@ -24,7 +24,7 @@ def generate_tokens(request: dr.HttpRequest):
         if not user.check_password(form_data["password"]):
             return c.responses.INCORRECT_PASSWORD
         tokens = jv.token_obtain_pair(request._request)  # type: ignore
-        return h.create_response(
+        return r.create_response(
             c.messages.SUCCESS,
             rs.HTTP_200_OK,
             {"tokens": tokens.data},  # type: ignore

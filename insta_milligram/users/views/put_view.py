@@ -5,7 +5,7 @@ import rest_framework.status as rs  # type: ignore
 
 from .. import forms as f
 import insta_milligram.constants as c
-import insta_milligram.helpers as h
+import insta_milligram.responses as r
 
 
 def put(request: dr.HttpRequest, id: int = -1):
@@ -13,7 +13,7 @@ def put(request: dr.HttpRequest, id: int = -1):
         return c.responses.USER_ID_MISSING
     form = f.UserForm(request.data)  # type: ignore
     if not form.is_valid():
-        return h.create_response(
+        return r.create_response(
             c.messages.INVALID_DATA,
             rs.HTTP_400_BAD_REQUEST,
             {"errors": form.errors},

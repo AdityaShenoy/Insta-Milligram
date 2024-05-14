@@ -6,7 +6,7 @@ import rest_framework.status as rs  # type: ignore
 
 from .. import forms as f
 import insta_milligram.constants as c
-import insta_milligram.helpers as h
+import insta_milligram.responses as r
 import auths.views as v
 import users.models.users_follows as umuf
 
@@ -19,7 +19,7 @@ def post(request: dhreq.HttpRequest, id: int):
 
     form = f.UserFollowForm(request.POST)
     if not form.is_valid():
-        return h.create_response(
+        return r.create_response(
             c.messages.INVALID_DATA,
             rs.HTTP_400_BAD_REQUEST,
             {"errors": form.errors},
