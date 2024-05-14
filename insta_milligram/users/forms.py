@@ -1,5 +1,5 @@
-import django.forms as df
 import django.core.validators as dcv
+import django.forms as df
 
 
 class UserForm(df.Form):
