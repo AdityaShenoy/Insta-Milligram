@@ -15,7 +15,7 @@ def check_form(form_class: t.Callable[..., df.Form]):
     def decorator(func: func_type):
         def wrapper(*args: t.Any, **kwargs: dict[str, t.Any]):
             request = args[0]
-            form = form_class(request.POST)
+            form = form_class(request.data)
             if not form.is_valid():
                 return ir.create_response(
                     ic.responses.INVALID_DATA, {"errors": form.errors}
