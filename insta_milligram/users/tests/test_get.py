@@ -1,25 +1,23 @@
 import django.test as dt
 
-import rest_framework.status as rs  # type: ignore
-
-import insta_milligram.responses as r
-import insta_milligram.constants as c
+import insta_milligram.constants as ic
+import insta_milligram.responses as ir
 
 
 class TestView(dt.TestCase):
     def test_without_id(self):
-        response = self.client.get(c.urls.USERS)
-        r.assert_equal_responses(response, c.responses.USER_ID_MISSING)
+        response = self.client.get(ic.urls.USERS)
+        ir.assert_equal_responses(response, ic.responses.USER_ID_MISSING)
 
     def test_wrong_id(self):
-        response = self.client.get(c.urls.USERS_ID_1)
-        r.assert_equal_responses(response, c.responses.USER_NOT_FOUND)
+        response = self.client.get(ic.urls.USERS_ID_1)
+        ir.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
 
     def test_correct(self):
-        self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
-        response = self.client.get(c.urls.USERS_ID_1)
-        r.assert_equal_responses(response, c.responses.SUCCESS)
+        self.client.post(ic.urls.USERS, ic.inputs.SIGNUP_REQUEST)
+        response = self.client.get(ic.urls.USERS_ID_1)
+        ir.assert_equal_responses(response, ic.responses.SUCCESS)
         user: dict[str, str] = response.data  # type: ignore
-        for field in c.inputs.SIGNUP_REQUEST:
+        for field in ic.inputs.SIGNUP_REQUEST:
             if field != "password":
-                assert user[field] == c.inputs.SIGNUP_REQUEST[field]
+                assert user[field] == ic.inputs.SIGNUP_REQUEST[field]
