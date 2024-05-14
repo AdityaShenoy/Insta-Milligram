@@ -1,5 +1,5 @@
-import django.test as dt
 import django.contrib.auth.models as dcam
+import django.test as dt
 
 import insta_milligram.constants as ic
 import insta_milligram.tests as it
