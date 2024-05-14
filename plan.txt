@@ -12,18 +12,18 @@ get /auths/<int:id>
 post /users/<int:id>/followings
 get /users/<int:id>/followings
 get /users/<int:id>/followings/<int:id>
+get /users/<int:id>/followers
+delete /users/<int:id>/followers/<int:id>
 ================================================================================
 In Progress
 ================================================================================
 
-get /users/<int:id>/followers
-delete /users/<int:id>/followers/<int:id>
+put /auths
+delete /auths
 
 ================================================================================
 Backlog
 ================================================================================
-put /auths
-delete /auths
 
 post /contents
 get /contents/<int:id>
