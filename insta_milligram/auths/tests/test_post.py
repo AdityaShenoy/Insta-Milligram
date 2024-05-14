@@ -19,7 +19,7 @@ class TestView(dt.TestCase):
             ic.responses.INCORRECT_TOKEN_PARAMETER,
         )
 
-    def test_without_login(self):
+    def test_invalid(self):
         response = self.client.post(
             ic.urls.AUTHS,
             QUERY_STRING="action=generate",
