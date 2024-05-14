@@ -11,6 +11,10 @@ class TestView(dt.TestCase):
             ic.inputs.SIGNUP_REQUESTS[1],
         )
 
+    def test_with_login(self):
+        response = self.client.get(ic.urls.USERS)
+        it.assert_equal_responses(response, ic.responses.TOKEN_MISSING)
+
     def test_without_id(self):
         response = self.client.get(
             ic.urls.USERS,
