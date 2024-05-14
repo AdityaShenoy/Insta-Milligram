@@ -2,14 +2,13 @@ import django.test as dt
 import django.contrib.auth.models as dam
 
 import insta_milligram.constants as c
-import insta_milligram.responses as r
 import insta_milligram.tests as t
 
 
 class TestView(dt.TestCase):
     def test_without_id(self):
         response = self.client.delete(c.urls.USERS)
-        r.assert_equal_responses(response, c.responses.USER_ID_MISSING)
+        t.assert_equal_responses(response, c.responses.USER_ID_MISSING)
 
     def test_without_token(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
@@ -22,7 +21,7 @@ class TestView(dt.TestCase):
         response = self.client.delete(
             c.urls.USERS_ID_1,
         )
-        r.assert_equal_responses(response, c.responses.TOKEN_MISSING)
+        t.assert_equal_responses(response, c.responses.TOKEN_MISSING)
         assert len(dam.User.objects.all()) == 1
 
     def test_incorrect_token(self):
@@ -37,7 +36,7 @@ class TestView(dt.TestCase):
             c.urls.USERS_ID_1,
             headers={"Authorization": f"Bearer {access_token}a"},  # type: ignore
         )
-        r.assert_equal_responses(response, c.responses.INVALID_TOKEN)
+        t.assert_equal_responses(response, c.responses.INVALID_TOKEN)
         assert len(dam.User.objects.all()) == 1
 
     def test_expired_token(self):
@@ -46,7 +45,7 @@ class TestView(dt.TestCase):
             c.urls.USERS_ID_1,
             headers={"Authorization": f"Bearer {c.inputs.EXPIRED_ACCESS_TOKEN}"},  # type: ignore
         )
-        r.assert_equal_responses(response, c.responses.INVALID_TOKEN)
+        t.assert_equal_responses(response, c.responses.INVALID_TOKEN)
         assert len(dam.User.objects.all()) == 1
 
     def test_delete_twice(self):
@@ -64,4 +63,4 @@ class TestView(dt.TestCase):
             c.urls.USERS_ID_1,
             headers=t.generate_headers(login_response),  # type: ignore
         )
-        r.assert_equal_responses(response, c.responses.USER_NOT_FOUND)
+        t.assert_equal_responses(response, c.responses.USER_NOT_FOUND)

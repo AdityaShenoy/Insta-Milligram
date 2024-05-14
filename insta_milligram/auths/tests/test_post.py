@@ -1,26 +1,24 @@
 import django.test as dt
 
-import rest_framework.status as rs  # type: ignore
-
 import insta_milligram.constants as c
-import insta_milligram.responses as r
+import insta_milligram.tests as t
 
 
 class TestView(dt.TestCase):
     def test_missing_action(self):
         response = self.client.post(c.urls.AUTHS, QUERY_STRING="")
-        r.assert_equal_responses(response, c.responses.INCORRECT_TOKEN_PARAMETER)
+        t.assert_equal_responses(response, c.responses.INCORRECT_TOKEN_PARAMETER)
 
     def test_incorrect_action(self):
         response = self.client.post(c.urls.AUTHS, QUERY_STRING="action=bla")
-        r.assert_equal_responses(response, c.responses.INCORRECT_TOKEN_PARAMETER)
+        t.assert_equal_responses(response, c.responses.INCORRECT_TOKEN_PARAMETER)
 
     def test_without_login(self):
         response = self.client.post(
             c.urls.AUTHS,
             QUERY_STRING="action=generate",
         )
-        r.assert_equal_responses(response, c.responses.INVALID_DATA)
+        t.assert_equal_responses(response, c.responses.INVALID_DATA)
         assert set(response.data["errors"].keys()) == set(  # type: ignore
             c.inputs.LOGIN_REQUEST.keys()
         )
@@ -32,7 +30,7 @@ class TestView(dt.TestCase):
             c.inputs.LOGIN_REQUEST,
             QUERY_STRING="action=generate",
         )
-        r.assert_equal_responses(response, c.responses.SUCCESS)
+        t.assert_equal_responses(response, c.responses.SUCCESS)
         assert set(response.data["tokens"].keys()) == {  # type: ignore
             "access",
             "refresh",
@@ -44,7 +42,7 @@ class TestView(dt.TestCase):
             {**c.inputs.LOGIN_REQUEST, "username": "test1"},
             QUERY_STRING="action=generate",
         )
-        r.assert_equal_responses(response, c.responses.INCORRECT_USER)
+        t.assert_equal_responses(response, c.responses.INCORRECT_USER)
 
     def test_with_incorrect_password(self):
         self.client.post(c.urls.USERS, c.inputs.SIGNUP_REQUEST)
@@ -53,4 +51,4 @@ class TestView(dt.TestCase):
             {**c.inputs.LOGIN_REQUEST, "password": "testpass1"},
             QUERY_STRING="action=generate",
         )
-        r.assert_equal_responses(response, c.responses.INCORRECT_PASSWORD)
+        t.assert_equal_responses(response, c.responses.INCORRECT_PASSWORD)
