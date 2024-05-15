@@ -1,9 +1,9 @@
 import django.contrib.auth.models as dcam
 import django.http.request as dhreq
 
+import auths.views as av
 import insta_milligram.constants as ic
 import insta_milligram.responses as ir
-import auths.views as av
 
 
 def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
