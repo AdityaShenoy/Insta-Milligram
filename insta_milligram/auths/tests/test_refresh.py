@@ -7,10 +7,10 @@ import insta_milligram.tests as it
 class TestView(dt.TestCase):
     def setUp(self):
         self.DUMMY_REFRESH = {"refresh": "dummy"}
-        self.client.post(ic.urls.USERS, ic.inputs.SIGNUP_REQUESTS[1])
+        self.client.post(ic.urls.USERS, ic.inputs.signup_request(1))
         response = self.client.post(
             ic.urls.AUTHS,
-            ic.inputs.LOGIN_REQUESTS[1],
+            ic.inputs.signup_request(1),
             QUERY_STRING="action=generate",
         )
         self.tokens: dict[str, str] = response.data["tokens"]  # type: ignore

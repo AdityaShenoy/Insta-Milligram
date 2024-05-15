@@ -16,6 +16,6 @@ class TestForm(dt.SimpleTestCase):
         assert "user" in form.errors.keys()
 
     def test_valid(self):
-        form = uff.UserFollowForm(ic.inputs.FOLLOW_REQUEST_2)
+        form = uff.UserFollowForm(ic.inputs.follow_request(2))
         assert form.is_valid()
         assert len(form.errors) == 0

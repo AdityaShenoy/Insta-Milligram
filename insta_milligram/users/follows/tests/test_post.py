@@ -12,17 +12,17 @@ class TestView(dt.TestCase):
     def setUp(self):
         self.header = it.signup_and_login(
             self.client,
-            ic.inputs.SIGNUP_REQUESTS[0],
+            ic.inputs.signup_request(1),
         )
-        it.signup_and_login(self.client, ic.inputs.SIGNUP_REQUESTS[1])
+        it.signup_and_login(self.client, ic.inputs.signup_request(2))
 
     def test_without_login(self):
-        response = self.client.post(ic.urls.USERS_1_FOLLOWINGS)
+        response = self.client.post(ic.urls.user_id_followings(1))
         it.assert_equal_responses(response, ic.responses.TOKEN_MISSING)
 
     def test_invalid(self):
         response = self.client.post(
-            ic.urls.USERS_1_FOLLOWINGS,
+            ic.urls.user_id_followings(1),
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.INVALID_DATA)
@@ -30,7 +30,7 @@ class TestView(dt.TestCase):
 
     def test_self_follow(self):
         response = self.client.post(
-            ic.urls.USERS_1_FOLLOWINGS,
+            ic.urls.user_id_followings(1),
             {"user": 1},
             headers=self.header,  # type: ignore
         )
@@ -38,7 +38,7 @@ class TestView(dt.TestCase):
 
     def test_follow_wrong_user(self):
         response = self.client.post(
-            ic.urls.USERS_1_FOLLOWINGS,
+            ic.urls.user_id_followings(1),
             {"user": 3},
             headers=self.header,  # type: ignore
         )
@@ -46,12 +46,12 @@ class TestView(dt.TestCase):
 
     def test_follow_twice(self):
         self.client.post(
-            ic.urls.USERS_1_FOLLOWINGS,
+            ic.urls.user_id_followings(1),
             {"user": 2},
             headers=self.header,  # type: ignore
         )
         response = self.client.post(
-            ic.urls.USERS_1_FOLLOWINGS,
+            ic.urls.user_id_followings(1),
             {"user": 2},
             headers=self.header,  # type: ignore
         )
@@ -59,7 +59,7 @@ class TestView(dt.TestCase):
 
     def test_valid(self):
         response = self.client.post(
-            ic.urls.USERS_1_FOLLOWINGS,
+            ic.urls.user_id_followings(1),
             {"user": 2},
             headers=self.header,  # type: ignore
         )

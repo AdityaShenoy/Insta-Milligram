@@ -9,12 +9,12 @@ class TestView(dt.TestCase):
     def setUp(self):
         self.header = it.signup_and_login(
             self.client,
-            ic.inputs.SIGNUP_REQUESTS[1],
+            ic.inputs.signup_request(1),
         )
-        it.signup_and_login(self.client, ic.inputs.SIGNUP_REQUESTS[2])
+        it.signup_and_login(self.client, ic.inputs.signup_request(2))
 
     def test_without_login(self):
-        response = self.client.delete(ic.urls.USERS_ID[1])
+        response = self.client.delete(ic.urls.user_id(1))
         it.assert_equal_responses(response, ic.responses.TOKEN_MISSING)
 
     def test_without_id(self):
@@ -26,7 +26,7 @@ class TestView(dt.TestCase):
 
     def test_incorrect_id(self):
         response = self.client.delete(
-            ic.urls.USERS_ID[3],
+            ic.urls.user_id(3),
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
@@ -34,7 +34,7 @@ class TestView(dt.TestCase):
 
     def test_delete_other_user(self):
         response = self.client.delete(
-            ic.urls.USERS_ID[2],
+            ic.urls.user_id(2),
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
@@ -42,7 +42,7 @@ class TestView(dt.TestCase):
 
     def test_correct(self):
         response = self.client.delete(
-            ic.urls.USERS_ID[1],
+            ic.urls.user_id(1),
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.SUCCESS)

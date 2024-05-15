@@ -7,13 +7,13 @@ import insta_milligram.tests as it
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.signup_request = ic.inputs.SIGNUP_REQUESTS[1]
+        self.signup_request = ic.inputs.signup_request(1)
 
     def test_invalid(self):
         response = self.client.post(ic.urls.USERS)
         it.assert_equal_responses(response, ic.responses.INVALID_DATA)
         assert set(response.data["errors"].keys()) == set(  # type: ignore
-            ic.inputs.SIGNUP_REQUEST.keys()
+            ic.inputs.signup_request(1).keys()
         )
 
     def test_valid(self):

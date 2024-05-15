@@ -6,7 +6,7 @@ import insta_milligram.tests as it
 
 class TestView(dt.TestCase):
     def setUp(self):
-        signup_request = ic.inputs.SIGNUP_REQUESTS[1]
+        signup_request = ic.inputs.signup_request(1)
         self.header = it.signup_and_login(self.client, signup_request)
         self.header_1 = it.signup_and_login(self.client, signup_request)
         self.header_2 = it.signup_and_login(self.client, signup_request)
@@ -21,7 +21,7 @@ class TestView(dt.TestCase):
         )
         it.assert_equal_responses(response, ic.responses.SUCCESS)
         response = self.client.get(
-            ic.urls.USERS_ID[1], headers=self.header  # type: ignore
+            ic.urls.user_id(1), headers=self.header  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.LOGIN_BLACKLISTED)
 
@@ -31,14 +31,14 @@ class TestView(dt.TestCase):
         )
         it.assert_equal_responses(response, ic.responses.SUCCESS)
         response = self.client.get(
-            ic.urls.USERS_ID[1], headers=self.header  # type: ignore
+            ic.urls.user_id(1), headers=self.header  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.LOGIN_BLACKLISTED)
         response = self.client.get(
-            ic.urls.USERS_ID[1], headers=self.header_1  # type: ignore
+            ic.urls.user_id(1), headers=self.header_1  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.LOGIN_BLACKLISTED)
         response = self.client.get(
-            ic.urls.USERS_ID[1], headers=self.header_2  # type: ignore
+            ic.urls.user_id(1), headers=self.header_2  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.LOGIN_BLACKLISTED)
