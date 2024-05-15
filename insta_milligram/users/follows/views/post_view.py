@@ -12,6 +12,7 @@ import users.models.users_follows as umuf
 
 @ird.check_authenticated()
 @ird.check_user_exists()
+@ird.check_authorized()
 @ird.check_form(uff.UserFollowForm)
 def post(request: dhreq.HttpRequest, id: int):
     user = ag.get_auth_user(request)
