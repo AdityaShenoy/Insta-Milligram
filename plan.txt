@@ -15,10 +15,10 @@ post /users/<int:id>/followings
 get /users/<int:id>/followings
 get /users/<int:id>/followings/<int:id>
 get /users/<int:id>/followers
-delete /users/<int:id>/followers/<int:id>
 ================================================================================
 In Progress
 ================================================================================
+delete /users/<int:id>/followers/<int:id>
 
 
 ================================================================================
