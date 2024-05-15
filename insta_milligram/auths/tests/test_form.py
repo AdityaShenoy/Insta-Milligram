@@ -24,10 +24,6 @@ class TestForm(dt.SimpleTestCase):
         assert not form.is_valid()
         assert "refresh" in form.errors
 
-        form = f.BlacklistTokenForm({})
-        assert not form.is_valid()
-        assert "token" in form.errors
-
     def test_empty(self):
         form = f.GenerateTokenForm(self.EMPTY_REQUEST)
         assert not form.is_valid()
@@ -38,10 +34,6 @@ class TestForm(dt.SimpleTestCase):
         form = f.RefreshTokenForm({"refresh": ""})
         assert not form.is_valid()
         assert "refresh" in form.errors
-
-        form = f.BlacklistTokenForm({"token": ""})
-        assert not form.is_valid()
-        assert "token" in form.errors
 
     def test_big(self):
         form = f.GenerateTokenForm(self.BIG_REQUEST)
