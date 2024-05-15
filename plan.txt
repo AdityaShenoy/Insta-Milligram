@@ -6,8 +6,10 @@ get /users/<int:id>
 put /users/<int:id>
 delete /users/<int:id>
 
-post /auths
+post /auths?action=generate
+post /auths?action=refresh
 get /auths/<int:id>
+delete /auths
 
 post /users/<int:id>/followings
 get /users/<int:id>/followings
@@ -18,8 +20,6 @@ delete /users/<int:id>/followers/<int:id>
 In Progress
 ================================================================================
 
-put /auths
-delete /auths
 
 ================================================================================
 Backlog
