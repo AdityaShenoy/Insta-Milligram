@@ -1,10 +1,18 @@
 import django.test as dt
 
-from .. import views as v
-import insta_milligram.tests as t
+import users.follows.views as ufv
+import insta_milligram.tests as it
 
 
 class TestUrl(dt.SimpleTestCase):
     def test_url_resolution(self):
-        t.test_url_resolution("users_followings", v.UserFollowView, [1])  # type: ignore
-        t.test_url_resolution("users_followers", v.UserFollowerView, [1])  # type: ignore
+        it.test_url_resolution(
+            "users_followings",
+            ufv.UserFollowView,  # type: ignore
+            [1],
+        )
+        it.test_url_resolution(
+            "users_followers",
+            ufv.UserFollowerView,  # type: ignore
+            [1],
+        )

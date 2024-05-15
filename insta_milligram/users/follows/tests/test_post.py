@@ -1,31 +1,31 @@
-import django.test as dt
 import django.contrib.auth.models as dcam
+import django.test as dt
 
 import datetime as d
 
 import insta_milligram.constants as ic
-import insta_milligram.tests as t
+import insta_milligram.tests as it
 import users.models.users_follows as umuf
 
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.header = t.signup_and_login(
+        self.header = it.signup_and_login(
             self.client,
             ic.inputs.SIGNUP_REQUESTS[0],
         )
-        t.signup_and_login(self.client, ic.inputs.SIGNUP_REQUESTS[1])
+        it.signup_and_login(self.client, ic.inputs.SIGNUP_REQUESTS[1])
 
     def test_without_login(self):
         response = self.client.post(ic.urls.USERS_1_FOLLOWINGS)
-        t.assert_equal_responses(response, ic.responses.TOKEN_MISSING)
+        it.assert_equal_responses(response, ic.responses.TOKEN_MISSING)
 
     def test_invalid(self):
         response = self.client.post(
             ic.urls.USERS_1_FOLLOWINGS,
             headers=self.header,  # type: ignore
         )
-        t.assert_equal_responses(response, ic.responses.INVALID_DATA)
+        it.assert_equal_responses(response, ic.responses.INVALID_DATA)
         assert "user" in response.data["errors"]  # type: ignore
 
     def test_self_follow(self):
@@ -34,7 +34,7 @@ class TestView(dt.TestCase):
             {"user": 1},
             headers=self.header,  # type: ignore
         )
-        t.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
+        it.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
 
     def test_follow_wrong_user(self):
         response = self.client.post(
@@ -42,7 +42,7 @@ class TestView(dt.TestCase):
             {"user": 3},
             headers=self.header,  # type: ignore
         )
-        t.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
+        it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
 
     def test_follow_twice(self):
         self.client.post(
@@ -55,7 +55,7 @@ class TestView(dt.TestCase):
             {"user": 2},
             headers=self.header,  # type: ignore
         )
-        t.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
+        it.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
 
     def test_valid(self):
         response = self.client.post(
@@ -63,7 +63,7 @@ class TestView(dt.TestCase):
             {"user": 2},
             headers=self.header,  # type: ignore
         )
-        t.assert_equal_responses(response, ic.responses.SUCCESS)
+        it.assert_equal_responses(response, ic.responses.SUCCESS)
         user1 = dcam.User.objects.get(pk=1)
         user2 = dcam.User.objects.get(pk=2)
         assert user1.profile.followings_count == 1  # type: ignore

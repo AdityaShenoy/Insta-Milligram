@@ -1,25 +1,23 @@
-import django.http.request as dhreq
 import django.contrib.auth.models as dcam
 import django.db.transaction as ddt
+import django.http.request as dhreq
 
-import rest_framework.status as rs  # type: ignore
-
-from .. import forms as f
+import auths.views as av
 import insta_milligram.constants as ic
-import insta_milligram.responses as r
-import auths.views as v
+import insta_milligram.responses as ir
+import users.follows.forms as uff
 import users.models.users_follows as umuf
 
 
 def post(request: dhreq.HttpRequest, id: int):
-    response = v.get(request, id)
+    response = av.get(request, id)
     user = response.data.get("user")  # type: ignore
     if not user:
         return response
 
-    form = f.UserFollowForm(request.POST)
+    form = uff.UserFollowForm(request.POST)
     if not form.is_valid():
-        return r.create_response(
+        return ir.create_response(
             ic.responses.INVALID_DATA,
             {"errors": form.errors},
         )

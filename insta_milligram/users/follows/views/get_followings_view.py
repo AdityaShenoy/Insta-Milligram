@@ -1,15 +1,13 @@
-import django.http.request as dhreq
 import django.contrib.auth.models as dcam
-
-import rest_framework.status as rs  # type: ignore
+import django.http.request as dhreq
 
 import insta_milligram.constants as ic
-import insta_milligram.responses as r
-import auths.views as v
+import insta_milligram.responses as ir
+import auths.views as av
 
 
 def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
-    response = v.get(request, id)
+    response = av.get(request, id)
     user = response.data.get("user")  # type: ignore
     if not user:
         return response
@@ -24,7 +22,7 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
         followings = user.followings.all().values_list(  # type: ignore
             "following", flat=True
         )
-        return r.create_response(
+        return ir.create_response(
             ic.responses.SUCCESS,
             {"followings": followings},
         )
@@ -37,7 +35,7 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
     is_following = user.followings.filter(  # type: ignore
         following=followed_user,
     ).exists()
-    return r.create_response(
+    return ir.create_response(
         ic.responses.SUCCESS,
         {"is_following": is_following},
     )

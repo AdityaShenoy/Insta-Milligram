@@ -1,15 +1,13 @@
-import django.http.request as dhreq
 import django.contrib.auth.models as dcam
-
-import rest_framework.status as rs  # type: ignore
+import django.http.request as dhreq
 
 import insta_milligram.constants as ic
-import insta_milligram.responses as r
-import auths.views as v
+import insta_milligram.responses as ir
+import auths.views as av
 
 
 def get_followers(request: dhreq.HttpRequest, id: int):
-    response = v.get(request, id)
+    response = av.get(request, id)
     user = response.data.get("user")  # type: ignore
     if not user:
         return response
@@ -24,4 +22,4 @@ def get_followers(request: dhreq.HttpRequest, id: int):
         "follower",
         flat=True,
     )
-    return r.create_response(ic.responses.SUCCESS, {"followers": followers})
+    return ir.create_response(ic.responses.SUCCESS, {"followers": followers})
