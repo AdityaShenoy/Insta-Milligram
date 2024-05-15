@@ -2,27 +2,21 @@ import django.contrib.auth.models as dcam
 import django.db.transaction as ddt
 import django.http.request as dhreq
 
-import auths.views as av
+import auths.get_auth_user as ag
 import insta_milligram.constants as ic
-import insta_milligram.responses as ir
+import insta_milligram.forms as if_
+import insta_milligram.responses.decorators as ird
 import users.follows.forms as uff
 import users.models.users_follows as umuf
 
 
+@ird.check_authenticated()
+@ird.check_missing_id()
+@ird.check_user_exists()
+@ird.check_form(uff.UserFollowForm)
 def post(request: dhreq.HttpRequest, id: int):
-    response = av.get(request, id)
-    user = response.data.get("user")  # type: ignore
-    if not user:
-        return response
-
-    form = uff.UserFollowForm(request.POST)
-    if not form.is_valid():
-        return ir.create_response(
-            ic.responses.INVALID_DATA,
-            {"errors": form.errors},
-        )
-
-    form_data = form.cleaned_data
+    user = ag.get_auth_user(request)
+    form_data = if_.get_data(uff.UserFollowForm(request.POST))
     followed_users = dcam.User.objects.filter(pk=form_data["user"])
     if not followed_users:
         return ic.responses.USER_NOT_FOUND
