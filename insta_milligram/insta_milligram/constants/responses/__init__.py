@@ -8,7 +8,10 @@ def create_response(message: str, status_code: int):
     return rr.Response({"message": message}, status_code)
 
 
-SUCCESS = create_response(m.SUCCESS, rs.HTTP_200_OK)
+SUCCESS = create_response(
+    m.SUCCESS,
+    rs.HTTP_200_OK,
+)
 USER_NOT_FOUND = create_response(
     m.USER_NOT_FOUND,
     rs.HTTP_404_NOT_FOUND,
@@ -47,4 +50,8 @@ INCORRECT_TOKEN_PARAMETER = create_response(
 INVALID_DATA = create_response(
     m.INVALID_DATA,
     rs.HTTP_400_BAD_REQUEST,
+)
+LOGIN_BLACKLISTED = create_response(
+    m.LOGIN_BLACKLISTED,
+    rs.HTTP_401_UNAUTHORIZED,
 )
