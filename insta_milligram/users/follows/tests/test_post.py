@@ -20,6 +20,22 @@ class TestView(dt.TestCase):
         response = self.client.post(ic.urls.user_id_followings(1))
         it.assert_equal_responses(response, ic.responses.TOKEN_MISSING)
 
+    def test_with_wrong_user(self):
+        response = self.client.post(
+            ic.urls.user_id_followings(3),
+            ic.inputs.follow_request(2),
+            headers=self.header,  # type: ignore
+        )
+        it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
+
+    def test_with_other_user(self):
+        response = self.client.post(
+            ic.urls.user_id_followings(2),
+            ic.inputs.follow_request(1),
+            headers=self.header,  # type: ignore
+        )
+        it.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
+
     def test_invalid(self):
         response = self.client.post(
             ic.urls.user_id_followings(1),
@@ -28,21 +44,21 @@ class TestView(dt.TestCase):
         it.assert_equal_responses(response, ic.responses.INVALID_DATA)
         assert "user" in response.data["errors"]  # type: ignore
 
-    def test_self_follow(self):
+    def test_follow_wrong_user(self):
         response = self.client.post(
             ic.urls.user_id_followings(1),
             ic.inputs.follow_request(3),
             headers=self.header,  # type: ignore
         )
-        it.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
+        it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
 
-    def test_follow_wrong_user(self):
+    def test_self_follow(self):
         response = self.client.post(
             ic.urls.user_id_followings(1),
             ic.inputs.follow_request(1),
             headers=self.header,  # type: ignore
         )
-        it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
+        it.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
 
     def test_follow_twice(self):
         self.client.post(
