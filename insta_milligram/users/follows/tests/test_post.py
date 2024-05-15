@@ -31,7 +31,7 @@ class TestView(dt.TestCase):
     def test_self_follow(self):
         response = self.client.post(
             ic.urls.user_id_followings(1),
-            {"user": 1},
+            ic.inputs.follow_request(3),
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
@@ -39,7 +39,7 @@ class TestView(dt.TestCase):
     def test_follow_wrong_user(self):
         response = self.client.post(
             ic.urls.user_id_followings(1),
-            {"user": 3},
+            ic.inputs.follow_request(1),
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
@@ -47,12 +47,12 @@ class TestView(dt.TestCase):
     def test_follow_twice(self):
         self.client.post(
             ic.urls.user_id_followings(1),
-            {"user": 2},
+            ic.inputs.follow_request(2),
             headers=self.header,  # type: ignore
         )
         response = self.client.post(
             ic.urls.user_id_followings(1),
-            {"user": 2},
+            ic.inputs.follow_request(2),
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.OPERATION_NOT_ALLOWED)
@@ -60,7 +60,7 @@ class TestView(dt.TestCase):
     def test_valid(self):
         response = self.client.post(
             ic.urls.user_id_followings(1),
-            {"user": 2},
+            ic.inputs.follow_request(2),
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, ic.responses.SUCCESS)
