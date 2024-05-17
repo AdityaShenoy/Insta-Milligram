@@ -1,25 +1,22 @@
 import django.contrib.auth.models as dcam
 import django.http.request as dhreq
 
-import auths.views as av
 import insta_milligram.constants as ic
 import insta_milligram.responses as ir
+import insta_milligram.responses.decorators as ird
 
 
+@ird.check_authenticated()
+@ird.check_user_exists()
 def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
-    response = av.get(request, id)
-    user = response.data.get("user")  # type: ignore
-    if not user:
-        return response
+    follower_id = id
+    following_id = id1
 
-    try:
-        user = dcam.User.objects.get(pk=id)
-    except dcam.User.DoesNotExist:
-        return ic.responses.USER_NOT_FOUND
+    follower = dcam.User.objects.get(id=follower_id)
 
     # todo: paginate the users list instead of sending user ids
-    if id1 == -1:
-        followings = user.followings.all().values_list(  # type: ignore
+    if following_id == -1:
+        followings = follower.followings.all().values_list(  # type: ignore
             "following", flat=True
         )
         return ir.create_response(
@@ -28,12 +25,12 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
         )
 
     try:
-        followed_user = dcam.User.objects.get(pk=id1)
+        following = dcam.User.objects.get(pk=following_id)
     except dcam.User.DoesNotExist:
         return ic.responses.USER_NOT_FOUND
 
-    is_following = user.followings.filter(  # type: ignore
-        following=followed_user,
+    is_following = follower.followings.filter(  # type: ignore
+        following=following,
     ).exists()
     return ir.create_response(
         ic.responses.SUCCESS,
