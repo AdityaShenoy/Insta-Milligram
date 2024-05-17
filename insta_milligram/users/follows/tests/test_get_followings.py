@@ -36,6 +36,13 @@ class TestView(dt.TestCase):
         it.assert_equal_responses(response, ic.responses.SUCCESS)
         assert 2 in response.data["followings"]  # type: ignore
 
+    def test_wrong_user_id(self):
+        response = self.client.get(
+            ic.urls.user_id_followings_id(1, 3),
+            headers=self.header,  # type: ignore
+        )
+        it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
+
     def test_valid_id(self):
         response = self.client.get(
             ic.urls.user_id_followings_id(1, 2),
@@ -43,10 +50,3 @@ class TestView(dt.TestCase):
         )
         it.assert_equal_responses(response, ic.responses.SUCCESS)
         assert response.data["is_following"]  # type: ignore
-
-    def test_wrong_user_id(self):
-        response = self.client.get(
-            ic.urls.user_id_followings_id(1, 3),
-            headers=self.header,  # type: ignore
-        )
-        it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
