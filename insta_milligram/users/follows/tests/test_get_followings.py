@@ -50,3 +50,9 @@ class TestView(dt.TestCase):
         )
         it.assert_equal_responses(response, ic.responses.SUCCESS)
         assert response.data["is_following"]  # type: ignore
+        response = self.client.get(
+            ic.urls.user_id_followings_id(2, 1),
+            headers=self.header,  # type: ignore
+        )
+        it.assert_equal_responses(response, ic.responses.SUCCESS)
+        assert not response.data["is_following"]  # type: ignore
