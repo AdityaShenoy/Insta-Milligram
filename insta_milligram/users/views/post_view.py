@@ -8,8 +8,6 @@ import insta_milligram.responses.decorators as ird
 import users.forms as uf
 import users.models.users_profiles as umup
 
-# todo: standardize import abbreviations
-
 
 @ird.check_form(uf.UserForm)
 def post(request: dhreq.HttpRequest):
