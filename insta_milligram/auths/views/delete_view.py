@@ -7,8 +7,6 @@ import auths.models as am
 import insta_milligram.constants as ic
 import insta_milligram.responses.decorators as ird
 
-# todo: replace dot notations with actual names
-
 
 @ird.check_authenticated()
 def delete(request: dhreq.HttpRequest):
