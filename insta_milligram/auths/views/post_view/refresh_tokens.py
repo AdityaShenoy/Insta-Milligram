@@ -10,6 +10,7 @@ import insta_milligram.responses.decorators as ird
 
 @ird.check_form(af.RefreshTokenForm)
 def refresh_tokens(request: dhreq.HttpRequest):
+    # todo: check for blacklisted tokens
     response = jv.token_refresh(request._request)  # type: ignore
     if ("code" in response.data) and (  # type: ignore
         response.data["code"].code == "token_not_valid"  # type: ignore
