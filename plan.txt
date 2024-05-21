@@ -20,7 +20,9 @@ delete /users/<int:id>/followers/<int:id>
 In Progress
 ================================================================================
 
-
+todo: replace setup request calls with direct DB calls
+todo: check for blacklisted tokens
+todo: paginate the users list instead of sending user ids
 ================================================================================
 Backlog
 ================================================================================
