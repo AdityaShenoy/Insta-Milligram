@@ -20,7 +20,6 @@ delete /users/<int:id>/followers/<int:id>
 In Progress
 ================================================================================
 
-todo: move transactions from views to models
 todo: check for blacklisted tokens
 ================================================================================
 Backlog

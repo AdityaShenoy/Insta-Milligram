@@ -1,5 +1,4 @@
 import django.contrib.auth.models as dcam
-import django.db.transaction as ddt
 import django.http.request as dhreq
 
 import auths.get_auth_user as ag
@@ -32,13 +31,8 @@ def post(request: dhreq.HttpRequest, id: int):
     if is_already_following:
         return ic.responses.OPERATION_NOT_ALLOWED
 
-    with ddt.atomic():
-        umuf.Follow.objects.create(
-            follower=follower,
-            following=following,
-        )
-        following.profile.followers_count += 1  # type: ignore
-        follower.profile.followings_count += 1  # type: ignore
-        following.profile.save()  # type: ignore
-        follower.profile.save()  # type: ignore
+    umuf.Follow.objects.create(
+        follower=follower,
+        following=following,
+    )
     return ic.responses.SUCCESS

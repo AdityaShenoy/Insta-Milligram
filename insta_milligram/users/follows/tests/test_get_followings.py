@@ -4,6 +4,7 @@ import django.test as dt
 import insta_milligram.constants as ic
 import insta_milligram.tests as it
 import users.models.follows as umuf
+import users.models.profiles as ump
 
 
 class TestView(dt.TestCase):
@@ -27,7 +28,8 @@ class TestView(dt.TestCase):
     def test_valid(self):
         user_1 = dcam.User.objects.get(pk=1)
         for i in range(2, 101):
-            user = dcam.User.objects.create(**ic.inputs.signup_request(i))
+            profile = ump.Profile.objects.create(**ic.inputs.signup_request(i))
+            user = profile.user
             umuf.Follow.objects.create(follower=user_1, following=user)
 
         response = self.client.get(
@@ -73,7 +75,7 @@ class TestView(dt.TestCase):
 
     def test_valid_id(self):
         user_1 = dcam.User.objects.get(pk=1)
-        user_2 = dcam.User.objects.create(**ic.inputs.signup_request(2))
+        user_2 = ump.Profile.objects.create(**ic.inputs.signup_request(2)).user
         umuf.Follow.objects.create(follower=user_1, following=user_2)
 
         response = self.client.get(

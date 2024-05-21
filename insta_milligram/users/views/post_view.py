@@ -1,12 +1,11 @@
 import django.contrib.auth.models as dcam
-import django.db.transaction as ddt
 import django.http.request as dhreq
 
 import insta_milligram.constants as ic
 import insta_milligram.forms as if_
 import insta_milligram.responses.decorators as ird
 import users.forms as uf
-import users.models.profiles as umup
+import users.models.profiles as ump
 
 
 @ird.check_form(uf.UserForm)
@@ -20,7 +19,5 @@ def post(request: dhreq.HttpRequest):
     )
     if existing_users_with_same_email or exisitng_users_with_same_username:
         return ic.responses.USER_ALREADY_EXISTS
-    with ddt.atomic():
-        user = dcam.User.objects.create_user(**form_data)
-        umup.Profile.objects.create(user=user)
+    ump.Profile.objects.create(**form_data)
     return ic.responses.SUCCESS
