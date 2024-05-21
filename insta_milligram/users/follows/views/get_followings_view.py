@@ -1,9 +1,12 @@
 import django.contrib.auth.models as dcam
+import django.core.paginator as dcp
 import django.http.request as dhreq
 
 import insta_milligram.constants as ic
 import insta_milligram.responses as ir
 import insta_milligram.responses.decorators as ird
+import users.models.users_follows as umuf
+import users.serializers as us
 
 
 @ird.check_authenticated()
@@ -15,12 +18,20 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
     follower = dcam.User.objects.get(id=follower_id)
 
     if following_id == -1:
-        followings = follower.followings.all().values_list(  # type: ignore
-            "following", flat=True
-        )
+        follows = umuf.UserFollow.objects.filter(follower=follower)
+        followings = dcam.User.objects.filter(
+            id__in=follows.values_list("following"),
+        ).order_by("first_name", "last_name")
+
+        paginator = dcp.Paginator(followings, 50)
+        page_number = request.GET.get("page", 1)
+        page = paginator.get_page(page_number)
+
+        result = [us.UserSerializer(user).data for user in page.object_list]
+
         return ir.create_response(
             ic.responses.SUCCESS,
-            {"followings": followings},
+            {"followings": result},
         )
 
     try:

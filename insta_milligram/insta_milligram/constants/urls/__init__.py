@@ -10,6 +10,10 @@ def user_id_followings(id: int):
     return f"/users/{id}/followings"
 
 
+def user_id_followings_page(id: int, page: int):
+    return f"/users/{id}/followings?page={page}"
+
+
 def user_id_followers(id: int):
     return f"/users/{id}/followers"
 
