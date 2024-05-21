@@ -7,7 +7,7 @@ import insta_milligram.constants as ic
 import insta_milligram.forms as if_
 import insta_milligram.responses.decorators as ird
 import users.follows.forms as uff
-import users.models.users_follows as umuf
+import users.models.follows as umuf
 
 
 @ird.check_authenticated()
@@ -26,14 +26,14 @@ def post(request: dhreq.HttpRequest, id: int):
     if following == follower:
         return ic.responses.OPERATION_NOT_ALLOWED
 
-    is_already_following = umuf.UserFollow.objects.filter(
+    is_already_following = umuf.Follow.objects.filter(
         follower=follower, following=following
     ).exists()
     if is_already_following:
         return ic.responses.OPERATION_NOT_ALLOWED
 
     with ddt.atomic():
-        umuf.UserFollow.objects.create(
+        umuf.Follow.objects.create(
             follower=follower,
             following=following,
         )

@@ -5,7 +5,7 @@ import django.http.request as dhreq
 import auths.get_auth_user as ag
 import insta_milligram.constants as ic
 import insta_milligram.responses.decorators as ird
-import users.models.users_follows as umuf
+import users.models.follows as umuf
 
 
 @ird.check_authenticated()
@@ -22,7 +22,7 @@ def delete(request: dhreq.HttpRequest, id: int, id1: int):
     if requester not in (follower, following):
         return ic.responses.OPERATION_NOT_ALLOWED
 
-    follow = umuf.UserFollow.objects.filter(
+    follow = umuf.Follow.objects.filter(
         follower=follower,
         following=following,
     )

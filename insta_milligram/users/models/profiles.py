@@ -2,7 +2,7 @@ import django.contrib.auth.models as dcam
 import django.db.models as ddm
 
 
-class UserProfile(ddm.Model):
+class Profile(ddm.Model):
     user = ddm.OneToOneField(
         dcam.User,
         on_delete=ddm.CASCADE,

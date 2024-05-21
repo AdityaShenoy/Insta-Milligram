@@ -3,7 +3,7 @@ import django.test as dt
 
 import insta_milligram.constants as ic
 import insta_milligram.tests as it
-import users.models.users_follows as umuf
+import users.models.follows as umuf
 
 
 class TestView(dt.TestCase):
@@ -74,7 +74,7 @@ class TestView(dt.TestCase):
         user2 = dcam.User.objects.get(pk=2)
         assert user1.profile.followings_count == 0  # type: ignore
         assert user2.profile.followers_count == 0  # type: ignore
-        follows = umuf.UserFollow.objects.filter(
+        follows = umuf.Follow.objects.filter(
             follower=user1,
             following=user2,
         )
@@ -96,7 +96,7 @@ class TestView(dt.TestCase):
         user2 = dcam.User.objects.get(pk=2)
         assert user1.profile.followings_count == 0  # type: ignore
         assert user2.profile.followers_count == 0  # type: ignore
-        follows = umuf.UserFollow.objects.filter(
+        follows = umuf.Follow.objects.filter(
             follower=user1,
             following=user2,
         )

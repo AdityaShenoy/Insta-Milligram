@@ -6,7 +6,7 @@ import insta_milligram.constants as ic
 import insta_milligram.forms as if_
 import insta_milligram.responses.decorators as ird
 import users.forms as uf
-import users.models.users_profiles as umup
+import users.models.profiles as umup
 
 
 @ird.check_form(uf.UserForm)
@@ -22,5 +22,5 @@ def post(request: dhreq.HttpRequest):
         return ic.responses.USER_ALREADY_EXISTS
     with ddt.atomic():
         user = dcam.User.objects.create_user(**form_data)
-        umup.UserProfile.objects.create(user=user)
+        umup.Profile.objects.create(user=user)
     return ic.responses.SUCCESS

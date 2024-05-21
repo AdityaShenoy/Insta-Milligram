@@ -3,7 +3,7 @@ import django.test as dt
 
 import insta_milligram.constants as ic
 import insta_milligram.tests as it
-import users.models.users_follows as umuf
+import users.models.follows as umuf
 
 
 class TestView(dt.TestCase):
@@ -30,7 +30,7 @@ class TestView(dt.TestCase):
         user_1 = dcam.User.objects.get(pk=1)
         for i in range(2, 101):
             user_i = dcam.User.objects.get(pk=i)
-            umuf.UserFollow.objects.create(follower=user_i, following=user_1)
+            umuf.Follow.objects.create(follower=user_i, following=user_1)
 
         response = self.client.get(
             ic.urls.user_id_followers(1),

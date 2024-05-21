@@ -1,2 +1,2 @@
-from . import users_follows  # type: ignore
-from . import users_profiles  # type: ignore
+from . import follows  # type: ignore
+from . import profiles  # type: ignore
