@@ -1,1 +1,1 @@
-cls & py manage.py test
+cls & py manage.py test %1 %2 %3 %4 %5 %6 %7 %8 %9 --timing
