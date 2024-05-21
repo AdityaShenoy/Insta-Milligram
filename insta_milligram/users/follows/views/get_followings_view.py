@@ -14,7 +14,6 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
 
     follower = dcam.User.objects.get(id=follower_id)
 
-    # todo: paginate the users list instead of sending user ids
     if following_id == -1:
         followings = follower.followings.all().values_list(  # type: ignore
             "following", flat=True

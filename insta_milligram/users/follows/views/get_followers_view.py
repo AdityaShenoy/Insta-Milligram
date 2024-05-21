@@ -1,18 +1,28 @@
 import django.contrib.auth.models as dcam
+import django.core.paginator as dcp
 import django.http.request as dhreq
 
 import insta_milligram.constants as ic
 import insta_milligram.responses as ir
 import insta_milligram.responses.decorators as ird
+import users.models.users_follows as umuf
+import users.serializers as us
 
 
 @ird.check_authenticated()
 @ird.check_user_exists()
 def get_followers(request: dhreq.HttpRequest, id: int):
     following = dcam.User.objects.get(pk=id)
-    # todo: paginate the users list instead of sending user ids
-    followers = following.followers.all().values_list(  # type: ignore
-        "follower",
-        flat=True,
-    )
-    return ir.create_response(ic.responses.SUCCESS, {"followers": followers})
+
+    follows = umuf.UserFollow.objects.filter(following=following)
+
+    followers = dcam.User.objects.filter(
+        id__in=follows.values_list("follower")
+    ).order_by("first_name", "last_name")
+
+    paginator = dcp.Paginator(followers, 50)
+    page_number = request.GET.get("page", 1)
+    page = paginator.get_page(page_number)
+
+    result = [us.UserSerializer(user).data for user in page.object_list]
+    return ir.create_response(ic.responses.SUCCESS, {"followers": result})

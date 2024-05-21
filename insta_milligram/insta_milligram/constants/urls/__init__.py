@@ -14,5 +14,9 @@ def user_id_followers(id: int):
     return f"/users/{id}/followers"
 
 
+def user_id_followers_page(id: int, page: int):
+    return f"/users/{id}/followers?page={page}"
+
+
 def user_id_followings_id(id1: int, id2: int):
     return f"/users/{id1}/followings/{id2}"
