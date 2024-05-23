@@ -37,6 +37,22 @@ class TestView(dt.TestCase):
         )
         it.assert_equal_responses(response, ic.responses.INVALID_TOKEN)
 
+    def test_deleted_user(self):
+        header = {"Authorization": f'Bearer {self.tokens["access"]}'}
+        self.client.delete(ic.urls.user_id(1), headers=header)  # type: ignore
+        response = self.client.post(
+            ic.urls.AUTHS, self.tokens, QUERY_STRING="action=refresh"
+        )
+        it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
+
+    def test_blacklisted(self):
+        header = {"Authorization": f'Bearer {self.tokens["access"]}'}
+        response = self.client.delete(ic.urls.AUTHS, headers=header)  # type: ignore
+        response = self.client.post(
+            ic.urls.AUTHS, self.tokens, QUERY_STRING="action=refresh"
+        )
+        it.assert_equal_responses(response, ic.responses.LOGIN_BLACKLISTED)
+
     def test_valid(self):
         response = self.client.post(
             ic.urls.AUTHS, self.tokens, QUERY_STRING="action=refresh"
