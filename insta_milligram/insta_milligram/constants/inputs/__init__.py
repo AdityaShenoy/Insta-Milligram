@@ -18,6 +18,8 @@ def follow_request(i: int):
 
 DUMMY_EMAIL = {"email": "dummy@dummy.com"}
 DUMMY_USERNAME = {"username": "dummy"}
+SMALL_PASSWORD = {"password": "dummy"}
+SPECIAL_USERNAME = {"username": "@"}
 
 
 LOGIN_REQUEST_FIELDS = {"username", "password"}
