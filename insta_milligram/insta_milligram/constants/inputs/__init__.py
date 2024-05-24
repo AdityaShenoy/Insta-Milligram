@@ -12,13 +12,12 @@ def update_request(i: int):
     return {k: f"new_{v}" for k, v in signup_request(i).items()}
 
 
+def follow_request(i: int):
+    return {"user": i}
+
 LOGIN_REQUEST_FIELDS = {"username", "password"}
 
 EXPIRED_ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTQ3MzU5LCJpYXQiOjE3MTUxNDcwNTksImp0aSI6IjYxNzlkMGQ5NTk1MTQ3NTdiMGU5YTA4ZjQ2YmRiMDY5IiwidXNlcl9pZCI6MX0.0q-rm-CvDISZyR4Pksfv5Ik00ltAyV5IK2SAsHb1KaI"
 EXPIRED_REFRESH_TOKEN = {
     "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxNTc5MzU5NCwiaWF0IjoxNzE1NzA3MTk0LCJqdGkiOiIyYTFlNTY3MDQ2NGM0NDM0OWU2YjQwZjk1M2VkOGNmNSIsInVzZXJfaWQiOjF9.i5N6J6sbj77KdRXyxsALFHmk6gjmt3tFhBhm8ibYsR4"
 }
-
-
-def follow_request(i: int):
-    return {"user": i}
