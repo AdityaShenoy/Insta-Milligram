@@ -15,5 +15,5 @@ def get(request: dhreq.HttpRequest, id: int = -1):
     serialized_user = us.UserSerializer(user)
     return ir.create_response(
         icr.SUCCESS,
-        serialized_user.data,  # type: ignore
+        {"user": serialized_user.data},  # type: ignore
     )

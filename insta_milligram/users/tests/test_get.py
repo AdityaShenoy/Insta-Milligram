@@ -34,7 +34,7 @@ class TestView(dt.TestCase):
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, icr.SUCCESS)
-        user = response.data  # type: ignore
+        user = response.data["user"]  # type: ignore
         for field in ici.signup_request(1):
             if field != "password":
                 assert user[field] == ici.signup_request(1)[field]
