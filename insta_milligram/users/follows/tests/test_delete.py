@@ -59,10 +59,7 @@ class TestView(dt.TestCase):
         user2 = dcam.User.objects.get(pk=2)
         assert user1.profile.followings_count == 0  # type: ignore
         assert user2.profile.followers_count == 0  # type: ignore
-        follows = umuf.Follow.objects.filter(
-            follower=user1,
-            following=user2,
-        )
+        follows = umuf.Follow.objects.filter(follower=user1, following=user2)
         assert not follows.exists()
         assert not user2.followers.filter(  # type: ignore
             follower=user1,
