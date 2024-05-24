@@ -15,14 +15,27 @@ post /users/<int:id>/followings
 get /users/<int:id>/followings
 get /users/<int:id>/followings/<int:id>
 get /users/<int:id>/followers
-delete /users/<int:id>/followers/<int:id>
+delete /users/<int:id>/followings/<int:id>
 ================================================================================
 In Progress
 ================================================================================
 
+patch /users/<int:id> -- profile_picture
+patch /users/<int:id> -- bio
 ================================================================================
 Backlog
 ================================================================================
+get /users/<int:id>/follow-requests
+delete /users/<int:id>/follow-requests/<int:id>
+
+get /users/<int:id>/notifications
+
+post /users/<int:id>/messages
+get /users/<int:id>/messages
+get /messages
+put /users/<int:id>/messages/<int:id>
+patch /users/<int:id>/messages/<int:id>
+delete /users/<int:id>/messages/<int:id>
 
 post /contents
 get /contents/<int:id>
