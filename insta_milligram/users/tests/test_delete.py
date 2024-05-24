@@ -1,7 +1,6 @@
 import django.contrib.auth.models as dcam
 import django.test as dt
 
-import insta_milligram.constants.inputs as ici
 import insta_milligram.constants.responses as icr
 import insta_milligram.constants.urls as icu
 import insta_milligram.tests as it
@@ -9,11 +8,8 @@ import insta_milligram.tests as it
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.header = it.signup_and_login(
-            self.client,
-            ici.signup_request(1),
-        )
-        it.signup_and_login(self.client, ici.signup_request(2))
+        self.header = it.signup_and_login(1)
+        it.signup_and_login(2)
 
     def test_without_login(self):
         response = self.client.delete(icu.user_id(1))

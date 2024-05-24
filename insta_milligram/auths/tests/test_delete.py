@@ -1,6 +1,5 @@
 import django.test as dt
 
-import insta_milligram.constants.inputs as ici
 import insta_milligram.constants.responses as icr
 import insta_milligram.constants.urls as icu
 import insta_milligram.tests as it
@@ -8,10 +7,9 @@ import insta_milligram.tests as it
 
 class TestView(dt.TestCase):
     def setUp(self):
-        signup_request = ici.signup_request(1)
-        self.header = it.signup_and_login(self.client, signup_request)
-        self.header_1 = it.signup_and_login(self.client, signup_request)
-        self.header_2 = it.signup_and_login(self.client, signup_request)
+        self.header = it.signup_and_login(1)
+        self.header_1 = it.signup_and_login(1)
+        self.header_2 = it.signup_and_login(1)
 
     def test_without_token(self):
         response = self.client.delete(icu.AUTHS)

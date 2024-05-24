@@ -10,15 +10,9 @@ import users.models.follows as umuf
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.header = it.signup_and_login(
-            self.client,
-            ici.signup_request(1),
-        )
-        self.header1 = it.signup_and_login(
-            self.client,
-            ici.signup_request(2),
-        )
-        it.signup_and_login(self.client, ici.signup_request(3))
+        self.header = it.signup_and_login(1)
+        self.header1 = it.signup_and_login(2)
+        it.signup_and_login(3)
         self.client.post(
             icu.user_id_followings(1),
             ici.follow_request(2),

@@ -9,8 +9,7 @@ import insta_milligram.tests as it
 
 class TestView(dt.TestCase):
     def setUp(self):
-        signup_request = ici.signup_request(1)
-        self.header = it.signup_and_login(self.client, signup_request)
+        self.header = it.signup_and_login(1)
 
     def test_without_id(self):
         response = self.client.delete(

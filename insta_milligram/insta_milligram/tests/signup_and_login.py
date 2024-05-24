@@ -1,12 +1,13 @@
 import django.contrib.auth.models as dcam
-import django.test as dt
 
 import rest_framework_simplejwt.tokens as jt
 
+import insta_milligram.constants.inputs as ici
 import users.models.profiles as ump
 
 
-def signup_and_login(client: dt.Client, signup_request: dict[str, str]):
+def signup_and_login(id: int):
+    signup_request = ici.signup_request(id)
     try:
         user = dcam.User.objects.get(username=signup_request["username"])
     except dcam.User.DoesNotExist:

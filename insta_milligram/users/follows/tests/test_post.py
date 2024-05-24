@@ -12,11 +12,8 @@ import users.models.follows as umuf
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.header = it.signup_and_login(
-            self.client,
-            ici.signup_request(1),
-        )
-        it.signup_and_login(self.client, ici.signup_request(2))
+        self.header = it.signup_and_login(1)
+        it.signup_and_login(2)
 
     def test_without_login(self):
         response = self.client.post(icu.user_id_followings(1))

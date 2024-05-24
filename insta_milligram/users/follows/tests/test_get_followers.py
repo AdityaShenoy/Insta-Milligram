@@ -11,10 +11,7 @@ import users.models.profiles as ump
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.header = it.signup_and_login(
-            self.client,
-            ici.signup_request(1),
-        )
+        self.header = it.signup_and_login(1)
 
     def test_without_login(self):
         response = self.client.get(icu.user_id_followers(2))
