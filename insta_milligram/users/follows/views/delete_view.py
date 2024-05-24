@@ -22,10 +22,7 @@ def delete(request: dhreq.HttpRequest, id: int, id1: int):
     if requester not in (follower, following):
         return icr.OPERATION_NOT_ALLOWED
 
-    follow = umuf.Follow.objects.filter(
-        follower=follower,
-        following=following,
-    )
+    follow = umuf.Follow.objects.filter(follower=follower, following=following)
 
     if not follow.exists():
         return icr.OPERATION_NOT_ALLOWED
