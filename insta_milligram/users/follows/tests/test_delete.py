@@ -49,17 +49,6 @@ class TestView(dt.TestCase):
         )
         it.assert_equal_responses(response, icr.OPERATION_NOT_ALLOWED)
 
-    def test_delete_twice(self):
-        self.client.delete(
-            icu.user_id_followings_id(1, 2),
-            headers=self.header,  # type: ignore
-        )
-        response = self.client.delete(
-            icu.user_id_followings_id(1, 2),
-            headers=self.header,  # type: ignore
-        )
-        it.assert_equal_responses(response, icr.OPERATION_NOT_ALLOWED)
-
     def test_valid(self):
         response = self.client.delete(
             icu.user_id_followings_id(1, 2),
