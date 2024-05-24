@@ -15,6 +15,11 @@ def update_request(i: int):
 def follow_request(i: int):
     return {"user": i}
 
+
+DUMMY_EMAIL = {"email": "dummy@dummy.com"}
+DUMMY_USERNAME = {"username": "dummy"}
+
+
 LOGIN_REQUEST_FIELDS = {"username", "password"}
 
 EXPIRED_ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTQ3MzU5LCJpYXQiOjE3MTUxNDcwNTksImp0aSI6IjYxNzlkMGQ5NTk1MTQ3NTdiMGU5YTA4ZjQ2YmRiMDY5IiwidXNlcl9pZCI6MX0.0q-rm-CvDISZyR4Pksfv5Ik00ltAyV5IK2SAsHb1KaI"

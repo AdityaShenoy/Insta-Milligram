@@ -31,7 +31,7 @@ class TestView(dt.TestCase):
     def test_twice_username(self):
         self.client.post(
             ic.urls.USERS,
-            {**self.signup_request, "email": "dummy@dummy.com"},
+            {**self.signup_request, **ic.inputs.DUMMY_EMAIL},
         )
         response = self.client.post(ic.urls.USERS, self.signup_request)
         it.assert_equal_responses(response, ic.responses.USER_ALREADY_EXISTS)
@@ -39,7 +39,7 @@ class TestView(dt.TestCase):
     def test_twice_email(self):
         self.client.post(
             ic.urls.USERS,
-            {**self.signup_request, "username": "dummy"},
+            {**self.signup_request, **ic.inputs.DUMMY_USERNAME},
         )
         response = self.client.post(ic.urls.USERS, self.signup_request)
         it.assert_equal_responses(response, ic.responses.USER_ALREADY_EXISTS)
