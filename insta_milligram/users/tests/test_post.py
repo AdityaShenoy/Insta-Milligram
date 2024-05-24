@@ -19,7 +19,7 @@ class TestView(dt.TestCase):
     def test_valid(self):
         response = self.client.post(ic.urls.USERS, self.signup_request)
         it.assert_equal_responses(response, ic.responses.SUCCESS)
-        user = dcam.User.objects.get(username=self.signup_request["username"])
+        user = dcam.User.objects.get(pk=1)
         for field in self.signup_request:
             if field == "password":
                 continue
