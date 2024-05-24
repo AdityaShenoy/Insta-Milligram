@@ -37,8 +37,15 @@ class TestView(dt.TestCase):
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         followings = response.data["followings"]  # type: ignore
-        following_ids = {user["id"] for user in followings}  # type: ignore
-        assert len(following_ids) == 50  # type: ignore
+        assert len(followings) == 50  # type: ignore
+
+        response = self.client.get(
+            icu.user_id_followings_page(1, 2),
+            headers=self.header,  # type: ignore
+        )
+        it.assert_equal_responses(response, icr.SUCCESS)
+        followings = response.data["followings"]  # type: ignore
+        assert len(followings) == 49  # type: ignore
 
         response = self.client.get(
             icu.user_id_followings(2),
