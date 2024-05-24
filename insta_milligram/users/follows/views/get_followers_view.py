@@ -2,7 +2,7 @@ import django.contrib.auth.models as dcam
 import django.core.paginator as dcp
 import django.http.request as dhreq
 
-import insta_milligram.constants as ic
+import insta_milligram.constants.responses as icr
 import insta_milligram.responses as ir
 import insta_milligram.responses.decorators as ird
 import users.models.follows as umuf
@@ -25,4 +25,4 @@ def get_followers(request: dhreq.HttpRequest, id: int):
     page = paginator.get_page(page_number)
 
     result = [us.UserSerializer(user).data for user in page.object_list]
-    return ir.create_response(ic.responses.SUCCESS, {"followers": result})
+    return ir.create_response(icr.SUCCESS, {"followers": result})

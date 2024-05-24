@@ -2,7 +2,7 @@ import django.contrib.auth.models as dcam
 import django.core.paginator as dcp
 import django.http.request as dhreq
 
-import insta_milligram.constants as ic
+import insta_milligram.constants.responses as icr
 import insta_milligram.responses as ir
 import insta_milligram.responses.decorators as ird
 import users.models.follows as umuf
@@ -30,19 +30,19 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
         result = [us.UserSerializer(user).data for user in page.object_list]
 
         return ir.create_response(
-            ic.responses.SUCCESS,
+            icr.SUCCESS,
             {"followings": result},
         )
 
     try:
         following = dcam.User.objects.get(pk=following_id)
     except dcam.User.DoesNotExist:
-        return ic.responses.USER_NOT_FOUND
+        return icr.USER_NOT_FOUND
 
     is_following = follower.followings.filter(  # type: ignore
         following=following,
     ).exists()
     return ir.create_response(
-        ic.responses.SUCCESS,
+        icr.SUCCESS,
         {"is_following": is_following},
     )

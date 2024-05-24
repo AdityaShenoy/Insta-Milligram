@@ -1,7 +1,7 @@
 import django.http.request as dhreq
 
 import auths.get_auth_user as ag
-import insta_milligram.constants as ic
+import insta_milligram.constants.responses as icr
 import insta_milligram.responses.decorators as ird
 
 
@@ -12,4 +12,4 @@ import insta_milligram.responses.decorators as ird
 def delete(request: dhreq.HttpRequest, id: int = -1):
     user = ag.get_auth_user(request)
     user.delete()
-    return ic.responses.SUCCESS
+    return icr.SUCCESS

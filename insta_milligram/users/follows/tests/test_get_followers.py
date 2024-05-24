@@ -1,7 +1,9 @@
 import django.contrib.auth.models as dcam
 import django.test as dt
 
-import insta_milligram.constants as ic
+import insta_milligram.constants.inputs as ici
+import insta_milligram.constants.responses as icr
+import insta_milligram.constants.urls as icu
 import insta_milligram.tests as it
 import users.models.follows as umuf
 import users.models.profiles as ump
@@ -11,67 +13,67 @@ class TestView(dt.TestCase):
     def setUp(self):
         self.header = it.signup_and_login(
             self.client,
-            ic.inputs.signup_request(1),
+            ici.signup_request(1),
         )
 
     def test_without_login(self):
-        response = self.client.get(ic.urls.user_id_followers(2))
-        it.assert_equal_responses(response, ic.responses.TOKEN_MISSING)
+        response = self.client.get(icu.user_id_followers(2))
+        it.assert_equal_responses(response, icr.TOKEN_MISSING)
 
     def test_follow_wrong_user(self):
         response = self.client.get(
-            ic.urls.user_id_followers(300),
+            icu.user_id_followers(300),
             headers=self.header,  # type: ignore
         )
-        it.assert_equal_responses(response, ic.responses.USER_NOT_FOUND)
+        it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
     def test_valid(self):
         user_1 = dcam.User.objects.get(pk=1)
         for i in range(2, 101):
-            profile = ump.Profile.objects.create(**ic.inputs.signup_request(i))
+            profile = ump.Profile.objects.create(**ici.signup_request(i))
             user_i = profile.user
             umuf.Follow.objects.create(follower=user_i, following=user_1)
 
         response = self.client.get(
-            ic.urls.user_id_followers(1),
+            icu.user_id_followers(1),
             headers=self.header,  # type: ignore
         )
-        it.assert_equal_responses(response, ic.responses.SUCCESS)
+        it.assert_equal_responses(response, icr.SUCCESS)
 
         followers = response.data["followers"]  # type: ignore
         follower_ids = {follower["id"] for follower in followers}  # type: ignore
         assert len(follower_ids) == 50  # type: ignore
 
         response = self.client.get(
-            ic.urls.user_id_followers_page(1, 2),
+            icu.user_id_followers_page(1, 2),
             headers=self.header,  # type: ignore
         )
-        it.assert_equal_responses(response, ic.responses.SUCCESS)
+        it.assert_equal_responses(response, icr.SUCCESS)
 
         followers = response.data["followers"]  # type: ignore
         follower_ids = {follower["id"] for follower in followers}  # type: ignore
         assert len(follower_ids) == 49  # type: ignore
 
         response = self.client.get(
-            ic.urls.user_id_followers(2),
+            icu.user_id_followers(2),
             headers=self.header,  # type: ignore
         )
-        it.assert_equal_responses(response, ic.responses.SUCCESS)
+        it.assert_equal_responses(response, icr.SUCCESS)
         assert not response.data["followers"]  # type: ignore
 
     def test_invalid_page(self):
         response = self.client.get(
-            ic.urls.user_id_followers_page(1, -1),
+            icu.user_id_followers_page(1, -1),
             headers=self.header,  # type: ignore
         )
-        it.assert_equal_responses(response, ic.responses.SUCCESS)
+        it.assert_equal_responses(response, icr.SUCCESS)
         response = self.client.get(
-            ic.urls.user_id_followers_page(1, 100),
+            icu.user_id_followers_page(1, 100),
             headers=self.header,  # type: ignore
         )
-        it.assert_equal_responses(response, ic.responses.SUCCESS)
+        it.assert_equal_responses(response, icr.SUCCESS)
         response = self.client.get(
-            ic.urls.user_id_followers_page(1, "a"),  # type: ignore
+            icu.user_id_followers_page(1, "a"),  # type: ignore
             headers=self.header,  # type: ignore
         )
-        it.assert_equal_responses(response, ic.responses.SUCCESS)
+        it.assert_equal_responses(response, icr.SUCCESS)

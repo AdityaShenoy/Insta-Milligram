@@ -1,7 +1,7 @@
 import django.contrib.auth.models as dcam
 import django.http.request as dhreq
 
-import insta_milligram.constants as ic
+import insta_milligram.constants.responses as icr
 import insta_milligram.forms as if_
 import insta_milligram.responses.decorators as ird
 import users.forms as uf
@@ -18,6 +18,6 @@ def post(request: dhreq.HttpRequest):
         username=form_data["username"],
     )
     if existing_users_with_same_email or exisitng_users_with_same_username:
-        return ic.responses.USER_ALREADY_EXISTS
+        return icr.USER_ALREADY_EXISTS
     ump.Profile.objects.create(**form_data)
-    return ic.responses.SUCCESS
+    return icr.SUCCESS

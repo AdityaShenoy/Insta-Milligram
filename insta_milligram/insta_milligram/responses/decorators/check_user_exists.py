@@ -4,7 +4,7 @@ import rest_framework.response as rr  # type: ignore
 
 import typing as t
 
-import insta_milligram.constants as ic
+import insta_milligram.constants.responses as icr
 
 func_type = t.Callable[..., rr.Response]
 
@@ -16,7 +16,7 @@ def check_user_exists():
             try:
                 dcam.User.objects.get(pk=user_id)
             except dcam.User.DoesNotExist:
-                return ic.responses.USER_NOT_FOUND
+                return icr.USER_NOT_FOUND
 
             return func(*args, **kwargs)
 

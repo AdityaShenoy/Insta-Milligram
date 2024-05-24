@@ -1,7 +1,7 @@
 import django.contrib.auth.models as dcam
 import django.http.request as dhreq
 
-import insta_milligram.constants as ic
+import insta_milligram.constants.responses as icr
 import insta_milligram.forms as if_
 import insta_milligram.responses.decorators as ird
 import users.forms as uf
@@ -19,4 +19,4 @@ def put(request: dhreq.HttpRequest, id: int = -1):
         user.__setattr__(field, form_data[field])
     user.set_password(form_data["password"])
     user.save()
-    return ic.responses.SUCCESS
+    return icr.SUCCESS
