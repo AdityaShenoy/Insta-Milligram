@@ -29,10 +29,7 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
 
         result = [us.UserSerializer(user).data for user in page.object_list]
 
-        return ir.create_response(
-            icr.SUCCESS,
-            {"followings": result},
-        )
+        return ir.create_response(icr.SUCCESS, {"followings": result})
 
     try:
         following = dcam.User.objects.get(pk=following_id)
@@ -42,7 +39,4 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
     is_following = follower.followings.filter(  # type: ignore
         following=following,
     ).exists()
-    return ir.create_response(
-        icr.SUCCESS,
-        {"is_following": is_following},
-    )
+    return ir.create_response(icr.SUCCESS, {"is_following": is_following})
