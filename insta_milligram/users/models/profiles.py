@@ -9,6 +9,7 @@ class Profile(ddm.Model):
         dcam.User,
         on_delete=ddm.CASCADE,
     )
+    picture = ddm.ImageField(upload_to="profile_pictures", blank=True)
     followers_count = ddm.IntegerField(default=0)
     followings_count = ddm.IntegerField(default=0)
 
