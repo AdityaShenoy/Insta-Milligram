@@ -55,3 +55,8 @@ LOGIN_BLACKLISTED = create_response(
     icm.LOGIN_BLACKLISTED,
     rs.HTTP_401_UNAUTHORIZED,
 )
+
+INVALID_USER_PATCH_DATA = create_response(
+    icm.INVALID_USER_PATCH_DATA,
+    rs.HTTP_400_BAD_REQUEST,
+)

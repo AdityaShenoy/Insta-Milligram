@@ -4,6 +4,7 @@ from .post_view import post
 from .get_view import get
 from .put_view import put
 from .delete_view import delete
+from .patch_view import patch
 
 
 class UserView(rv.APIView):
@@ -13,3 +14,4 @@ class UserView(rv.APIView):
         self.get = get
         self.put = put
         self.delete = delete
+        self.patch = patch

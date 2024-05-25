@@ -1,3 +1,7 @@
+import django.conf as dc
+import django.core.files.uploadedfile as dcfu
+
+
 def signup_request(i: int):
     return {
         "username": f"test_{i}",
@@ -28,3 +32,9 @@ EXPIRED_ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjo
 EXPIRED_REFRESH_TOKEN = {
     "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxNTc5MzU5NCwiaWF0IjoxNzE1NzA3MTk0LCJqdGkiOiIyYTFlNTY3MDQ2NGM0NDM0OWU2YjQwZjk1M2VkOGNmNSIsInVzZXJfaWQiOjF9.i5N6J6sbj77KdRXyxsALFHmk6gjmt3tFhBhm8ibYsR4"
 }
+
+with open("insta_milligram/tests/images/test.jpg", "rb") as f:
+    PROFILE_PICTURE = dcfu.SimpleUploadedFile(
+        name="test.jpg", content=f.read(), content_type="image/jpeg"
+    )
+UPLOADED_PROFILE_PICTURE = f"{dc.settings.MEDIA_ROOT}/profile_pictures/test.jpg"

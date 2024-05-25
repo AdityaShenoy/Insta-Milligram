@@ -5,6 +5,7 @@ post /users
 get /users/<int:id>
 put /users/<int:id>
 delete /users/<int:id>
+patch /users/<int:id> -- profile_picture
 
 post /auths?action=generate
 post /auths?action=refresh
@@ -16,11 +17,11 @@ get /users/<int:id>/followings
 get /users/<int:id>/followings/<int:id>
 get /users/<int:id>/followers
 delete /users/<int:id>/followings/<int:id>
+
 ================================================================================
 In Progress
 ================================================================================
 
-patch /users/<int:id> -- profile_picture
 patch /users/<int:id> -- bio
 ================================================================================
 Backlog
