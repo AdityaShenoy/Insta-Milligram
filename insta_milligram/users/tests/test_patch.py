@@ -2,6 +2,8 @@ import django.test as dt
 
 import rest_framework.test as rt  # type: ignore
 
+import PIL.Image as pi
+
 import os
 
 import insta_milligram.constants.inputs as ici
@@ -55,4 +57,6 @@ class TestView(dt.TestCase):
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, icr.SUCCESS)
+        img = pi.open(ici.UPLOADED_PROFILE_PICTURE)  # type: ignore
+        assert img.width == img.height
         os.remove(ici.UPLOADED_PROFILE_PICTURE)

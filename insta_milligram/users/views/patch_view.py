@@ -1,6 +1,7 @@
 import django.http.request as dhreq
 
 import insta_milligram.constants.responses as icr
+import insta_milligram.images as ii
 import insta_milligram.responses.decorators as ird
 import users.models.profiles as ump
 
@@ -19,7 +20,7 @@ def patch(request: dhreq.HttpRequest, id: int = -1):
     if "profile_picture" in patch_inputs:
 
         profile_picture = request.FILES["profile_picture"]  # type: ignore
-        profile.picture = profile_picture  # type: ignore
+        profile.picture = ii.squarify(profile_picture)  # type: ignore
         profile.save()  # type: ignore
 
     return icr.SUCCESS
