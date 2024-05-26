@@ -17,10 +17,12 @@ def patch(request: dhreq.HttpRequest, id: int = -1):
 
     profile = ump.Profile.objects.get(pk=id)
 
-    if "profile_picture" in patch_inputs:
-
+    if "profile_picture" in request.FILES:
         profile_picture = request.FILES["profile_picture"]  # type: ignore
         profile.picture = ii.squarify(profile_picture)  # type: ignore
         profile.save()  # type: ignore
+
+    if "profile_picture" in request.POST:
+        profile.picture.delete()  # type: ignore
 
     return icr.SUCCESS
