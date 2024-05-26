@@ -22,9 +22,11 @@ delete /users/<int:id>/followings/<int:id>
 In Progress
 ================================================================================
 
-get/users/<int:id>?attr=profile_picture
 patch /users/<int:id> -- bio
-get/users/<int:id>?attr=bio
+get/users/<int:id>/profile?attr=picture
+get/users/<int:id>/profile?attr=bio
+get/users/<int:id>/profile?attr=followers_count
+get/users/<int:id>/profile?attr=followings_count
 ================================================================================
 Backlog
 ================================================================================
