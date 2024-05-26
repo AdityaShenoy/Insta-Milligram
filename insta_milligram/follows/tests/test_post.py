@@ -7,7 +7,7 @@ import insta_milligram.constants.inputs as ici
 import insta_milligram.constants.responses as icr
 import insta_milligram.constants.urls as icu
 import insta_milligram.tests as it
-import users.models.follows as umuf
+import follows.models as fm
 
 
 class TestView(dt.TestCase):
@@ -83,7 +83,7 @@ class TestView(dt.TestCase):
         user2 = dcam.User.objects.get(pk=2)
         assert user1.profile.followings_count == 1  # type: ignore
         assert user2.profile.followers_count == 1  # type: ignore
-        follows = umuf.Follow.objects.filter(
+        follows = fm.Follow.objects.filter(
             follower=user1,
             following=user2,
         )

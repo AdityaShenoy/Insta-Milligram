@@ -24,7 +24,7 @@ urlpatterns = [
     du.path("admin", dca.site.urls),
     du.path("users", du.include("users.urls")),
     du.path("auths", du.include("auths.urls")),
-    du.path("users/<int:id>/", du.include("users.follows.urls")),
+    du.path("users/<int:id>/", du.include("follows.urls")),
 ]
 
 if dc.settings.DEBUG:

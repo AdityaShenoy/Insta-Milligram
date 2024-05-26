@@ -9,7 +9,7 @@ import insta_milligram.constants.inputs as ici
 import insta_milligram.constants.responses as icr
 import insta_milligram.constants.urls as icu
 import insta_milligram.tests as it
-import users.models.follows as umf
+import follows.models as fm
 
 
 class TestView(dt.TestCase):
@@ -31,8 +31,8 @@ class TestView(dt.TestCase):
     def test_correct(self):
         user1 = dcam.User.objects.get(pk=1)
         user2 = dcam.User.objects.get(pk=2)
-        umf.Follow.objects.create(follower=user1, following=user2)
-        umf.Follow.objects.create(follower=user2, following=user1)
+        fm.Follow.objects.create(follower=user1, following=user2)
+        fm.Follow.objects.create(follower=user2, following=user1)
 
         rt.APIClient().patch(  # type: ignore
             icu.user_id(1),

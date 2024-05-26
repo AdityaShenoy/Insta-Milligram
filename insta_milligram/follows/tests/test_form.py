@@ -1,21 +1,21 @@
 import django.test as dt
 
 import insta_milligram.constants.inputs as ici
-import users.follows.forms as uff
+import follows.forms as ff
 
 
 class TestForm(dt.SimpleTestCase):
     def test_missing_field(self):
-        form = uff.UserFollowForm({})
+        form = ff.UserFollowForm({})
         assert not form.is_valid()
         assert "user" in form.errors.keys()
 
     def test_string(self):
-        form = uff.UserFollowForm({"user": "test"})
+        form = ff.UserFollowForm({"user": "test"})
         assert not form.is_valid()
         assert "user" in form.errors.keys()
 
     def test_valid(self):
-        form = uff.UserFollowForm(ici.follow_request(2))
+        form = ff.UserFollowForm(ici.follow_request(2))
         assert form.is_valid()
         assert len(form.errors) == 0

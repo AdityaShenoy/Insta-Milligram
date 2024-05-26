@@ -5,7 +5,7 @@ import insta_milligram.constants.inputs as ici
 import insta_milligram.constants.responses as icr
 import insta_milligram.constants.urls as icu
 import insta_milligram.tests as it
-import users.models.follows as umuf
+import follows.models as fm
 import users.models.profiles as ump
 
 
@@ -29,7 +29,7 @@ class TestView(dt.TestCase):
         for i in range(2, 101):
             profile = ump.Profile.objects.create(**ici.signup_request(i))
             user = profile.user
-            umuf.Follow.objects.create(follower=user_1, following=user)
+            fm.Follow.objects.create(follower=user_1, following=user)
 
         response = self.client.get(
             icu.user_id_followings(1),
@@ -82,7 +82,7 @@ class TestView(dt.TestCase):
     def test_valid_id(self):
         user_1 = dcam.User.objects.get(pk=1)
         user_2 = ump.Profile.objects.create(**ici.signup_request(2)).user
-        umuf.Follow.objects.create(follower=user_1, following=user_2)
+        fm.Follow.objects.create(follower=user_1, following=user_2)
 
         response = self.client.get(
             icu.user_id_followings_id(1, 2),

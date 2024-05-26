@@ -5,7 +5,7 @@ import django.http.request as dhreq
 import insta_milligram.constants.responses as icr
 import insta_milligram.responses as ir
 import insta_milligram.responses.decorators as ird
-import users.models.follows as umuf
+import follows.models as fm
 import users.serializers as us
 
 
@@ -18,7 +18,7 @@ def get(request: dhreq.HttpRequest, id: int, id1: int = -1):
     follower = dcam.User.objects.get(id=follower_id)
 
     if following_id == -1:
-        follows = umuf.Follow.objects.filter(follower=follower)
+        follows = fm.Follow.objects.filter(follower=follower)
         followings = dcam.User.objects.filter(
             id__in=follows.values_list("following"),
         ).order_by("first_name", "last_name")
