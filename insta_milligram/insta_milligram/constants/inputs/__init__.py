@@ -37,4 +37,6 @@ with open("insta_milligram/tests/images/test.jpg", "rb") as f:
     PROFILE_PICTURE = dcfu.SimpleUploadedFile(
         name="test.jpg", content=f.read(), content_type="image/jpeg"
     )
-UPLOADED_PROFILE_PICTURE = f"{dc.settings.MEDIA_ROOT}/profile_pictures/test.jpg"
+UPLOADED_PROFILE_PICTURE = f"{dc.settings.MEDIA_ROOT}\\profile_pictures\\test.jpg"
+
+TEST_BIO = "test"

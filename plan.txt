@@ -6,6 +6,7 @@ get /users/<int:id>
 put /users/<int:id>
 delete /users/<int:id>
 patch /users/<int:id> -- profile_picture
+patch /users/<int:id> -- bio
 
 post /auths?action=generate
 post /auths?action=refresh
@@ -22,7 +23,6 @@ delete /users/<int:id>/followings/<int:id>
 In Progress
 ================================================================================
 
-patch /users/<int:id> -- bio
 get/users/<int:id>/profile?attr=picture
 get/users/<int:id>/profile?attr=bio
 get/users/<int:id>/profile?attr=followers_count

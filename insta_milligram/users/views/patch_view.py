@@ -25,4 +25,8 @@ def patch(request: dhreq.HttpRequest, id: int = -1):
     if "profile_picture" in request.POST:
         profile.picture.delete()  # type: ignore
 
+    if "bio" in request.POST:
+        profile.bio = request.POST["bio"]
+        profile.save()
+
     return icr.SUCCESS

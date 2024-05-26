@@ -8,6 +8,7 @@ import insta_milligram.constants.inputs as ici
 import insta_milligram.constants.responses as icr
 import insta_milligram.constants.urls as icu
 import insta_milligram.tests as it
+import users.models.profiles as ump
 
 
 class TestView(dt.TestCase):
@@ -55,6 +56,9 @@ class TestView(dt.TestCase):
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, icr.SUCCESS)
+
+        profile = ump.Profile.objects.get(pk=1)
+        assert ici.UPLOADED_PROFILE_PICTURE == profile.picture.path
         img = pi.open(ici.UPLOADED_PROFILE_PICTURE)  # type: ignore
         assert img.width == img.height
         img.close()
@@ -65,3 +69,23 @@ class TestView(dt.TestCase):
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, icr.SUCCESS)
+        profile = ump.Profile.objects.get(pk=1)
+        assert not profile.picture
+
+        response = self.client.patch(
+            icu.user_id(1),
+            {"bio": ici.TEST_BIO},
+            headers=self.header,  # type: ignore
+        )
+        it.assert_equal_responses(response, icr.SUCCESS)
+        profile = ump.Profile.objects.get(pk=1)
+        assert profile.bio == ici.TEST_BIO
+
+        response = self.client.patch(
+            icu.user_id(1),
+            {"bio": ""},
+            headers=self.header,  # type: ignore
+        )
+        it.assert_equal_responses(response, icr.SUCCESS)
+        profile = ump.Profile.objects.get(pk=1)
+        assert not profile.bio
