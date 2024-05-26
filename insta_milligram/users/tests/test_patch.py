@@ -4,13 +4,10 @@ import rest_framework.test as rt  # type: ignore
 
 import PIL.Image as pi
 
-import os
-
 import insta_milligram.constants.inputs as ici
 import insta_milligram.constants.responses as icr
 import insta_milligram.constants.urls as icu
 import insta_milligram.tests as it
-import users.models.profiles as ump
 
 
 class TestView(dt.TestCase):
@@ -68,6 +65,3 @@ class TestView(dt.TestCase):
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, icr.SUCCESS)
-        print(ump.Profile.objects.get(pk=1).picture)
-
-        os.remove(ici.UPLOADED_PROFILE_PICTURE)
