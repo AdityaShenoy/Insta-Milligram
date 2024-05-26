@@ -40,3 +40,4 @@ with open("insta_milligram/tests/images/test.jpg", "rb") as f:
 UPLOADED_PROFILE_PICTURE = f"{dc.settings.MEDIA_ROOT}\\profile_pictures\\test.jpg"
 
 TEST_BIO = "test"
+TEST_MEDIA_URL = "/media/profile_pictures/test.jpg"

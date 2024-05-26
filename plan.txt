@@ -3,6 +3,7 @@ Done
 ================================================================================
 post /users
 get /users/<int:id>
+get/users/<int:id>/profile
 put /users/<int:id>
 delete /users/<int:id>
 patch /users/<int:id> -- profile_picture
@@ -23,10 +24,6 @@ delete /users/<int:id>/followings/<int:id>
 In Progress
 ================================================================================
 
-get/users/<int:id>/profile?attr=picture
-get/users/<int:id>/profile?attr=bio
-get/users/<int:id>/profile?attr=followers_count
-get/users/<int:id>/profile?attr=followings_count
 ================================================================================
 Backlog
 ================================================================================

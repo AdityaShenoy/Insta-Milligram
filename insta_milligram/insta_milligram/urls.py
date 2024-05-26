@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+import django.conf as dc
+import django.conf.urls.static as dcus
 import django.contrib.admin as dca
 import django.urls as du
 
@@ -24,3 +26,8 @@ urlpatterns = [
     du.path("auths", du.include("auths.urls")),
     du.path("users/<int:id>/", du.include("users.follows.urls")),
 ]
+
+if dc.settings.DEBUG:
+    urlpatterns += dcus.static(
+        dc.settings.MEDIA_URL, document_root=dc.settings.MEDIA_ROOT
+    )
