@@ -36,7 +36,7 @@ class TestView(dt.TestCase):
 
         rt.APIClient().patch(  # type: ignore
             icu.user_id(1),
-            {"profile_picture": ici.PROFILE_PICTURE, "bio": ici.TEST_BIO},
+            {"profile_picture": ici.get_profile_picture(), "bio": ici.TEST_BIO},
             headers=self.header,  # type: ignore
         )
 

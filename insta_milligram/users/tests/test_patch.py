@@ -52,7 +52,7 @@ class TestView(dt.TestCase):
     def test_valid(self):
         response = self.client.patch(
             icu.user_id(1),
-            {"profile_picture": ici.PROFILE_PICTURE},
+            {"profile_picture": ici.get_profile_picture()},
             headers=self.header,  # type: ignore
         )
         it.assert_equal_responses(response, icr.SUCCESS)
