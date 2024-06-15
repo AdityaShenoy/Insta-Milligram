@@ -31,7 +31,7 @@ class TestView(dt.TestCase):
             ici.LOGIN_REQUEST_FIELDS
         )
 
-    def test_with_login(self):
+    def test_valid(self):
         self.client.post(icu.USERS, ici.signup_request(1))
         response = self.client.post(
             icu.AUTHS,
