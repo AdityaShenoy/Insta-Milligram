@@ -44,14 +44,6 @@ class TestView(dt.TestCase):
             "refresh",
         }
 
-    def test_with_incorrect_user(self):
-        response = self.client.post(
-            icu.AUTHS,
-            {**ici.signup_request(1), "username": "test1"},
-            QUERY_STRING="action=generate",
-        )
-        it.assert_equal_responses(response, icr.INCORRECT_USER)
-
     def test_with_incorrect_password(self):
         self.client.post(icu.USERS, ici.signup_request(1))
         response = self.client.post(
@@ -60,3 +52,11 @@ class TestView(dt.TestCase):
             QUERY_STRING="action=generate",
         )
         it.assert_equal_responses(response, icr.INCORRECT_PASSWORD)
+
+    def test_with_incorrect_user(self):
+        response = self.client.post(
+            icu.AUTHS,
+            {**ici.signup_request(1), "username": "test1"},
+            QUERY_STRING="action=generate",
+        )
+        it.assert_equal_responses(response, icr.INCORRECT_USER)
