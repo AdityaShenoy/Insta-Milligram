@@ -11,7 +11,6 @@ patch /users/<int:id> -- bio
 
 post /auths?action=generate
 post /auths?action=refresh
-get /auths/<int:id>
 delete /auths
 
 post /users/<int:id>/followings
