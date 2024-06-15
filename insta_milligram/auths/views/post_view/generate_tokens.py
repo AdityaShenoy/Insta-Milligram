@@ -24,4 +24,4 @@ def generate_tokens(request: dhreq.HttpRequest):
         )
 
     except dcam.User.DoesNotExist:
-        return icr.INCORRECT_USER
+        return icr.USER_NOT_FOUND

@@ -56,7 +56,7 @@ class TestView(dt.TestCase):
     def test_with_incorrect_user(self):
         response = self.client.post(
             icu.AUTHS,
-            {**ici.signup_request(1), "username": "test1"},
+            {**ici.signup_request(1)},
             QUERY_STRING="action=generate",
         )
-        it.assert_equal_responses(response, icr.INCORRECT_USER)
+        it.assert_equal_responses(response, icr.USER_NOT_FOUND)

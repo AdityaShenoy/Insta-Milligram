@@ -28,10 +28,6 @@ USER_ID_MISSING = create_response(
     icm.USER_ID_MISSING,
     rs.HTTP_400_BAD_REQUEST,
 )
-INCORRECT_USER = create_response(
-    icm.INCORRECT_USER,
-    rs.HTTP_401_UNAUTHORIZED,
-)
 OPERATION_NOT_ALLOWED = create_response(
     icm.OPERATION_NOT_ALLOWED,
     rs.HTTP_403_FORBIDDEN,
