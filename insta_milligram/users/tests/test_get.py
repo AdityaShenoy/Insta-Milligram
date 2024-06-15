@@ -10,7 +10,7 @@ class TestView(dt.TestCase):
     def setUp(self):
         self.header = it.signup_and_login(1)
 
-    def test_with_login(self):
+    def test_without_login(self):
         response = self.client.get(icu.USERS)
         it.assert_equal_responses(response, icr.TOKEN_MISSING)
 
