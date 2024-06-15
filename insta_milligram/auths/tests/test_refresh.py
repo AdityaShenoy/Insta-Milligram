@@ -8,7 +8,6 @@ import insta_milligram.tests as it
 
 class TestView(dt.TestCase):
     def setUp(self):
-        self.DUMMY_REFRESH = {"refresh": "dummy"}
         self.client.post(icu.USERS, ici.signup_request(1))
         response = self.client.post(
             icu.AUTHS,
@@ -27,7 +26,7 @@ class TestView(dt.TestCase):
 
     def test_invalid_token(self):
         response = self.client.post(
-            icu.AUTHS, self.DUMMY_REFRESH, QUERY_STRING="action=refresh"
+            icu.AUTHS, ici.DUMMY_REFRESH, QUERY_STRING="action=refresh"
         )
         it.assert_equal_responses(response, icr.INVALID_TOKEN)
 
