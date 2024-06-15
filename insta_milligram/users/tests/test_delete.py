@@ -16,32 +16,20 @@ class TestView(dt.TestCase):
         it.assert_equal_responses(response, icr.TOKEN_MISSING)
 
     def test_without_id(self):
-        response = self.client.delete(
-            icu.USERS,
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.delete(icu.USERS, headers=self.header)
         it.assert_equal_responses(response, icr.USER_ID_MISSING)
 
     def test_incorrect_id(self):
-        response = self.client.delete(
-            icu.user_id(3),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.delete(icu.user_id(3), headers=self.header)
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
         assert len(dcam.User.objects.all()) == 2
 
     def test_delete_other_user(self):
-        response = self.client.delete(
-            icu.user_id(2),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.delete(icu.user_id(2), headers=self.header)
         it.assert_equal_responses(response, icr.OPERATION_NOT_ALLOWED)
         assert len(dcam.User.objects.all()) == 2
 
     def test_correct(self):
-        response = self.client.delete(
-            icu.user_id(1),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.delete(icu.user_id(1), headers=self.header)
         it.assert_equal_responses(response, icr.SUCCESS)
         assert len(dcam.User.objects.all()) == 1

@@ -12,10 +12,7 @@ class TestView(dt.TestCase):
         self.header = it.signup_and_login(1)
 
     def test_without_id(self):
-        response = self.client.delete(
-            icu.USERS,
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.delete(icu.USERS, headers=self.header)
         it.assert_equal_responses(response, icr.USER_ID_MISSING)
 
     def test_without_token(self):
@@ -26,7 +23,7 @@ class TestView(dt.TestCase):
     def test_incorrect_token(self):
         response = self.client.delete(
             icu.user_id(1),
-            headers={"Authorization": "Bearer dummy"},  # type: ignore
+            headers={"Authorization": "Bearer dummy"},
         )
         it.assert_equal_responses(response, icr.INVALID_TOKEN)
         assert len(dcam.User.objects.all()) == 1
@@ -34,7 +31,7 @@ class TestView(dt.TestCase):
     def test_expired_token(self):
         response = self.client.delete(
             icu.user_id(1),
-            headers={  # type: ignore
+            headers={
                 "Authorization": f"Bearer {ici.EXPIRED_ACCESS_TOKEN}",
             },
         )
@@ -42,12 +39,6 @@ class TestView(dt.TestCase):
         assert len(dcam.User.objects.all()) == 1
 
     def test_delete_twice(self):
-        self.client.delete(
-            icu.user_id(1),
-            headers=self.header,  # type: ignore
-        )
-        response = self.client.delete(
-            icu.user_id(1),
-            headers=self.header,  # type: ignore
-        )
+        self.client.delete(icu.user_id(1), headers=self.header)
+        response = self.client.delete(icu.user_id(1), headers=self.header)
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)

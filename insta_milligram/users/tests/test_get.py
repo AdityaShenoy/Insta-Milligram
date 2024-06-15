@@ -15,24 +15,15 @@ class TestView(dt.TestCase):
         it.assert_equal_responses(response, icr.TOKEN_MISSING)
 
     def test_without_id(self):
-        response = self.client.get(
-            icu.USERS,
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.get(icu.USERS, headers=self.header)
         it.assert_equal_responses(response, icr.USER_ID_MISSING)
 
     def test_wrong_id(self):
-        response = self.client.get(
-            icu.user_id(2),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.get(icu.user_id(2), headers=self.header)
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
     def test_correct(self):
-        response = self.client.get(
-            icu.user_id(1),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.get(icu.user_id(1), headers=self.header)
         it.assert_equal_responses(response, icr.SUCCESS)
         user = response.data["user"]  # type: ignore
         for field in ici.signup_request(1):

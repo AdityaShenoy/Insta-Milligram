@@ -23,7 +23,7 @@ class TestView(dt.TestCase):
         response = self.client.post(
             icu.user_id_followings(3),
             ici.follow_request(2),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
@@ -31,14 +31,14 @@ class TestView(dt.TestCase):
         response = self.client.post(
             icu.user_id_followings(2),
             ici.follow_request(1),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.OPERATION_NOT_ALLOWED)
 
     def test_invalid(self):
         response = self.client.post(
             icu.user_id_followings(1),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.INVALID_DATA)
         assert "user" in response.data["errors"]  # type: ignore
@@ -47,7 +47,7 @@ class TestView(dt.TestCase):
         response = self.client.post(
             icu.user_id_followings(1),
             ici.follow_request(3),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
@@ -55,7 +55,7 @@ class TestView(dt.TestCase):
         response = self.client.post(
             icu.user_id_followings(1),
             ici.follow_request(1),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.OPERATION_NOT_ALLOWED)
 
@@ -63,12 +63,12 @@ class TestView(dt.TestCase):
         self.client.post(
             icu.user_id_followings(1),
             ici.follow_request(2),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         response = self.client.post(
             icu.user_id_followings(1),
             ici.follow_request(2),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.OPERATION_NOT_ALLOWED)
 
@@ -76,7 +76,7 @@ class TestView(dt.TestCase):
         response = self.client.post(
             icu.user_id_followings(1),
             ici.follow_request(2),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         user1 = dcam.User.objects.get(pk=1)

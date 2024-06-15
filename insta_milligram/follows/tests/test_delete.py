@@ -14,9 +14,7 @@ class TestView(dt.TestCase):
         self.header1 = it.signup_and_login(2)
         it.signup_and_login(3)
         self.client.post(
-            icu.user_id_followings(1),
-            ici.follow_request(2),
-            headers=self.header,  # type: ignore
+            icu.user_id_followings(1), ici.follow_request(2), headers=self.header
         )
 
     def test_without_login(self):
@@ -25,34 +23,29 @@ class TestView(dt.TestCase):
 
     def test_with_wrong_user(self):
         response = self.client.delete(
-            icu.user_id_followings_id(4, 2),
-            headers=self.header,  # type: ignore
+            icu.user_id_followings_id(4, 2), headers=self.header
         )
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
         response = self.client.delete(
-            icu.user_id_followings_id(2, 4),
-            headers=self.header,  # type: ignore
+            icu.user_id_followings_id(2, 4), headers=self.header
         )
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
     def test_with_other_user(self):
         response = self.client.delete(
-            icu.user_id_followings_id(2, 3),
-            headers=self.header,  # type: ignore
+            icu.user_id_followings_id(2, 3), headers=self.header
         )
         it.assert_equal_responses(response, icr.OPERATION_NOT_ALLOWED)
 
     def test_not_exists(self):
         response = self.client.delete(
-            icu.user_id_followings_id(2, 1),
-            headers=self.header,  # type: ignore
+            icu.user_id_followings_id(2, 1), headers=self.header
         )
         it.assert_equal_responses(response, icr.OPERATION_NOT_ALLOWED)
 
     def test_valid(self):
         response = self.client.delete(
-            icu.user_id_followings_id(1, 2),
-            headers=self.header,  # type: ignore
+            icu.user_id_followings_id(1, 2), headers=self.header
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         user1 = dcam.User.objects.get(pk=1)

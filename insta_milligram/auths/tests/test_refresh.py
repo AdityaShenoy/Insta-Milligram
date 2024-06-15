@@ -40,7 +40,7 @@ class TestView(dt.TestCase):
 
     def test_deleted_user(self):
         header = {"Authorization": f'Bearer {self.tokens["access"]}'}
-        self.client.delete(icu.user_id(1), headers=header)  # type: ignore
+        self.client.delete(icu.user_id(1), headers=header)
         response = self.client.post(
             icu.AUTHS, self.tokens, QUERY_STRING="action=refresh"
         )
@@ -48,7 +48,7 @@ class TestView(dt.TestCase):
 
     def test_blacklisted(self):
         header = {"Authorization": f'Bearer {self.tokens["access"]}'}
-        response = self.client.delete(icu.AUTHS, headers=header)  # type: ignore
+        response = self.client.delete(icu.AUTHS, headers=header)
         response = self.client.post(
             icu.AUTHS, self.tokens, QUERY_STRING="action=refresh"
         )

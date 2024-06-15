@@ -20,7 +20,7 @@ class TestView(dt.TestCase):
     def test_follow_wrong_user(self):
         response = self.client.get(
             icu.user_id_followers(300),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
@@ -33,7 +33,7 @@ class TestView(dt.TestCase):
 
         response = self.client.get(
             icu.user_id_followers(1),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
 
@@ -42,7 +42,7 @@ class TestView(dt.TestCase):
 
         response = self.client.get(
             icu.user_id_followers_page(1, 2),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
 
@@ -51,7 +51,7 @@ class TestView(dt.TestCase):
 
         response = self.client.get(
             icu.user_id_followers(2),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         assert not response.data["followers"]  # type: ignore
@@ -59,16 +59,16 @@ class TestView(dt.TestCase):
     def test_invalid_page(self):
         response = self.client.get(
             icu.user_id_followers_page(1, -1),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         response = self.client.get(
             icu.user_id_followers_page(1, 100),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         response = self.client.get(
             icu.user_id_followers_page(1, "a"),  # type: ignore
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)

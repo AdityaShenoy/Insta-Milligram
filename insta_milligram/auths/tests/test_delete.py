@@ -16,21 +16,17 @@ class TestView(dt.TestCase):
         it.assert_equal_responses(response, icr.TOKEN_MISSING)
 
     def test_valid(self):
-        response = self.client.delete(icu.AUTHS, headers=self.header)  # type: ignore
+        response = self.client.delete(icu.AUTHS, headers=self.header)
         it.assert_equal_responses(response, icr.SUCCESS)
-        response = self.client.get(icu.user_id(1), headers=self.header)  # type: ignore
+        response = self.client.get(icu.user_id(1), headers=self.header)
         it.assert_equal_responses(response, icr.LOGIN_BLACKLISTED)
 
     def test_valid_twice(self):
-        response = self.client.delete(icu.AUTHS, headers=self.header_1)  # type: ignore
+        response = self.client.delete(icu.AUTHS, headers=self.header_1)
         it.assert_equal_responses(response, icr.SUCCESS)
-        response = self.client.get(icu.user_id(1), headers=self.header)  # type: ignore
+        response = self.client.get(icu.user_id(1), headers=self.header)
         it.assert_equal_responses(response, icr.LOGIN_BLACKLISTED)
-        response = self.client.get(
-            icu.user_id(1), headers=self.header_1  # type: ignore
-        )
+        response = self.client.get(icu.user_id(1), headers=self.header_1)
         it.assert_equal_responses(response, icr.LOGIN_BLACKLISTED)
-        response = self.client.get(
-            icu.user_id(1), headers=self.header_2  # type: ignore
-        )
+        response = self.client.get(icu.user_id(1), headers=self.header_2)
         it.assert_equal_responses(response, icr.LOGIN_BLACKLISTED)

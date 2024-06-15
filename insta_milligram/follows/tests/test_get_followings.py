@@ -20,7 +20,7 @@ class TestView(dt.TestCase):
     def test_follow_wrong_user(self):
         response = self.client.get(
             icu.user_id_followings(3),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
@@ -33,7 +33,7 @@ class TestView(dt.TestCase):
 
         response = self.client.get(
             icu.user_id_followings(1),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         followings = response.data["followings"]  # type: ignore
@@ -41,7 +41,7 @@ class TestView(dt.TestCase):
 
         response = self.client.get(
             icu.user_id_followings_page(1, 2),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         followings = response.data["followings"]  # type: ignore
@@ -49,7 +49,7 @@ class TestView(dt.TestCase):
 
         response = self.client.get(
             icu.user_id_followings(2),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         followings = response.data["followings"]  # type: ignore
@@ -58,24 +58,24 @@ class TestView(dt.TestCase):
     def test_wrong_user_id(self):
         response = self.client.get(
             icu.user_id_followings_id(1, 3),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
     def test_invalid_page(self):
         response = self.client.get(
             icu.user_id_followings_page(1, -1),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         response = self.client.get(
             icu.user_id_followings_page(1, 100),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         response = self.client.get(
             icu.user_id_followings_page(1, "a"),  # type: ignore
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
 
@@ -86,14 +86,14 @@ class TestView(dt.TestCase):
 
         response = self.client.get(
             icu.user_id_followings_id(1, 2),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         assert response.data["is_following"]  # type: ignore
 
         response = self.client.get(
             icu.user_id_followings_id(2, 1),
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         assert not response.data["is_following"]  # type: ignore

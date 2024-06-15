@@ -22,38 +22,26 @@ class TestView(dt.TestCase):
         it.assert_equal_responses(response, icr.TOKEN_MISSING)
 
     def test_without_id(self):
-        response = self.client.patch(
-            icu.USERS,
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.patch(icu.USERS, headers=self.header)
         it.assert_equal_responses(response, icr.USER_ID_MISSING)
 
     def test_without_user(self):
-        response = self.client.patch(
-            icu.user_id(3),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.patch(icu.user_id(3), headers=self.header)
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
     def test_update_different_user(self):
-        response = self.client.patch(
-            icu.user_id(2),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.patch(icu.user_id(2), headers=self.header)
         it.assert_equal_responses(response, icr.OPERATION_NOT_ALLOWED)
 
     def test_invalid(self):
-        response = self.client.patch(
-            icu.user_id(1),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.patch(icu.user_id(1), headers=self.header)
         it.assert_equal_responses(response, icr.INVALID_USER_PATCH_DATA)
 
     def test_valid(self):
         response = self.client.patch(
             icu.user_id(1),
             {"profile_picture": ici.get_profile_picture()},
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
 
@@ -64,18 +52,14 @@ class TestView(dt.TestCase):
         img.close()
 
         response = self.client.patch(
-            icu.user_id(1),
-            {"profile_picture": ""},
-            headers=self.header,  # type: ignore
+            icu.user_id(1), {"profile_picture": ""}, headers=self.header
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         profile = ump.Profile.objects.get(pk=1)
         assert not profile.picture
 
         response = self.client.patch(
-            icu.user_id(1),
-            {"bio": ici.TEST_BIO},
-            headers=self.header,  # type: ignore
+            icu.user_id(1), {"bio": ici.TEST_BIO}, headers=self.header
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         profile = ump.Profile.objects.get(pk=1)
@@ -84,7 +68,7 @@ class TestView(dt.TestCase):
         response = self.client.patch(
             icu.user_id(1),
             {"bio": ""},
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
         it.assert_equal_responses(response, icr.SUCCESS)
         profile = ump.Profile.objects.get(pk=1)

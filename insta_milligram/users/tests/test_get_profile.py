@@ -22,10 +22,7 @@ class TestView(dt.TestCase):
         it.assert_equal_responses(response, icr.TOKEN_MISSING)
 
     def test_wrong_id(self):
-        response = self.client.get(
-            icu.users_id_profile(3),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.get(icu.users_id_profile(3), headers=self.header)
         it.assert_equal_responses(response, icr.USER_NOT_FOUND)
 
     def test_correct(self):
@@ -37,13 +34,10 @@ class TestView(dt.TestCase):
         rt.APIClient().patch(  # type: ignore
             icu.user_id(1),
             {"profile_picture": ici.get_profile_picture(), "bio": ici.TEST_BIO},
-            headers=self.header,  # type: ignore
+            headers=self.header,
         )
 
-        response = self.client.get(
-            icu.users_id_profile(1),
-            headers=self.header,  # type: ignore
-        )
+        response = self.client.get(icu.users_id_profile(1), headers=self.header)
         it.assert_equal_responses(response, icr.SUCCESS)
         profile = response.data["profile"]  # type: ignore
         assert profile["followings_count"] == profile["followers_count"] == 1
