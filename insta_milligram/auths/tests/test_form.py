@@ -8,10 +8,7 @@ class TestForm(dt.SimpleTestCase):
     def setUp(self):
         self.EMPTY_REQUEST = {k: "" for k in ici.signup_request(1)}
         self.BIG_REQUEST = {k: "a" * 51 for k in ici.signup_request(1)}
-        self.SMALL_PWD_REQUEST = {
-            **ici.signup_request(1),
-            "password": "test",
-        }
+        self.SMALL_PWD_REQUEST = {**ici.signup_request(1), **ici.SMALL_PASSWORD}
 
     def test_missing_field(self):
         form = af.GenerateTokenForm({})
