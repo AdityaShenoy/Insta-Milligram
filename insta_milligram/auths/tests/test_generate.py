@@ -48,7 +48,7 @@ class TestView(dt.TestCase):
         self.client.post(icu.USERS, ici.signup_request(1))
         response = self.client.post(
             icu.AUTHS,
-            {**ici.signup_request(1), "password": "testpass1"},
+            {**ici.signup_request(1), **ici.DUMMY_PASSWORD},
             QUERY_STRING="action=generate",
         )
         it.assert_equal_responses(response, icr.INCORRECT_PASSWORD)

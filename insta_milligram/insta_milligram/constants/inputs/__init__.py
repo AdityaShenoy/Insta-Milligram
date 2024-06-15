@@ -22,6 +22,7 @@ def follow_request(i: int):
 
 DUMMY_EMAIL = {"email": "dummy@dummy.com"}
 DUMMY_USERNAME = {"username": "dummy"}
+DUMMY_PASSWORD = {"username": "dummydummy"}
 SMALL_PASSWORD = {"password": "dummy"}
 SPECIAL_USERNAME = {"username": "@"}
 
