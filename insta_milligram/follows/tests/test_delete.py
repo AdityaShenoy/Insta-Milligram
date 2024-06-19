@@ -84,3 +84,17 @@ class TestView(dt.TestCase):
         assert not user1.followings.filter(  # type: ignore
             following=user2,
         ).exists()
+
+    def test_delete_follower_user(self):
+        user1 = dcam.User.objects.get(pk=1)
+        user2 = dcam.User.objects.get(pk=2)
+
+        user1.profile.delete()  # type: ignore
+        assert user2.profile.followers_count == 0  # type: ignore
+
+    def test_delete_following_user(self):
+        user1 = dcam.User.objects.get(pk=1)
+        user2 = dcam.User.objects.get(pk=2)
+
+        user2.profile.delete()  # type: ignore
+        assert user1.profile.followings_count == 0  # type: ignore

@@ -1,5 +1,4 @@
 import django.contrib.auth.models as dcam
-import django.db.transaction as ddt
 import django.http.request as dhreq
 
 import auths.get_auth_user as ag
@@ -27,10 +26,5 @@ def delete(request: dhreq.HttpRequest, id: int, id1: int):
     if not follow.exists():
         return icr.OPERATION_NOT_ALLOWED
 
-    with ddt.atomic():
-        follow[0].delete()
-        following.profile.followers_count -= 1  # type: ignore
-        follower.profile.followings_count -= 1  # type: ignore
-        following.profile.save()  # type: ignore
-        follower.profile.save()  # type: ignore
+    follow[0].delete()
     return icr.SUCCESS
