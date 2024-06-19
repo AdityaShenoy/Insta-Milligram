@@ -26,7 +26,6 @@ class Follow(ddm.Model):
         return f"{self.follower} follows {self.following}"
 
     def delete(self, *args: t.Any, **kwargs: t.Any):
-        print("here")
         with ddt.atomic():
             self.follower.profile.followings_count -= 1  # type: ignore
             self.following.profile.followers_count -= 1  # type: ignore
