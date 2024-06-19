@@ -28,7 +28,7 @@ def delete(request: dhreq.HttpRequest, id: int, id1: int):
         return icr.OPERATION_NOT_ALLOWED
 
     with ddt.atomic():
-        follow.delete()
+        follow[0].delete()
         following.profile.followers_count -= 1  # type: ignore
         follower.profile.followings_count -= 1  # type: ignore
         following.profile.save()  # type: ignore
