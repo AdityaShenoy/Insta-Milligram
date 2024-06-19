@@ -31,8 +31,5 @@ def post(request: dhreq.HttpRequest, id: int):
     if is_already_following:
         return icr.OPERATION_NOT_ALLOWED
 
-    fm.Follow.objects.create(
-        follower=follower,
-        following=following,
-    )
+    fm.Follow.objects.create(follower=follower, following=following)
     return icr.SUCCESS

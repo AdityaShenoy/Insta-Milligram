@@ -83,10 +83,7 @@ class TestView(dt.TestCase):
         user2 = dcam.User.objects.get(pk=2)
         assert user1.profile.followings_count == 1  # type: ignore
         assert user2.profile.followers_count == 1  # type: ignore
-        follows = fm.Follow.objects.filter(
-            follower=user1,
-            following=user2,
-        )
+        follows = fm.Follow.objects.filter(follower=user1, following=user2)
         assert follows.exists()
         assert follows[0].at < d.datetime.now(tz=d.UTC)
         assert user2.followers.filter(follower=user1).exists()  # type: ignore
