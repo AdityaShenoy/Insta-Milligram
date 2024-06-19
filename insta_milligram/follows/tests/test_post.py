@@ -16,8 +16,7 @@ class TestView(dt.TestCase):
         it.signup_and_login(2)
 
     def test_without_login(self):
-        response = self.client.post(icu.user_id_followings(1))
-        it.assert_equal_responses(response, icr.TOKEN_MISSING)
+        it.test_without_login("post", icu.user_id_followings(1))
 
     def test_with_wrong_user(self):
         response = self.client.post(

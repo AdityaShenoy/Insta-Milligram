@@ -11,8 +11,7 @@ class TestView(dt.TestCase):
         self.header = it.signup_and_login(1)
 
     def test_without_login(self):
-        response = self.client.get(icu.USERS)
-        it.assert_equal_responses(response, icr.TOKEN_MISSING)
+        it.test_without_login("get", icu.USERS)
 
     def test_without_id(self):
         response = self.client.get(icu.USERS, headers=self.header)

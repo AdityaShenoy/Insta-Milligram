@@ -20,8 +20,7 @@ class TestView(dt.TestCase):
         )
 
     def test_without_login(self):
-        response = self.client.delete(icu.user_id_followings_id(1, 2))
-        it.assert_equal_responses(response, icr.TOKEN_MISSING)
+        it.test_without_login("delete", icu.user_id_followings_id(1, 2))
 
     def test_with_wrong_user(self):
         response = self.client.delete(
